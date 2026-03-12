@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>🎲 dice</title>
+	<style>
+		* {
+			box-sizing: border-box;
+			font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+		}
+		body {
+			background: linear-gradient(145deg, #0b0f11 0%, #141e0d 100%);
+			min-height: 100vh;
+			margin: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1rem;
+		}
+		.card {
+			background: rgb(28, 37, 41);
+			border-radius: 2.5rem;
+			box-shadow: 0 25px 40px -10px #08222b, inset 0 0 0 1px #f0e0c0;
+			padding: 1.5rem 1.5rem;
+			width: min(95%, 800px);
+			text-align: center;
+		}
+		.fixed-panel {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 0.8rem;
+			margin: 1rem 0 1rem;
+		}
+		.dice-btn {
+			background: #fcf5e6;
+			border: none;
+			box-shadow: 0 5px 0 #6b5a48, 0 8px 15px -8px #1d3f47;
+			font-size: 1.5rem;
+			font-weight: 600;
+			padding: 0.7rem 1.6rem;
+			border-radius: 50px;
+			color: #2d2216;
+			cursor: pointer;
+			transition: all 0.08s linear;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.3rem;
+			line-height: 1;
+			border: 1px solid #dcc29e;
+			transform: translateY(0);
+		}
+		.dice-btn:hover {
+			background: #ffffff;
+			box-shadow: 0 3px 0 #5f4f3c, 0 12px 18px -10px #123038;
+			transform: translateY(2px);
+		}
+		.dice-btn:active {
+			transform: translateY(5px);
+			box-shadow: 0 0 0 #5f4f3c, 0 12px 18px -10px #0e2a31;
+			background: #f2e2ce;
+		}
+
+		#custom-buttons {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 0.8rem;
+			margin: 1rem 0 1rem;
+		}
+
+		.custom-wrapper {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.3rem;
+			background: transparent;
+		}
+
+		.custom-remove {
+			background: #ac3e3e;
+			border: none;
+			color: white;
+			font-weight: bold;
+			font-size: 1.2rem;
+			width: 2rem;
+			height: 2rem;
+			border-radius: 50%;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			box-shadow: 0 3px 0 #612828;
+			transition: 0.05s linear;
+			border: 1px solid #d18a8a;
+			transform: translateY(0);
+		}
+		.custom-remove:hover {
+			background: #bc4f4f;
+			box-shadow: 0 2px 0 #612828;
+			transform: translateY(1px);
+		}
+		.custom-remove:active {
+			transform: translateY(3px);
+			box-shadow: none;
+		}
+
+		.custom-creator {
+			background: #beb7a2a0;
+			border-radius: 4rem;
+			padding: 1.2rem 1.5rem;
+			margin: 0 0 1.8rem 0;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+			gap: 0.8rem 1.2rem;
+			border: 1px solid #ddd0b5;
+			backdrop-filter: blur(2px);
+		}
+		.custom-creator label {
+			font-weight: 600;
+			/* color: #2d4e4f; */
+			/* color: #2d2216; */
+			/* color: #eadbbd; */
+			color: #2d2216;
+			font-size: 1.5rem;
+		}
+		.custom-creator input {
+			width: 70px;
+			padding: 0.5rem;
+			border-radius: 40px;
+			border: 1px solid #a48f72;
+			background: #fffef7;
+			font-size: 1.1rem;
+			text-align: center;
+			font-weight: 600;
+		}
+		.add-btn {
+			background: #3d7078;
+			border: none;
+			color: white;
+			font-weight: bold;
+			padding: 0.6rem 1.8rem;
+			border-radius: 40px;
+			font-size: 1.2rem;
+			cursor: pointer;
+			box-shadow: 0 4px 0 #1d4045;
+			transition: 0.05s linear;
+			border: 1px solid #8fc5cf;
+		}
+		.add-btn:active {
+			transform: translateY(4px);
+			box-shadow: none;
+		}
+
+		.result-box {
+			background-image: radial-gradient(circle at 30% 20%, #2f6868, #0f3138);
+			border-radius: 3rem;
+			padding: 1.5rem 1.2rem;
+			margin: 1.5rem 0 1.2rem;
+			border: 3px solid #dbb48b;
+			box-shadow: inset 0 0 15px #0d2429, 0 12px 18px -8px #18353b;
+		}
+		.numbers-label {
+			color: #eadbbd;
+			font-size: 0.9rem;
+			letter-spacing: 4px;
+			margin-bottom: 0.5rem;
+		}
+		#diceDisplay {
+			min-height: 4rem;
+			font-size: 2.8rem;
+			font-weight: 700;
+			color: #fbeab3;
+			text-shadow: 0 0 6px #ffcf8a, 0 4px 0 #5f492e;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: center;
+			gap: 0.4rem 1.2rem;
+			margin: 0.2rem 0;
+		}
+		.die-chip {
+			background: #fcf3e1;
+			color: #281e0f;
+			padding: 0.1rem 1rem;
+			border-radius: 80px;
+			font-size: 2.5rem;
+			font-weight: 600;
+			box-shadow: inset 0 -3px 0 #b29670, 0 5px 0 #3f321f;
+			border: 1px solid #e6c394;
+			line-height: 1.4;
+			min-width: 3.5rem;
+			text-align: center;
+		}
+		.comma {
+			font-size: 2.5rem;
+			color: #e0b87b;
+			font-weight: 300;
+			margin: 0 -0.2rem;
+		}
+		#totalDisplay {
+			font-size: 2rem;
+			font-weight: 600;
+			color: #ffecb3;
+			background: #1f4a4a;
+			display: inline-block;
+			padding: 0.3rem 2rem;
+			border-radius: 4rem;
+			margin-top: 0.8rem;
+			border: 2px solid #dbb48b;
+			box-shadow: inset 0 2px 5px #0c2f2f;
+		}
+
+		.history-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin: 1.8rem 0 0.8rem;
+		}
+		.history-header h2 {
+			margin: 0;
+			font-size: 1.6rem;
+			color: #d6c29b;
+			text-shadow: 2px 2px 0 #2f5a5a;
+			font-weight: 500;
+		}
+		.clear-history {
+			background: #7a6a53;
+			border: none;
+			color: #ffeecd;
+			padding: 0.5rem 1.5rem;
+			border-radius: 50px;
+			font-weight: 600;
+			cursor: pointer;
+			box-shadow: 0 3px 0 #4f4232;
+			transition: 0.05s linear;
+			font-size: 1rem;
+		}
+		.clear-history:active {
+			transform: translateY(3px);
+			box-shadow: none;
+		}
+		#historyList {
+			background: #322f28d0;
+			border-radius: 2rem;
+			padding: 1rem 1.2rem;
+			max-height: 200px;
+			overflow-y: auto;
+			text-align: left;
+			color: #eddbbd;
+			font-size: 1rem;
+			border: 2px solid #b7a27b;
+			scroll-behavior: smooth;
+		}
+		.history-entry {
+			padding: 0.3rem 0.5rem;
+			font-family: monospace;
+			font-size: 1rem;
+		}
+		.history-entry:last-child {
+			border: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="card">
+		<div class="fixed-panel">
+			<button class="dice-btn" id="roll1d6"><span>⚀</span> 1d6</button>
+			<button class="dice-btn" id="roll2d6"><span>⚁</span> 2d6</button>
+			<button class="dice-btn" id="roll3d6"><span>⚂</span> 3d6</button>
+			<button class="dice-btn" id="roll4d6"><span>⚃</span> 4d6</button>
+		</div>
+		<div class="fixed-panel">
+			<button class="dice-btn" id="roll1d3"><span>🧱</span> 1d3</button>
+			<button class="dice-btn" id="roll1d4"><span>🔪</span> 1d4</button>
+			<button class="dice-btn" id="roll1d6e"><span>🗡️</span> 1d6</button>
+			<button class="dice-btn" id="roll1d8"><span>🎱</span> 1d8</button>
+		</div>
+		<div class="fixed-panel">
+			<button class="dice-btn" id="roll1d10"><span>🔟</span> 1d10</button>
+			<button class="dice-btn" id="roll1d12"><span>🪓</span> 1d12</button>
+			<button class="dice-btn" id="roll1d20"><span>🪨</span> 1d20</button>
+			<button class="dice-btn" id="roll1d100"><span>💯</span> 1d100</button>
+		</div>
+
+		<div id="custom-buttons"></div>
+
+		<div class="custom-creator">
+			<input type="number" id="diceCount" min="1" value="2" step="1">
+			<input type="number" id="diceSides" min="2" value="8" step="1">
+			<button class="add-btn" id="addCustomBtn">➕ Add XdY</button>
+		</div>
+
+		<div class="result-box">
+			<div class="numbers-label">🎲 CURRENT ROLL 🎲</div>
+			<div id="diceDisplay">—</div>
+			<div id="totalDisplay"></div>
+		</div>
+
+		<div class="history-header">
+			<h2>📋 history</h2>
+			<button class="clear-history" id="clearHistoryBtn">clear log</button>
+		</div>
+		<div id="historyList">
+			<!-- history entries appear here -->
+		</div>
+	</div>
+
+	<script>
+		(function() {
+			const MP3_URL = 'data_dice/dice.mp3';
+			const masterAudio = new Audio(MP3_URL);
+			masterAudio.preload = 'auto';
+
+			const display = document.getElementById('diceDisplay');
+			const totalDisplay = document.getElementById('totalDisplay');
+			const historyList = document.getElementById('historyList');
+			const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+			const addCustomBtn = document.getElementById('addCustomBtn');
+			const diceCountInput = document.getElementById('diceCount');
+			const diceSidesInput = document.getElementById('diceSides');
+			const customContainer = document.getElementById('custom-buttons');
+
+			function rollDice(count, sides) {
+				const results = [];
+				for (let i = 0; i < count; i++) {
+					results.push(Math.floor(Math.random() * sides) + 1);
+				}
+				return results;
+			}
+
+			function renderDice(results) {
+				if (!results || results.length === 0) {
+					display.innerHTML = '—';
+					totalDisplay.innerHTML = '';
+					return;
+				}
+				if (results.length === 1) {
+					display.innerHTML = `<span class="die-chip">${results[0]}</span>`;
+				} else {
+					let html = '';
+					for (let i = 0; i < results.length; i++) {
+						html += `<span class="die-chip">${results[i]}</span>`;
+						if (i < results.length - 1) html += '<span class="comma">,</span>';
+					}
+					display.innerHTML = html;
+				}
+				// calculate and display total
+				const sum = results.reduce((acc, val) => acc + val, 0);
+				totalDisplay.innerHTML = `Total: ${sum}`;
+			}
+
+			function addHistoryEntry(description, resultsArray) {
+				const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+				const sum = resultsArray.reduce((acc, val) => acc + val, 0);
+				const resultStr = resultsArray.join(', ');
+				const entryText = `[${timestamp}] ${description} : [${resultStr}]  (sum ${sum})`;
+
+				const entryDiv = document.createElement('div');
+				entryDiv.className = 'history-entry';
+				entryDiv.textContent = entryText;
+				historyList.appendChild(entryDiv);
+				// auto-scroll to bottom
+				historyList.scrollTop = historyList.scrollHeight;
+			}
+
+			clearHistoryBtn.addEventListener('click', () => {
+				historyList.innerHTML = '';
+			});
+
+			function performRoll(count, sides, description) {
+				const results = rollDice(count, sides);
+				renderDice(results);
+				// play sound
+				try {
+					const sound = masterAudio.cloneNode(true);
+					sound.volume = 1.0;
+					sound.play().catch(err => {
+						console.debug('audio play issue (non‑blocking):', err);
+					});
+				} catch (e) {
+					console.debug('audio cloning failed', e);
+				}
+				addHistoryEntry(description, results);
+			}
+
+			document.getElementById('roll1d3').addEventListener('click', () => {
+				performRoll(1, 3, '1d3');
+			});
+			document.getElementById('roll1d4').addEventListener('click', () => {
+				performRoll(1, 4, '1d4');
+			});
+			document.getElementById('roll1d6').addEventListener('click', () => {
+				performRoll(1, 6, '1d6');
+			});
+			document.getElementById('roll1d6e').addEventListener('click', () => {
+				performRoll(1, 6, '1d6');
+			});
+			document.getElementById('roll2d6').addEventListener('click', () => {
+				performRoll(2, 6, '2d6');
+			});
+			document.getElementById('roll3d6').addEventListener('click', () => {
+				performRoll(3, 6, '3d6');
+			});
+			document.getElementById('roll4d6').addEventListener('click', () => {
+				performRoll(4, 6, '4d6');
+			});
+			document.getElementById('roll1d8').addEventListener('click', () => {
+				performRoll(1, 8, '1d8');
+			});
+			document.getElementById('roll1d10').addEventListener('click', () => {
+				performRoll(1, 10, '1d10');
+			});
+			document.getElementById('roll1d12').addEventListener('click', () => {
+				performRoll(1, 12, '1d12');
+			});
+			document.getElementById('roll1d20').addEventListener('click', () => {
+				performRoll(1, 20, '1d20');
+			});
+			document.getElementById('roll1d100').addEventListener('click', () => {
+				performRoll(1, 100, '1d100');
+			});
+
+			function createCustomButton(x, y) {
+				const wrapper = document.createElement('div');
+				wrapper.className = 'custom-wrapper';
+
+				const rollBtn = document.createElement('button');
+				rollBtn.className = 'dice-btn';  // styled like dice-btn
+				rollBtn.textContent = `${x}d${y}`;
+				rollBtn.setAttribute('aria-label', `roll ${x}d${y}`);
+
+				rollBtn.addEventListener('click', () => {
+					performRoll(x, y, `${x}d${y}`);
+				});
+
+				const removeBtn = document.createElement('button');
+				removeBtn.className = 'custom-remove';
+				removeBtn.innerHTML = '✕';
+				removeBtn.setAttribute('aria-label', `remove ${x}d${y}`);
+
+				removeBtn.addEventListener('click', () => {
+					wrapper.remove();
+				});
+
+				wrapper.appendChild(rollBtn);
+				wrapper.appendChild(removeBtn);
+				return wrapper;
+			}
+
+			addCustomBtn.addEventListener('click', () => {
+				let x = parseInt(diceCountInput.value, 10);
+				let y = parseInt(diceSidesInput.value, 10);
+
+				// validation
+				if (isNaN(x) || x < 1) x = 1;
+				if (isNaN(y) || y < 2) y = 6;  // at least d2
+				diceCountInput.value = x;
+				diceSidesInput.value = y;
+
+				const customBtn = createCustomButton(x, y);
+				customContainer.appendChild(customBtn);
+			});
+		})();
+	</script>
+</body>
+</html>
