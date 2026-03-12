@@ -16,37 +16,34 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			padding: 1rem;
+			padding: 0.8rem;
 		}
 		.card {
 			background: rgb(28, 37, 41);
 			border-radius: 2.5rem;
 			box-shadow: 0 25px 40px -10px #08222b, inset 0 0 0 1px #f0e0c0;
-			padding: 1.5rem 1.5rem;
-			width: min(95%, 800px);
+			padding: 0.5rem 0.5rem;
 			text-align: center;
+			max-width: 40rem;
+			min-height: 100vh;
 		}
 		.fixed-panel {
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: center;
 			gap: 0.8rem;
-			margin: 1rem 0 1rem;
+			margin: 0.8rem;
 		}
 		.dice-btn {
 			background: #fcf5e6;
-			border: none;
 			box-shadow: 0 5px 0 #6b5a48, 0 8px 15px -8px #1d3f47;
-			font-size: 1.5rem;
+			font-size: 1.4rem;
 			font-weight: 600;
 			padding: 0.7rem 1.6rem;
 			border-radius: 50px;
 			color: #2d2216;
 			cursor: pointer;
 			transition: all 0.08s linear;
-			display: inline-flex;
-			align-items: center;
-			gap: 0.3rem;
 			line-height: 1;
 			border: 1px solid #dcc29e;
 			transform: translateY(0);
@@ -60,14 +57,6 @@
 			transform: translateY(5px);
 			box-shadow: 0 0 0 #5f4f3c, 0 12px 18px -10px #0e2a31;
 			background: #f2e2ce;
-		}
-
-		#custom-buttons {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
-			gap: 0.8rem;
-			margin: 1rem 0 1rem;
 		}
 
 		.custom-wrapper {
@@ -108,23 +97,14 @@
 		.custom-creator {
 			background: #beb7a2a0;
 			border-radius: 4rem;
-			padding: 1.2rem 1.5rem;
-			margin: 0 0 1.8rem 0;
+			padding: 1rem 1rem;
+			margin: 1rem 0rem 0rem;
 			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
 			justify-content: center;
 			gap: 0.8rem 1.2rem;
 			border: 1px solid #ddd0b5;
-			backdrop-filter: blur(2px);
-		}
-		.custom-creator label {
-			font-weight: 600;
-			/* color: #2d4e4f; */
-			/* color: #2d2216; */
-			/* color: #eadbbd; */
-			color: #2d2216;
-			font-size: 1.5rem;
 		}
 		.custom-creator input {
 			width: 70px;
@@ -141,7 +121,7 @@
 			border: none;
 			color: white;
 			font-weight: bold;
-			padding: 0.6rem 1.8rem;
+			padding: 0.5rem 0.8rem;
 			border-radius: 40px;
 			font-size: 1.2rem;
 			cursor: pointer;
@@ -157,34 +137,26 @@
 		.result-box {
 			background-image: radial-gradient(circle at 30% 20%, #2f6868, #0f3138);
 			border-radius: 3rem;
-			padding: 1.5rem 1.2rem;
-			margin: 1.5rem 0 1.2rem;
+			padding: 0.8rem 0.8rem;
+			margin: 1rem 0 1rem;
 			border: 3px solid #dbb48b;
 			box-shadow: inset 0 0 15px #0d2429, 0 12px 18px -8px #18353b;
-		}
-		.numbers-label {
-			color: #eadbbd;
-			font-size: 0.9rem;
-			letter-spacing: 4px;
-			margin-bottom: 0.5rem;
 		}
 		#diceDisplay {
 			min-height: 4rem;
 			font-size: 2.8rem;
 			font-weight: 700;
 			color: #fbeab3;
-			text-shadow: 0 0 6px #ffcf8a, 0 4px 0 #5f492e;
+			text-shadow: 0 0 6px #ffcf8a, 1px 2px 0 #5f492e;
 			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
 			justify-content: center;
 			gap: 0.4rem 1.2rem;
-			margin: 0.2rem 0;
 		}
 		.die-chip {
 			background: #fcf3e1;
 			color: #281e0f;
-			padding: 0.1rem 1rem;
 			border-radius: 80px;
 			font-size: 2.5rem;
 			font-weight: 600;
@@ -193,12 +165,6 @@
 			line-height: 1.4;
 			min-width: 3.5rem;
 			text-align: center;
-		}
-		.comma {
-			font-size: 2.5rem;
-			color: #e0b87b;
-			font-weight: 300;
-			margin: 0 -0.2rem;
 		}
 		#totalDisplay {
 			font-size: 2rem;
@@ -217,7 +183,7 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			margin: 1.8rem 0 0.8rem;
+			margin: 1rem 0 0.8rem;
 		}
 		.history-header h2 {
 			margin: 0;
@@ -255,46 +221,28 @@
 			scroll-behavior: smooth;
 		}
 		.history-entry {
-			padding: 0.3rem 0.5rem;
 			font-family: monospace;
-			font-size: 1rem;
-		}
-		.history-entry:last-child {
-			border: none;
 		}
 	</style>
 </head>
 <body>
 	<div class="card">
-		<div class="fixed-panel">
+		<div class="fixed-panel" id="custom-buttons">
 			<button class="dice-btn" id="roll1d6"><span>⚀</span> 1d6</button>
 			<button class="dice-btn" id="roll2d6"><span>⚁</span> 2d6</button>
 			<button class="dice-btn" id="roll3d6"><span>⚂</span> 3d6</button>
 			<button class="dice-btn" id="roll4d6"><span>⚃</span> 4d6</button>
-		</div>
-		<div class="fixed-panel">
 			<button class="dice-btn" id="roll1d3"><span>🧱</span> 1d3</button>
 			<button class="dice-btn" id="roll1d4"><span>🔪</span> 1d4</button>
 			<button class="dice-btn" id="roll1d6e"><span>🗡️</span> 1d6</button>
 			<button class="dice-btn" id="roll1d8"><span>🎱</span> 1d8</button>
-		</div>
-		<div class="fixed-panel">
 			<button class="dice-btn" id="roll1d10"><span>🔟</span> 1d10</button>
 			<button class="dice-btn" id="roll1d12"><span>🪓</span> 1d12</button>
 			<button class="dice-btn" id="roll1d20"><span>🪨</span> 1d20</button>
 			<button class="dice-btn" id="roll1d100"><span>💯</span> 1d100</button>
 		</div>
 
-		<div id="custom-buttons"></div>
-
-		<div class="custom-creator">
-			<input type="number" id="diceCount" min="1" value="2" step="1">
-			<input type="number" id="diceSides" min="2" value="8" step="1">
-			<button class="add-btn" id="addCustomBtn">➕ Add XdY</button>
-		</div>
-
 		<div class="result-box">
-			<div class="numbers-label">🎲 CURRENT ROLL 🎲</div>
 			<div id="diceDisplay">—</div>
 			<div id="totalDisplay"></div>
 		</div>
@@ -305,6 +253,12 @@
 		</div>
 		<div id="historyList">
 			<!-- history entries appear here -->
+		</div>
+
+		<div class="custom-creator">
+			<input type="number" id="diceCount" min="1" value="2" step="1">
+			<input type="number" id="diceSides" min="2" value="8" step="1">
+			<button class="add-btn" id="addCustomBtn">➕ Add XdY</button>
 		</div>
 	</div>
 
@@ -343,7 +297,6 @@
 					let html = '';
 					for (let i = 0; i < results.length; i++) {
 						html += `<span class="die-chip">${results[i]}</span>`;
-						if (i < results.length - 1) html += '<span class="comma">,</span>';
 					}
 					display.innerHTML = html;
 				}
@@ -361,9 +314,8 @@
 				const entryDiv = document.createElement('div');
 				entryDiv.className = 'history-entry';
 				entryDiv.textContent = entryText;
-				historyList.appendChild(entryDiv);
-				// auto-scroll to bottom
-				historyList.scrollTop = historyList.scrollHeight;
+				historyList.prepend(entryDiv);
+				historyList.scrollTop = 0;
 			}
 
 			clearHistoryBtn.addEventListener('click', () => {
