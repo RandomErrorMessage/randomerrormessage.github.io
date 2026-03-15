@@ -295,7 +295,7 @@
 ["Success, ambition, determination, willpower, control, focus", "Forceful, no direction, no control, powerless, aggression, obstacles"],
 ["Strength, courage, patience, inner fortitude", "Weakness, self-doubt, low energy, insecurity"],
 ["Introspection, solitude, inner guidance, wisdom, withdrawal", "Isolation, loneliness, reclusiveness, withdrawal from the world"],
-["Good luck, karma, life cycles, destiny, turning point, fortune, fate", "Bad luck, resistance to change, breaking cycles, setbacks, ill fortune"],
+["Good luck, karma, cycles, destiny, turning point, fortune", "Bad luck, resistance to change, disrupted cycles, ill fortune"],
 ["Justice, fairness, truth, cause and effect, law, accountability", "Unfairness, dishonesty, corruption, avoiding accountability, bias"],
 ["New perspectives, surrender, sacrifice, suspension, enlightenment", "Apathy, indecision, delay, resistance to sacrifice"],
 ["Endings, transformation, transition, letting go", "Resistance to change, stagnation, decay, clinging to the past"],
@@ -304,7 +304,7 @@
 ["Sudden change, upheaval, chaos, revelation, awakening, breakdown", "Fear of change, disaster averted, delay"],
 ["Hope, inspiration, positivity, faith, renewal, healing, rejuvenation", "Hopelessness, despair, negativity, lack of faith, despondent"],
 ["Illusion, mystery, subconscious, dread", "Self-awareness, sobriety, revelation, release"],
-["Positivity, warmth, success, vitality, joy, confidence", "Sadness, ego inflation, overexposure, unrealistic expectations, depression"],
+["Positivity, warmth, success, vitality, joy", "Fatigue, anhedonia, ego, burnout"],
 ["Judgement, rebirth, inner calling, absolution, self-evaluation, awakening", "Self-doubt, lack of self-awareness, self-loathing"],
 ["Completion, integration, accomplishment, travel, wholeness, fulfillment", "Incompletion, lack of closure, emptiness, shortcuts, delays"]
 ]
@@ -449,19 +449,18 @@
 			}
 
 			function performRoll(count, sides, description) {
-				const results = [];
-				for (let i = 0; i < count; i++) {
-					results.push(Math.floor(Math.random() * sides) + 1);
-				}
-				const sum = results.reduce((acc, val) => acc + val, 0);
+				let sum = 0;
 				let html = '';
-				for (let i = 0; i < results.length; i++) {
-					html += `<span class="dieChip">${results[i]}</span>`;
+				let resultStr = '';
+				for (let i = 0; i < count; i++) {
+					const roll = Math.floor(Math.random() * sides) + 1;
+					sum += roll;
+					html += `<span class="dieChip">${roll}</span>`;
+					resultStr += `${roll}, `;
 				}
 				display.innerHTML = html;
 				totalDisplay.innerHTML = `Total: ${sum}`;
-				const resultStr = results.join(', ');
-				const entryText = `${description} : [${resultStr}]  (sum ${sum})`;
+				const entryText = `${description} : [${resultStr.slice(0, -2)}]  (sum ${sum})`;
 				addHistoryEntry(entryText)
 				playSound();
 			}
