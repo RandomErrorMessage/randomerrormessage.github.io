@@ -228,18 +228,19 @@
 <body>
 	<div class="card">
 		<div class="fixed-panel" id="custom-buttons">
-			<button class="dice-btn" id="roll1d6"><span>⚀</span> 1d6</button>
-			<button class="dice-btn" id="roll2d6"><span>⚁</span> 2d6</button>
-			<button class="dice-btn" id="roll3d6"><span>⚂</span> 3d6</button>
-			<button class="dice-btn" id="roll4d6"><span>⚃</span> 4d6</button>
-			<button class="dice-btn" id="roll1d3"><span>🧱</span> 1d3</button>
-			<button class="dice-btn" id="roll1d4"><span>🔪</span> 1d4</button>
-			<button class="dice-btn" id="roll1d6e"><span>🗡️</span> 1d6</button>
-			<button class="dice-btn" id="roll1d8"><span>🎱</span> 1d8</button>
-			<button class="dice-btn" id="roll1d10"><span>🔟</span> 1d10</button>
-			<button class="dice-btn" id="roll1d12"><span>🪓</span> 1d12</button>
-			<button class="dice-btn" id="roll1d20"><span>🪨</span> 1d20</button>
-			<button class="dice-btn" id="roll1d100"><span>💯</span> 1d100</button>
+			<button class="dice-btn" id="roll1d6">⚀ 1d6</button>
+			<button class="dice-btn" id="roll2d6">⚁ 2d6</button>
+			<button class="dice-btn" id="roll3d6">⚂ 3d6</button>
+			<button class="dice-btn" id="roll4d6">⚃ 4d6</button>
+			<button class="dice-btn" id="roll1d3">🪨 1d3</button>
+			<button class="dice-btn" id="roll1d4">🔪 1d4</button>
+			<button class="dice-btn" id="roll1d6e">🗡️ 1d6</button>
+			<button class="dice-btn" id="roll1d8">🎱 1d8</button>
+			<button class="dice-btn" id="roll1d10">🔟 1d10</button>
+			<button class="dice-btn" id="roll1d12">🪓 1d12</button>
+			<button class="dice-btn" id="roll1d20">👑 1d20</button>
+			<button class="dice-btn" id="roll1d100">💯 1d100</button>
+			<button class="dice-btn" id="rollOracle">🔮 Oracle</button>
 		</div>
 
 		<div class="result-box">
@@ -263,6 +264,16 @@
 
 	<script>
 		(function() {
+			const ORACLE_TABLE = ["No, and...", "No.", "No, but...", "Yes, but...", "Yes.", "Yes, and..."]
+			const ORACLE_TABLE_SUB =
+[
+	["Void", "Treason", "Chaos", "Pain", "Corruption", "Oppression"],
+	["Suspicion", "Regression", "Collision", "Desire", "Vengeance", "Occult"],
+	["Survival", "Sacrifice", "Conflict", "Control", "Electricity", "Subversion"],
+	["Nurturing", "Light", "Noise", "Healing", "Velocity", "Freedom"],
+	["Compromise", "Prophecy", "Guidance", "Growth", "Evolution", "Nature"],
+	["Balance", "Wealth", "Change", "Order", "Truth", "Time"]
+]
 			const MP3_URL = 'data_dice/dice.mp3';
 			const masterAudio = new Audio(MP3_URL);
 			masterAudio.preload = 'auto';
@@ -304,27 +315,7 @@
 				totalDisplay.innerHTML = `Total: ${sum}`;
 			}
 
-			function addHistoryEntry(description, resultsArray) {
-				const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-				const sum = resultsArray.reduce((acc, val) => acc + val, 0);
-				const resultStr = resultsArray.join(', ');
-				const entryText = `[${timestamp}] ${description} : [${resultStr}]  (sum ${sum})`;
-
-				const entryDiv = document.createElement('div');
-				entryDiv.className = 'history-entry';
-				entryDiv.textContent = entryText;
-				historyList.prepend(entryDiv);
-				historyList.scrollTop = 0;
-			}
-
-			clearHistoryBtn.addEventListener('click', () => {
-				historyList.innerHTML = '';
-			});
-
-			function performRoll(count, sides, description) {
-				const results = rollDice(count, sides);
-				renderDice(results);
-				// play sound
+			function playSound() {
 				try {
 					const sound = masterAudio.cloneNode(true);
 					sound.volume = 1.0;
@@ -334,7 +325,38 @@
 				} catch (e) {
 					console.debug('audio cloning failed', e);
 				}
-				addHistoryEntry(description, results);
+			}
+
+			function addHistoryEntry(text) {
+				const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+				const entryText = `[${timestamp}] ${text}`;
+
+				const entryDiv = document.createElement('div');
+				entryDiv.className = 'history-entry';
+				entryDiv.textContent = entryText;
+				historyList.prepend(entryDiv);
+				historyList.scrollTop = 0;
+			}
+
+			function performRoll(count, sides, description) {
+				const results = rollDice(count, sides);
+				renderDice(results);
+				const sum = results.reduce((acc, val) => acc + val, 0);
+				const resultStr = results.join(', ');
+				const entryText = `${description} : [${resultStr}]  (sum ${sum})`;
+				addHistoryEntry(entryText)
+				playSound();
+			}
+
+			function performOracle() {
+				const die = Math.floor(Math.random() * 6)
+				const result = ORACLE_TABLE[die];
+				const result_sub = ORACLE_TABLE_SUB[die][Math.floor(Math.random() * 6)];
+				display.innerHTML = result;
+				totalDisplay.innerHTML = result_sub;
+				const log = `${result} : ${result_sub}`;
+				addHistoryEntry(log);
+				playSound();
 			}
 
 			document.getElementById('roll1d3').addEventListener('click', () => {
@@ -372,6 +394,9 @@
 			});
 			document.getElementById('roll1d100').addEventListener('click', () => {
 				performRoll(1, 100, '1d100');
+			});
+			document.getElementById('rollOracle').addEventListener('click', () => {
+				performOracle();
 			});
 
 			function createCustomButton(x, y) {
