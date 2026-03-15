@@ -16,25 +16,19 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			padding: 0.8rem;
+			padding: 0.5rem;
 		}
 		.card {
 			background: rgb(28, 37, 41);
-			border-radius: 2.5rem;
+			border-radius: 2rem;
 			box-shadow: 0 25px 40px -10px #08222b, inset 0 0 0 1px #f0e0c0;
 			padding: 0.5rem 0.5rem;
 			text-align: center;
-			max-width: min(calc(100vw - 1.6rem), 40rem);
+			max-width: min(calc(100vw - 1rem), 40rem);
 			min-height: 100vh;
 		}
-		.fixed-panel {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
-			gap: 0.8rem;
-			margin: 0.8rem;
-		}
-		.dice-btn {
+
+		.diceBtn {
 			background: #fcf5e6;
 			box-shadow: 0 5px 0 #6b5a48, 0 8px 15px -8px #1d3f47;
 			font-size: 1.4rem;
@@ -47,13 +41,14 @@
 			line-height: 1;
 			border: 1px solid #dcc29e;
 			transform: translateY(0);
+			margin: 0.25rem;
 		}
-		.dice-btn:hover {
+		.diceBtn:hover {
 			background: #ffffff;
 			box-shadow: 0 3px 0 #5f4f3c, 0 12px 18px -10px #123038;
 			transform: translateY(2px);
 		}
-		.dice-btn:active {
+		.diceBtn:active {
 			transform: translateY(5px);
 			box-shadow: 0 0 0 #5f4f3c, 0 12px 18px -10px #0e2a31;
 			background: #f2e2ce;
@@ -94,7 +89,7 @@
 			box-shadow: none;
 		}
 
-		.custom-creator {
+		.customPanel {
 			background: #beb7a2a0;
 			border-radius: 4rem;
 			padding: 1rem 1rem;
@@ -106,7 +101,7 @@
 			gap: 0.8rem 1.2rem;
 			border: 1px solid #ddd0b5;
 		}
-		.custom-creator input {
+		.customPanel input {
 			width: 70px;
 			padding: 0.5rem;
 			border-radius: 40px;
@@ -134,26 +129,25 @@
 			box-shadow: none;
 		}
 
-		.result-box {
+		.resultBox {
 			background-image: radial-gradient(circle at 30% 20%, #2f6868, #0f3138);
 			border-radius: 1rem;
-			padding: 0.5rem 0.5rem;
-			margin: 0.5rem;
+			padding: 0.5rem;
+			margin: 0.5rem 0;
 			border: 3px solid #dbb48b;
 			box-shadow: inset 0 0 15px #0d2429, 0 12px 18px -8px #18353b;
 		}
 		#diceDisplay {
-			min-height: 4rem;
+			align-items: center;
 			font-size: 2.5rem;
 			font-weight: 600;
 			color: #fbeab3;
 			text-shadow: 0 0 6px #ffcf8a, 1px 2px 0 #5f492e;
 			display: flex;
 			flex-wrap: wrap;
-			align-items: center;
 			justify-content: center;
 		}
-		.die-chip {
+		.dieChip {
 			background: #fcf3e1;
 			color: #281e0f;
 			border-radius: 80px;
@@ -167,6 +161,7 @@
 			margin: 0.25rem;
 		}
 		#totalDisplay {
+			margin-top: 0.5rem;
 			font-size: 1.5rem;
 			font-weight: 600;
 			color: #ffecb3;
@@ -174,7 +169,6 @@
 			display: inline-block;
 			padding: 0.3rem 0.5rem;
 			border-radius: 1rem;
-			margin-top: 0.8rem;
 			border: 2px solid #dbb48b;
 			box-shadow: inset 0 2px 5px #0c2f2f;
 		}
@@ -210,8 +204,7 @@
 		}
 		#historyList {
 			background: #322f28d0;
-			border-radius: 2rem;
-			padding: 1rem 1.2rem;
+			border-radius: 0.5rem;
 			max-height: 200px;
 			overflow-y: auto;
 			text-align: left;
@@ -220,7 +213,7 @@
 			border: 2px solid #b7a27b;
 			scroll-behavior: smooth;
 		}
-		.history-entry {
+		.logEntry {
 			font-family: monospace;
 		}
 
@@ -232,25 +225,11 @@
 </head>
 <body>
 	<div class="card">
-		<div class="fixed-panel" id="custom-buttons">
-			<button class="dice-btn" id="roll1d6">⚀ 1d6</button>
-			<button class="dice-btn" id="roll2d6">⚁ 2d6</button>
-			<button class="dice-btn" id="roll3d6">⚂ 3d6</button>
-			<button class="dice-btn" id="roll4d6">⚃ 4d6</button>
-			<button class="dice-btn" id="roll1d3">🪨 1d3</button>
-			<button class="dice-btn" id="roll1d4">🔪 1d4</button>
-			<button class="dice-btn" id="roll1d6e">🗡️ 1d6</button>
-			<button class="dice-btn" id="roll1d8">🎱 1d8</button>
-			<button class="dice-btn" id="roll1d10">🔟 1d10</button>
-			<button class="dice-btn" id="roll1d12">🪓 1d12</button>
-			<button class="dice-btn" id="roll1d20">👑 1d20</button>
-			<button class="dice-btn" id="roll1d100">💯 1d100</button>
-			<button class="dice-btn" id="rollOracle">🔮 Oracle</button>
-			<button class="dice-btn" id="rollTarot">✨ Tarot</button>
-			<button class="dice-btn" id="rollSemiotic">👁️ Semiotic</button>
+		<div id="btnPanel">
+<button class="diceBtn" id="roll1d6">⚀ 1d6</button><button class="diceBtn" id="roll2d6">⚁ 2d6</button><button class="diceBtn" id="roll3d6">⚂ 3d6</button><button class="diceBtn" id="roll4d6">⚃ 4d6</button><button class="diceBtn" id="roll1d3">🪨 1d3</button><button class="diceBtn" id="roll1d4">🔪 1d4</button><button class="diceBtn" id="roll1d6e">🗡️ 1d6</button><button class="diceBtn" id="roll1d8">🎱 1d8</button><button class="diceBtn" id="roll1d10">🔟 1d10</button><button class="diceBtn" id="roll1d12">🪓 1d12</button><button class="diceBtn" id="roll1d20">👑 1d20</button><button class="diceBtn" id="roll1d100">💯 1d100</button><button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button>
 		</div>
 
-		<div class="result-box">
+		<div class="resultBox">
 			<div id="diceDisplay">—</div>
 			<div id="totalDisplay"></div>
 		</div>
@@ -262,7 +241,7 @@
 			<button class="clear-history" id="clearHistoryBtn">clear log</button>
 		</div>
 
-		<div class="custom-creator">
+		<div class="customPanel">
 			<input type="number" id="diceCount" min="1" value="2" step="1">
 			<input type="number" id="diceSides" min="2" value="8" step="1">
 			<button class="add-btn" id="addCustomBtn">➕ Add XdY</button>
@@ -444,7 +423,7 @@
 			const addCustomBtn = document.getElementById('addCustomBtn');
 			const diceCountInput = document.getElementById('diceCount');
 			const diceSidesInput = document.getElementById('diceSides');
-			const customContainer = document.getElementById('custom-buttons');
+			const btnPanel = document.getElementById('btnPanel');
 
 			function playSound() {
 				try {
@@ -463,7 +442,7 @@
 				const entryText = `[${timestamp}] ${text}`;
 
 				const entryDiv = document.createElement('div');
-				entryDiv.className = 'history-entry';
+				entryDiv.className = 'logEntry';
 				entryDiv.textContent = entryText;
 				historyList.prepend(entryDiv);
 				historyList.scrollTop = 0;
@@ -477,7 +456,7 @@
 				const sum = results.reduce((acc, val) => acc + val, 0);
 				let html = '';
 				for (let i = 0; i < results.length; i++) {
-					html += `<span class="die-chip">${results[i]}</span>`;
+					html += `<span class="dieChip">${results[i]}</span>`;
 				}
 				display.innerHTML = html;
 				totalDisplay.innerHTML = `Total: ${sum}`;
@@ -568,7 +547,7 @@
 				wrapper.className = 'custom-wrapper';
 
 				const rollBtn = document.createElement('button');
-				rollBtn.className = 'dice-btn';
+				rollBtn.className = 'diceBtn';
 				rollBtn.textContent = `${x}d${y}`;
 				rollBtn.setAttribute('aria-label', `roll ${x}d${y}`);
 
@@ -600,7 +579,7 @@
 				diceSidesInput.value = y;
 
 				const customBtn = createCustomButton(x, y);
-				customContainer.appendChild(customBtn);
+				btnPanel.appendChild(customBtn);
 			});
 		})();
 	</script>
