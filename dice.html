@@ -337,34 +337,6 @@
 			const diceSidesInput = document.getElementById('diceSides');
 			const customContainer = document.getElementById('custom-buttons');
 
-			function rollDice(count, sides) {
-				const results = [];
-				for (let i = 0; i < count; i++) {
-					results.push(Math.floor(Math.random() * sides) + 1);
-				}
-				return results;
-			}
-
-			function renderDice(results) {
-				if (!results || results.length === 0) {
-					display.innerHTML = '—';
-					totalDisplay.innerHTML = '';
-					return;
-				}
-				if (results.length === 1) {
-					display.innerHTML = `<span class="die-chip">${results[0]}</span>`;
-				} else {
-					let html = '';
-					for (let i = 0; i < results.length; i++) {
-						html += `<span class="die-chip">${results[i]}</span>`;
-					}
-					display.innerHTML = html;
-				}
-				// calculate and display total
-				const sum = results.reduce((acc, val) => acc + val, 0);
-				totalDisplay.innerHTML = `Total: ${sum}`;
-			}
-
 			function playSound() {
 				try {
 					const sound = masterAudio.cloneNode(true);
@@ -389,9 +361,17 @@
 			}
 
 			function performRoll(count, sides, description) {
-				const results = rollDice(count, sides);
-				renderDice(results);
+				const results = [];
+				for (let i = 0; i < count; i++) {
+					results.push(Math.floor(Math.random() * sides) + 1);
+				}
 				const sum = results.reduce((acc, val) => acc + val, 0);
+				let html = '';
+				for (let i = 0; i < results.length; i++) {
+					html += `<span class="die-chip">${results[i]}</span>`;
+				}
+				display.innerHTML = html;
+				totalDisplay.innerHTML = `Total: ${sum}`;
 				const resultStr = results.join(', ');
 				const entryText = `${description} : [${resultStr}]  (sum ${sum})`;
 				addHistoryEntry(entryText)
