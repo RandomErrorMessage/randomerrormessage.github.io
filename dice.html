@@ -306,7 +306,7 @@
 <button class="diceBtn" data-roll="1d6">⚀ 1d6</button><button class="diceBtn" data-roll="2d6">⚁ 2d6</button><button class="diceBtn" data-roll="3d6">⚂ 3d6</button><button class="diceBtn" data-roll="4d6">⚃ 4d6</button><button class="diceBtn" data-roll="1d3">🪨 1d3</button><button class="diceBtn" data-roll="1d4">🔪 1d4</button><button class="diceBtn" data-roll="1d6">🗡️ 1d6</button><button class="diceBtn" data-roll="1d8">🎱 1d8</button><button class="diceBtn" data-roll="1d10">🔟 1d10</button><button class="diceBtn" data-roll="1d12">🪓 1d12</button><button class="diceBtn" data-roll="1d20">👑 1d20</button><button class="diceBtn" data-roll="1d100">💯 1d100</button>
 		</div>
 		<div class="panel" id="oraclePanel">
-			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChars">Chars</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button>
+			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChars">Chars</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button><button class="diceBtn" id="gmeCityDesc">CityDesc</button>
 			<details>
 				<summary>Character</summary>
 				<button class="diceBtn" id="gmeCharAction">CharAction</button><button class="diceBtn" id="gmeCharAppearance">CharAppearance</button><button class="diceBtn" id="gmeCharBackground">CharBackground</button><button class="diceBtn" id="gmeCharConvo">CharConvo</button><button class="diceBtn" id="gmeCharDesc">CharDesc</button><button class="diceBtn" id="gmeCharID">CharID</button><button class="diceBtn" id="gmeCharMotivation">CharMotivation</button><button class="diceBtn" id="gmeCharPersonality">CharPersonality</button><button class="diceBtn" id="gmeCharSkill">CharSkill</button><button class="diceBtn" id="gmeCharTrait">CharTrait</button>
@@ -1829,6 +1829,108 @@ GME_CHAR_TRAIT=[
 'Weapon',
 'Young'
 ];
+GME_CITY_DESC=[
+'Activity',
+'Aggressive',
+'Aromatic',
+'Average',
+'Beautiful',
+'Bleak',
+'Block',
+'Bridge',
+'Bustling',
+'Calm',
+'Chaotic',
+'Clean',
+'Cold',
+'Colorful',
+'Commerce',
+'Conflict',
+'Control',
+'Crime',
+'Dangerous',
+'Dense',
+'Developed',
+'Dirty',
+'Efficient',
+'Energy',
+'Enormous',
+'Environment',
+'Extravagant',
+'Festive',
+'Flawless',
+'Frightening',
+'Government',
+'Happy',
+'Harsh',
+'Healthy',
+'Helpful',
+'Hills',
+'History',
+'Illness',
+'Important',
+'Impressive',
+'Industry',
+'Interesting',
+'Intrigues',
+'Isolated',
+'Lacking',
+'Lake',
+'Large',
+'Lavish',
+'Leadership',
+'Liberty',
+'Loud',
+'Magnificent',
+'Masses',
+'Meaningful',
+'Mechanical',
+'Messy',
+'Mighty',
+'Military',
+'Miserable',
+'Misfortune',
+'Modern',
+'Mountain',
+'Mundane',
+'Mysterious',
+'Nature',
+'Odd',
+'Old',
+'Oppress',
+'Opulence',
+'Peace',
+'Poor',
+'Powerful',
+'Protected',
+'Public',
+'Quiet',
+'Rare',
+'Reassuring',
+'Remarkable',
+'River',
+'Rough',
+'Ruined',
+'Rustic',
+'Simple',
+'Small',
+'Sparse',
+'Structures',
+'Struggle',
+'Success',
+'Suffering',
+'Technology',
+'Tension',
+'Travel',
+'Troubled',
+'Valuable',
+'Warm',
+'Water',
+'Weak',
+'Weather',
+'Wild',
+'Work'
+];
 GME_DESC1 = [
 'Adventurously',
 'Aggressively',
@@ -2583,6 +2685,9 @@ GME_TONE=[
 						break;
 					case 'gmeCharTrait':
 						performGME(GME_CHAR_TRAIT, 'Character Trait');
+						break;
+					case 'gmeCityDesc':
+						performGME(GME_CITY_DESC, 'City Description');
 						break;
 					case 'gmeDesc1':
 						performGME(GME_DESC1, 'Description 1');
