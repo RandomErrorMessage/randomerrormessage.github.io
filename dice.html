@@ -268,7 +268,8 @@
 		<div class="customPanel">
 			<input type="number" id="diceCount" min="1" value="2" step="1">
 			<input type="number" id="diceSides" min="2" value="8" step="1">
-			<button class="add-btn" id="addCustomBtn">➕ Add XdY</button>
+			<input type="number" id="diceMod" value="0" step="1">
+			<button class="add-btn" id="addCustomBtn">➕ Add XdY+Z</button>
 		</div>
 	</div>
 
@@ -1366,6 +1367,7 @@ GME_TONE=[
 			const addCustomBtn = document.getElementById('addCustomBtn');
 			const diceCountInput = document.getElementById('diceCount');
 			const diceSidesInput = document.getElementById('diceSides');
+			const diceModInput = document.getElementById('diceMod');
 			const dicePanel = document.getElementById('dicePanel');
 
 			function playSound() {
@@ -1467,11 +1469,11 @@ GME_TONE=[
 				const tail = str.slice(dIndex + 1);
 				const modIndex = Math.max(tail.indexOf('+'), tail.indexOf('-'));
 				if (modIndex === -1) {
-					return { x, y: parseInt(tail, 10), z: 0 };
+					return [ x, parseInt(tail, 10), 0 ];
 				} else {
 					const y = parseInt(tail, 10);
 					const z = parseInt(tail.slice(modIndex), 10);
-					return { x, y, z };
+					return [ x, y, z ];
 				}
 			}
 
@@ -1493,7 +1495,7 @@ GME_TONE=[
 					return;
 				}
 				const roll = parseDice(btn.dataset.roll);
-				performRoll(roll.x, roll.y, roll.z);
+				performRoll(roll[0], roll[1], roll[2]);
 			});
 
 			document.getElementById('oraclePanel').addEventListener('click', (e) => {
@@ -1543,13 +1545,18 @@ GME_TONE=[
 				}
 			});
 
-			function createCustomButton(x, y) {
+			function createCustomButton(x, y, z) {
 				const wrapper = document.createElement('div');
 				wrapper.className = 'custom-wrapper';
 
 				const rollBtn = document.createElement('button');
 				rollBtn.className = 'diceBtn';
-				const dieStr = `${x}d${y}`;
+				let dieStr = `${x}d${y}`;
+				if (z > 0) {
+					dieStr += '+' + z;
+				} else if (z < 0) {
+					dieStr += z;
+				}
 				rollBtn.textContent = dieStr;
 				rollBtn.dataset.roll = dieStr;
 
@@ -1569,13 +1576,16 @@ GME_TONE=[
 			addCustomBtn.addEventListener('click', () => {
 				let x = parseInt(diceCountInput.value, 10);
 				let y = parseInt(diceSidesInput.value, 10);
+				let z = parseInt(diceModInput.value, 10);
 
 				if (isNaN(x) || x < 1) x = 1;
 				if (isNaN(y) || y < 2) y = 6;
+				if (isNaN(z)) z = 0;
 				diceCountInput.value = x;
 				diceSidesInput.value = y;
+				diceModInput.value = z;
 
-				const customBtn = createCustomButton(x, y);
+				const customBtn = createCustomButton(x, y, z);
 				dicePanel.appendChild(customBtn);
 			});
 		})();
