@@ -234,11 +234,11 @@
 <body>
 	<div class="card">
 		<div id="tabPanel">
-			<button class="diceBtn active" data-target="btnPanel">Dice</button>
+			<button class="diceBtn active" data-target="dicePanel">Dice</button>
 			<button class="diceBtn" data-target="oraclePanel">Oracle</button>
 		</div>
-		<div class="panel active" id="btnPanel">
-<button class="diceBtn" id="roll1d6">⚀ 1d6</button><button class="diceBtn" id="roll2d6">⚁ 2d6</button><button class="diceBtn" id="roll3d6">⚂ 3d6</button><button class="diceBtn" id="roll4d6">⚃ 4d6</button><button class="diceBtn" id="roll1d3">🪨 1d3</button><button class="diceBtn" id="roll1d4">🔪 1d4</button><button class="diceBtn" id="roll1d6e">🗡️ 1d6</button><button class="diceBtn" id="roll1d8">🎱 1d8</button><button class="diceBtn" id="roll1d10">🔟 1d10</button><button class="diceBtn" id="roll1d12">🪓 1d12</button><button class="diceBtn" id="roll1d20">👑 1d20</button><button class="diceBtn" id="roll1d100">💯 1d100</button>
+		<div class="panel active" id="dicePanel">
+<button class="diceBtn" data-roll="1d6">⚀ 1d6</button><button class="diceBtn" data-roll="2d6">⚁ 2d6</button><button class="diceBtn" data-roll="3d6">⚂ 3d6</button><button class="diceBtn" data-roll="4d6">⚃ 4d6</button><button class="diceBtn" data-roll="1d3">🪨 1d3</button><button class="diceBtn" data-roll="1d4">🔪 1d4</button><button class="diceBtn" data-roll="1d6">🗡️ 1d6</button><button class="diceBtn" data-roll="1d8">🎱 1d8</button><button class="diceBtn" data-roll="1d10">🔟 1d10</button><button class="diceBtn" data-roll="1d12">🪓 1d12</button><button class="diceBtn" data-roll="1d20">👑 1d20</button><button class="diceBtn" data-roll="1d100">💯 1d100</button>
 		</div>
 		<div class="panel" id="oraclePanel">
 			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button>
@@ -1366,7 +1366,7 @@ GME_TONE=[
 			const addCustomBtn = document.getElementById('addCustomBtn');
 			const diceCountInput = document.getElementById('diceCount');
 			const diceSidesInput = document.getElementById('diceSides');
-			const btnPanel = document.getElementById('btnPanel');
+			const dicePanel = document.getElementById('dicePanel');
 
 			function playSound() {
 				try {
@@ -1446,11 +1446,11 @@ GME_TONE=[
 				addHistoryEntry(`${SEMIOTIC_STANDARD[die]} : ${SEMIOTIC_STANDARD_SUB[die]}`);
 				playSound();
 			}
-			function performGME(table) {
+			function performGME(table, name) {
 				const die = Math.floor(Math.random() * table.length)
-				totalDisplay.innerHTML = '';
 				display.innerHTML = table[die];
-				addHistoryEntry(table[die]);
+				totalDisplay.innerHTML = name;
+				addHistoryEntry(`${name}: ${table[die]}`);
 				playSound();
 			}
 			function performGME2(table1, table2) {
@@ -1461,59 +1461,47 @@ GME_TONE=[
 				addHistoryEntry(`${table1[die1]} : ${table2[die2]}`);
 				playSound();
 			}
-
-			document.getElementById('roll1d3').addEventListener('click', () => {
-				performRoll(1, 3);
-			});
-			document.getElementById('roll1d4').addEventListener('click', () => {
-				performRoll(1, 4);
-			});
-			document.getElementById('roll1d6').addEventListener('click', () => {
-				performRoll(1, 6);
-			});
-			document.getElementById('roll1d6e').addEventListener('click', () => {
-				performRoll(1, 6);
-			});
-			document.getElementById('roll2d6').addEventListener('click', () => {
-				performRoll(2, 6);
-			});
-			document.getElementById('roll3d6').addEventListener('click', () => {
-				performRoll(3, 6);
-			});
-			document.getElementById('roll4d6').addEventListener('click', () => {
-				performRoll(4, 6);
-			});
-			document.getElementById('roll1d8').addEventListener('click', () => {
-				performRoll(1, 8);
-			});
-			document.getElementById('roll1d10').addEventListener('click', () => {
-				performRoll(1, 10);
-			});
-			document.getElementById('roll1d12').addEventListener('click', () => {
-				performRoll(1, 12);
-			});
-			document.getElementById('roll1d20').addEventListener('click', () => {
-				performRoll(1, 20);
-			});
-			document.getElementById('roll1d100').addEventListener('click', () => {
-				performRoll(1, 100);
-			});
+			function parseDice(str) {
+				const dIndex = str.indexOf('d');
+				const x = parseInt(str, 10);
+				const tail = str.slice(dIndex + 1);
+				const modIndex = Math.max(tail.indexOf('+'), tail.indexOf('-'));
+				if (modIndex === -1) {
+					return { x, y: parseInt(tail, 10), z: 0 };
+				} else {
+					const y = parseInt(tail, 10);
+					const z = parseInt(tail.slice(modIndex), 10);
+					return { x, y, z };
+				}
+			}
 
 			document.getElementById('tabPanel').addEventListener('click', (e) => {
-				if (e.target.tagName === 'BUTTON') {
-					document.querySelectorAll('#tabPanel button, .panel').forEach(el => {
-						el.classList.remove('active');
-					});
-					e.target.classList.add('active');
-					document.getElementById(e.target.dataset.target).classList.add('active');
+				const btn = e.target.closest('button');
+				if (!btn) {
+					return;
 				}
+				document.querySelectorAll('#tabPanel button, .panel').forEach(el => {
+					el.classList.remove('active');
+				});
+				btn.classList.add('active');
+				document.getElementById(btn.dataset.target).classList.add('active');
+			});
+
+			document.getElementById('dicePanel').addEventListener('click', (e) => {
+				const btn = e.target.closest('button');
+				if (!btn || !btn.dataset.roll) {
+					return;
+				}
+				const roll = parseDice(btn.dataset.roll);
+				performRoll(roll.x, roll.y, roll.z);
 			});
 
 			document.getElementById('oraclePanel').addEventListener('click', (e) => {
-				if (e.target.tagName !== 'BUTTON') {
+				const btn = e.target.closest('button');
+				if (!btn) {
 					return;
 				}
-				switch (e.target.id) {
+				switch (btn.id) {
 					case 'rollTarot':
 						performTarot();
 						break;
@@ -1524,31 +1512,31 @@ GME_TONE=[
 						performSemiotic();
 						break;
 					case 'gmeAction1':
-						performGME(GME_ACTION1);
+						performGME(GME_ACTION1, 'Action 1');
 						break;
 					case 'gmeAction2':
-						performGME(GME_ACTION2);
+						performGME(GME_ACTION2, 'Action 2');
 						break;
 					case 'gmeChar':
-						performGME(GME_CHAR);
+						performGME(GME_CHAR, 'Character');
 						break;
 					case 'gmeCharAppearance':
-						performGME(GME_CHAR_APPEARANCE);
+						performGME(GME_CHAR_APPEARANCE, 'Character Appearance');
 						break;
 					case 'gmeDesc1':
-						performGME(GME_DESC1);
+						performGME(GME_DESC1, 'Description 1');
 						break;
 					case 'gmeDesc2':
-						performGME(GME_DESC2);
+						performGME(GME_DESC2, 'Description 2');
 						break;
 					case 'gmeLocation':
-						performGME(GME_LOCATION);
+						performGME(GME_LOCATION, 'Location');
 						break;
 					case 'gmeObject':
-						performGME(GME_OBJECT);
+						performGME(GME_OBJECT, 'Object');
 						break;
 					case 'gmeTone':
-						performGME(GME_TONE);
+						performGME(GME_TONE, 'Tone');
 						break;
 					default:
 						console.log(e);
@@ -1561,11 +1549,9 @@ GME_TONE=[
 
 				const rollBtn = document.createElement('button');
 				rollBtn.className = 'diceBtn';
-				rollBtn.textContent = `${x}d${y}`;
-
-				rollBtn.addEventListener('click', () => {
-					performRoll(x, y, `${x}d${y}`);
-				});
+				const dieStr = `${x}d${y}`;
+				rollBtn.textContent = dieStr;
+				rollBtn.dataset.roll = dieStr;
 
 				const removeBtn = document.createElement('button');
 				removeBtn.className = 'custom-remove';
@@ -1590,7 +1576,7 @@ GME_TONE=[
 				diceSidesInput.value = y;
 
 				const customBtn = createCustomButton(x, y);
-				btnPanel.appendChild(customBtn);
+				dicePanel.appendChild(customBtn);
 			});
 		})();
 	</script>
