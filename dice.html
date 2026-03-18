@@ -306,10 +306,10 @@
 <button class="diceBtn" data-roll="1d6">⚀ 1d6</button><button class="diceBtn" data-roll="2d6">⚁ 2d6</button><button class="diceBtn" data-roll="3d6">⚂ 3d6</button><button class="diceBtn" data-roll="4d6">⚃ 4d6</button><button class="diceBtn" data-roll="1d3">🪨 1d3</button><button class="diceBtn" data-roll="1d4">🔪 1d4</button><button class="diceBtn" data-roll="1d6">🗡️ 1d6</button><button class="diceBtn" data-roll="1d8">🎱 1d8</button><button class="diceBtn" data-roll="1d10">🔟 1d10</button><button class="diceBtn" data-roll="1d12">🪓 1d12</button><button class="diceBtn" data-roll="1d20">👑 1d20</button><button class="diceBtn" data-roll="1d100">💯 1d100</button>
 		</div>
 		<div class="panel" id="oraclePanel">
-			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChars">Chars</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button><button class="diceBtn" id="gmeCityDesc">CityDesc</button>
+			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="genEmoji">🙃 Emoji</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChars">Chars</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button><button class="diceBtn" id="gmeCityDesc">CityDesc</button>
 			<details>
 				<summary>Character</summary>
-				<button class="diceBtn" id="gmeCharAction">CharAction</button><button class="diceBtn" id="gmeCharAppearance">CharAppearance</button><button class="diceBtn" id="gmeCharBackground">CharBackground</button><button class="diceBtn" id="gmeCharConvo">CharConvo</button><button class="diceBtn" id="gmeCharDesc">CharDesc</button><button class="diceBtn" id="gmeCharID">CharID</button><button class="diceBtn" id="gmeCharMotivation">CharMotivation</button><button class="diceBtn" id="gmeCharPersonality">CharPersonality</button><button class="diceBtn" id="gmeCharSkill">CharSkill</button><button class="diceBtn" id="gmeCharTrait">CharTrait</button>
+				<button class="diceBtn" id="gmeCharAction">Action</button><button class="diceBtn" id="gmeCharAppearance">Appearance</button><button class="diceBtn" id="gmeCharBackground">Background</button><button class="diceBtn" id="gmeCharConvo">Convo</button><button class="diceBtn" id="gmeCharDesc">Desc</button><button class="diceBtn" id="gmeCharID">ID</button><button class="diceBtn" id="gmeCharMotivation">Motivation</button><button class="diceBtn" id="gmeCharPersonality">Personality</button><button class="diceBtn" id="gmeCharSkill">Skill</button><button class="diceBtn" id="gmeCharTrait">Trait</button>
 			</details>
 		</div>
 
@@ -2602,6 +2602,23 @@ GME_TONE=[
 				return wrapper;
 			}
 
+			function genEmoji() {
+				const ranges = [
+				[0x1F600, 0x1F64F], // Emoticons
+				[0x1F300, 0x1F5FF], // Misc Symbols and Pictographs
+				[0x1F680, 0x1F6FF], // Transport and Map
+				[0x1F900, 0x1F9FF] // Supplemental
+				];
+				const range = ranges[Math.floor(Math.random() * ranges.length)];
+				const min = range[0];
+				const max = range[1];
+				const codePoint = Math.floor(Math.random() * (max - min + 1)) + min;
+				const emoji = String.fromCodePoint(codePoint);
+				display.innerHTML = emoji;
+				totalDisplay.innerHTML = 'Emoji';
+				addHistoryEntry('Emoji: ' + emoji);
+			}
+
 			sndToggle.addEventListener('click', (e) => {
 				playSnd = e.target.checked;
 			});
@@ -2646,6 +2663,9 @@ GME_TONE=[
 						break;
 					case 'rollSemiotic':
 						performSemiotic();
+						break;
+					case 'genEmoji':
+						genEmoji();
 						break;
 					case 'gmeAction1':
 						performGME(GME_ACTION1, 'Action 1');
