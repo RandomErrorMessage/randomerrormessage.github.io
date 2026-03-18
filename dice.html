@@ -29,6 +29,13 @@
 			min-height: 100vh;
 		}
 
+		summary {
+			color: #fbeab3;
+			font-size: 1.5rem;
+			font-weight: 550;
+			text-shadow: 0 0 0.25rem #ffcf8a, 0.1rem 0.1rem 0 #5f492e;
+		}
+
 		.diceBtn {
 			background: #fcf5e6;
 			box-shadow: 0 5px 0 #6b5a48, 0 8px 15px -8px #1d3f47;
@@ -155,7 +162,7 @@
 			font-size: 2.5rem;
 			font-weight: 600;
 			color: #fbeab3;
-			text-shadow: 0 0 6px #ffcf8a, 1px 2px 0 #5f492e;
+			text-shadow: 0 0 0.25rem #ffcf8a, 0.1rem 0.1rem 0 #5f492e;
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: center;
@@ -299,7 +306,11 @@
 <button class="diceBtn" data-roll="1d6">⚀ 1d6</button><button class="diceBtn" data-roll="2d6">⚁ 2d6</button><button class="diceBtn" data-roll="3d6">⚂ 3d6</button><button class="diceBtn" data-roll="4d6">⚃ 4d6</button><button class="diceBtn" data-roll="1d3">🪨 1d3</button><button class="diceBtn" data-roll="1d4">🔪 1d4</button><button class="diceBtn" data-roll="1d6">🗡️ 1d6</button><button class="diceBtn" data-roll="1d8">🎱 1d8</button><button class="diceBtn" data-roll="1d10">🔟 1d10</button><button class="diceBtn" data-roll="1d12">🪓 1d12</button><button class="diceBtn" data-roll="1d20">👑 1d20</button><button class="diceBtn" data-roll="1d100">💯 1d100</button>
 		</div>
 		<div class="panel" id="oraclePanel">
-			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChars">Chars</button><button class="diceBtn" id="gmeCharAction">CharAction</button><button class="diceBtn" id="gmeCharAppearance">CharAppearance</button><button class="diceBtn" id="gmeCharBackground">CharBackground</button><button class="diceBtn" id="gmeCharConvo">CharConvo</button><button class="diceBtn" id="gmeCharDesc">CharDesc</button><button class="diceBtn" id="gmeCharID">CharID</button><button class="diceBtn" id="gmeCharMotivation">CharMotivation</button><button class="diceBtn" id="gmeCharPersonality">CharPersonality</button><button class="diceBtn" id="gmeCharSkill">CharSkill</button><button class="diceBtn" id="gmeCharTrait">CharTrait</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button>
+			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChars">Chars</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button>
+			<details>
+				<summary>Character</summary>
+				<button class="diceBtn" id="gmeCharAction">CharAction</button><button class="diceBtn" id="gmeCharAppearance">CharAppearance</button><button class="diceBtn" id="gmeCharBackground">CharBackground</button><button class="diceBtn" id="gmeCharConvo">CharConvo</button><button class="diceBtn" id="gmeCharDesc">CharDesc</button><button class="diceBtn" id="gmeCharID">CharID</button><button class="diceBtn" id="gmeCharMotivation">CharMotivation</button><button class="diceBtn" id="gmeCharPersonality">CharPersonality</button><button class="diceBtn" id="gmeCharSkill">CharSkill</button><button class="diceBtn" id="gmeCharTrait">CharTrait</button>
+			</details>
 		</div>
 
 		<div class="resultBox">
