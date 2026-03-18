@@ -2495,7 +2495,6 @@ GME_TONE=[
 				display.innerHTML = html;
 				const total = sum+mod;
 				let logStr = '';
-				console.log(name);
 				if (name) {
 					logStr = name + ' ';
 				}
@@ -2645,7 +2644,6 @@ GME_TONE=[
 					return;
 				}
 				const roll = parseDice(btn.dataset.roll);
-				console.log(btn);
 				performRoll(roll[0], roll[1], roll[2], btn.innerText);
 			});
 
