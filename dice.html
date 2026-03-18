@@ -34,7 +34,7 @@
 			box-shadow: 0 5px 0 #6b5a48, 0 8px 15px -8px #1d3f47;
 			font-size: 1.4rem;
 			font-weight: 600;
-			padding: 0.7rem 1rem;
+			padding: 0.7rem;
 			border-radius: 50px;
 			color: #2d2216;
 			cursor: pointer;
@@ -299,7 +299,7 @@
 <button class="diceBtn" data-roll="1d6">⚀ 1d6</button><button class="diceBtn" data-roll="2d6">⚁ 2d6</button><button class="diceBtn" data-roll="3d6">⚂ 3d6</button><button class="diceBtn" data-roll="4d6">⚃ 4d6</button><button class="diceBtn" data-roll="1d3">🪨 1d3</button><button class="diceBtn" data-roll="1d4">🔪 1d4</button><button class="diceBtn" data-roll="1d6">🗡️ 1d6</button><button class="diceBtn" data-roll="1d8">🎱 1d8</button><button class="diceBtn" data-roll="1d10">🔟 1d10</button><button class="diceBtn" data-roll="1d12">🪓 1d12</button><button class="diceBtn" data-roll="1d20">👑 1d20</button><button class="diceBtn" data-roll="1d100">💯 1d100</button>
 		</div>
 		<div class="panel" id="oraclePanel">
-			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChar">Char</button><button class="diceBtn" id="gmeCharAppearance">Appearance</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button>
+			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChar">Char</button><button class="diceBtn" id="gmeCharAction">CharAction</button><button class="diceBtn" id="gmeCharAppearance">CharAppearance</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button>
 		</div>
 
 		<div class="resultBox">
@@ -793,6 +793,108 @@ GME_CHAR=[
 'Weak',
 'Wild',
 'Young'
+];
+GME_CHAR_ACTION=[
+'Abandon',
+'Aggressive',
+'Amusing',
+'Anger',
+'Antagonize',
+'Anxious',
+'Assist',
+'Bestow',
+'Betray',
+'Bizarre',
+'Block',
+'Bold',
+'Break',
+'Calm',
+'Care',
+'Careful',
+'Careless',
+'Celebrate',
+'Change',
+'Combative',
+'Communicate',
+'Control',
+'Crazy',
+'Creepy',
+'Dangerous',
+'Deceive',
+'Decrease',
+'Defiant',
+'Delay',
+'Disrupt',
+'Dominate',
+'Efficient',
+'Energetic',
+'Excited',
+'Expose',
+'Fearful',
+'Feeble',
+'Fierce',
+'Fight',
+'Foolish',
+'Frantic',
+'Frightening',
+'Generous',
+'Gentle',
+'Harm',
+'Harsh',
+'Hasty',
+'Helpful',
+'Imitate',
+'Important',
+'Imprison',
+'Increase',
+'Inspect',
+'Intense',
+'Juvenile',
+'Kind',
+'Lazy',
+'Leadership',
+'Lethal',
+'Loud',
+'Loyal',
+'Mature',
+'Meaningful',
+'Messy',
+'Move',
+'Mundane',
+'Mysterious',
+'Nice',
+'Normal',
+'Odd',
+'Official',
+'Open',
+'Oppose',
+'Passion',
+'Peace',
+'Playful',
+'Pleasures',
+'Possessions',
+'Punish',
+'Pursue',
+'Release',
+'Return',
+'Simple',
+'Slow',
+'Start',
+'Stop',
+'Strange',
+'Struggle',
+'Swift',
+'Tactics',
+'Take',
+'Technology',
+'Threatening',
+'Trust',
+'Violent',
+'Waste',
+'Weapons',
+'Wild',
+'Work',
+'Yield'
 ];
 GME_CHAR_APPEARANCE = [
 'Abnormal',
@@ -1617,6 +1719,9 @@ GME_TONE=[
 						break;
 					case 'gmeChar':
 						performGME(GME_CHAR, 'Character');
+						break;
+					case 'gmeCharAction':
+						performGME(GME_CHAR_ACTION, 'Character Action');
 						break;
 					case 'gmeCharAppearance':
 						performGME(GME_CHAR_APPEARANCE, 'Character Appearance');
