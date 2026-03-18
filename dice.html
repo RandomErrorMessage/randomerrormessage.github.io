@@ -2335,7 +2335,6 @@ GME_TONE=[
 			const display = document.getElementById('diceDisplay');
 			const totalDisplay = document.getElementById('totalDisplay');
 			const historyList = document.getElementById('historyList');
-			const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 			const diceNameInput = document.getElementById('diceName');
 			const diceCountInput = document.getElementById('diceCount');
 			const diceSidesInput = document.getElementById('diceSides');
@@ -2494,6 +2493,10 @@ GME_TONE=[
 				playSnd = e.target.checked;
 			});
 
+			document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+				historyList.innerHTML = '';
+			});
+
 			document.getElementById('tabPanel').addEventListener('click', (e) => {
 				const btn = e.target.closest('button');
 				if (!btn) {
@@ -2506,7 +2509,7 @@ GME_TONE=[
 				document.getElementById(btn.dataset.target).classList.add('active');
 			});
 
-			document.getElementById('dicePanel').addEventListener('click', (e) => {
+			dicePanel.addEventListener('click', (e) => {
 				const btn = e.target.closest('button');
 				if (!btn || !btn.dataset.roll) {
 					return;
