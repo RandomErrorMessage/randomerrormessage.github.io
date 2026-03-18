@@ -25,6 +25,7 @@
 			padding: 0.5rem 0.5rem;
 			text-align: center;
 			max-width: min(calc(100vw - 1rem), 40rem);
+			min-width: min(calc(100vw - 1rem), 40rem);
 			min-height: 100vh;
 		}
 
@@ -221,12 +222,35 @@
 			font-size: 1.5rem;
 			padding: 0 0.25rem;
 		}
+
+		.panel { display: none; }
+		.panel.active { display: block; }
+		button.active {
+			background-color: #333;
+			color: white;
+		}
 	</style>
 </head>
 <body>
 	<div class="card">
-		<div id="btnPanel">
-<button class="diceBtn" id="roll1d6">⚀ 1d6</button><button class="diceBtn" id="roll2d6">⚁ 2d6</button><button class="diceBtn" id="roll3d6">⚂ 3d6</button><button class="diceBtn" id="roll4d6">⚃ 4d6</button><button class="diceBtn" id="roll1d3">🪨 1d3</button><button class="diceBtn" id="roll1d4">🔪 1d4</button><button class="diceBtn" id="roll1d6e">🗡️ 1d6</button><button class="diceBtn" id="roll1d8">🎱 1d8</button><button class="diceBtn" id="roll1d10">🔟 1d10</button><button class="diceBtn" id="roll1d12">🪓 1d12</button><button class="diceBtn" id="roll1d20">👑 1d20</button><button class="diceBtn" id="roll1d100">💯 1d100</button><button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button>
+		<div id="tabPanel">
+			<button class="diceBtn active" data-target="btnPanel">Dice</button>
+			<button class="diceBtn" data-target="oraclePanel">Oracle</button>
+		</div>
+		<div class="panel active" id="btnPanel">
+<button class="diceBtn" id="roll1d6">⚀ 1d6</button><button class="diceBtn" id="roll2d6">⚁ 2d6</button><button class="diceBtn" id="roll3d6">⚂ 3d6</button><button class="diceBtn" id="roll4d6">⚃ 4d6</button><button class="diceBtn" id="roll1d3">🪨 1d3</button><button class="diceBtn" id="roll1d4">🔪 1d4</button><button class="diceBtn" id="roll1d6e">🗡️ 1d6</button><button class="diceBtn" id="roll1d8">🎱 1d8</button><button class="diceBtn" id="roll1d10">🔟 1d10</button><button class="diceBtn" id="roll1d12">🪓 1d12</button><button class="diceBtn" id="roll1d20">👑 1d20</button><button class="diceBtn" id="roll1d100">💯 1d100</button>
+		</div>
+		<div class="panel" id="oraclePanel">
+			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button>
+			<button class="diceBtn" id="gmeAction1">Action1</button>
+			<button class="diceBtn" id="gmeAction2">Action2</button>
+			<button class="diceBtn" id="gmeChar">Char</button>
+			<button class="diceBtn" id="gmeCharAppearance">Appearance</button>
+			<button class="diceBtn" id="gmeDesc1">Desc1</button>
+			<button class="diceBtn" id="gmeDesc2">Desc2</button>
+			<button class="diceBtn" id="gmeLocation">Location</button>
+			<button class="diceBtn" id="gmeObject">Object</button>
+			<button class="diceBtn" id="gmeTone">Tone</button>
 		</div>
 
 		<div class="resultBox">
@@ -250,16 +274,16 @@
 
 	<script>
 		(function() {
-			const ORACLE_TABLE = ["No, and...", "No.", "No, but...", "Yes, but...", "Yes.", "Yes, and..."]
-			const ORACLE_TABLE_SUB = [
+const ORACLE_TABLE = ["No, and...", "No.", "No, but...", "Yes, but...", "Yes.", "Yes, and..."];
+const ORACLE_TABLE_SUB = [
 ["Void", "Treason", "Chaos", "Pain", "Corruption", "Oppression"],
 ["Suspicion", "Regression", "Collision", "Desire", "Vengeance", "Occult"],
 ["Survival", "Sacrifice", "Conflict", "Control", "Electricity", "Subversion"],
 ["Nurturing", "Light", "Noise", "Healing", "Velocity", "Freedom"],
 ["Compromise", "Prophecy", "Guidance", "Growth", "Evolution", "Nature"],
 ["Balance", "Wealth", "Change", "Order", "Truth", "Time"]
-]
-			const TAROT_TABLE = [
+];
+const TAROT_TABLE = [
 "The Fool",
 "The Magician",
 "The High Priestess",
@@ -282,9 +306,9 @@
 "The Sun",
 "Judgement",
 "The Universe"
-]
-			const TAROT_ORIENTATION = ["Upright", "Reversed"]
-			const TAROT_MEANING = [
+];
+const TAROT_ORIENTATION=["Upright", "Reversed"];
+const TAROT_MEANING=[
 ["Innocence, new beginnings, free spirit", "Recklessness, naivety, foolishness"],
 ["Manifestation, resourcefulness, power, willpower, skill", "Trickery, poor planning, untapped talents, illusion"],
 ["Willpower, desire, creation, manifestation", "Trickery, illusions, out of touch"],
@@ -307,8 +331,8 @@
 ["Positivity, warmth, success, vitality, joy", "Fatigue, anhedonia, ego, burnout"],
 ["Judgement, rebirth, inner calling, absolution, self-evaluation, awakening", "Self-doubt, lack of self-awareness, self-loathing"],
 ["Completion, integration, accomplishment, travel, wholeness, fulfillment", "Incompletion, lack of closure, emptiness, shortcuts, delays"]
-]
-			const SEMIOTIC_STANDARD = [
+];
+const SEMIOTIC_STANDARD=[
 "Flooding Water",
 "Magnet",
 "Intercom",
@@ -359,8 +383,8 @@
 "Adverse Weather",
 "Ultraviolet",
 "Infrared"
-]
-				SEMIOTIC_STANDARD_SUB = [
+];
+SEMIOTIC_STANDARD_SUB=[
 "Water/Weakness",
 "Attraction/Bond",
 "Volume/Distance",
@@ -413,6 +437,925 @@
 "Obscurity/Color"
 ]
 
+GME_ACTION1=[
+'Abandon',
+'Accompany',
+'Activate',
+'Agree',
+'Ambush',
+'Arrive',
+'Assist',
+'Attack',
+'Attain',
+'Bargain',
+'Befriend',
+'Bestow',
+'Betray',
+'Block',
+'Break',
+'Carry',
+'Celebrate',
+'Change',
+'Close',
+'Combine',
+'Communicate',
+'Conceal',
+'Continue',
+'Control',
+'Create',
+'Deceive',
+'Decrease',
+'Defend',
+'Delay',
+'Deny',
+'Depart',
+'Deposit',
+'Destroy',
+'Dispute',
+'Disrupt',
+'Distrust',
+'Divide',
+'Drop',
+'Easy',
+'Energize',
+'Escape',
+'Expose',
+'Fail',
+'Fight',
+'Flee',
+'Free',
+'Guide',
+'Harm',
+'Heal',
+'Hinder',
+'Imitate',
+'Imprison',
+'Increase',
+'Indulge',
+'Inform',
+'Inquire',
+'Inspect',
+'Invade',
+'Leave',
+'Lure',
+'Misuse',
+'Move',
+'Neglect',
+'Observe',
+'Open',
+'Oppose',
+'Overthrow',
+'Praise',
+'Proceed',
+'Protect',
+'Punish',
+'Pursue',
+'Recruit',
+'Refuse',
+'Release',
+'Relinquish',
+'Repair',
+'Repulse',
+'Return',
+'Reward',
+'Ruin',
+'Separate',
+'Start',
+'Stop',
+'Strange',
+'Struggle',
+'Succeed',
+'Support',
+'Suppress',
+'Take',
+'Threaten',
+'Transform',
+'Trap',
+'Travel',
+'Triumph',
+'Truce',
+'Trust',
+'Use',
+'Usurp',
+'Waste'
+];
+GME_ACTION2=[
+'Advantage',
+'Adversity',
+'Agreement',
+'Animal',
+'Attention',
+'Balance',
+'Battle',
+'Benefits',
+'Building',
+'Burden',
+'Bureaucracy',
+'Business',
+'Chaos',
+'Comfort',
+'Completion',
+'Conflict',
+'Cooperation',
+'Danger',
+'Defense',
+'Depletion',
+'Disadvantage',
+'Distraction',
+'Elements',
+'Emotion',
+'Enemy',
+'Energy',
+'Environment',
+'Expectation',
+'Exterior',
+'Extravagance',
+'Failure',
+'Fame',
+'Fear',
+'Freedom',
+'Friend',
+'Goal',
+'Group',
+'Health',
+'Hindrance',
+'Home',
+'Hope',
+'Idea',
+'Illness',
+'Illusion',
+'Individual',
+'Information',
+'Innocent',
+'Intellect',
+'Interior',
+'Investment',
+'Leadership',
+'Legal',
+'Location',
+'Military',
+'Misfortune',
+'Mundane',
+'Nature',
+'Needs',
+'News',
+'Normal',
+'Object',
+'Obscurity',
+'Official',
+'Opposition',
+'Outside',
+'Pain',
+'Path',
+'Peace',
+'People',
+'Personal',
+'Physical',
+'Plot',
+'Portal',
+'Possessions',
+'Poverty',
+'Power',
+'Prison',
+'Project',
+'Protection',
+'Reassurance',
+'Representative',
+'Riches',
+'Safety',
+'Strength',
+'Success',
+'Suffering',
+'Surprise',
+'Tactic',
+'Technology',
+'Tension',
+'Time',
+'Trial',
+'Value',
+'Vehicle',
+'Victory',
+'Vulnerability',
+'Weapon',
+'Weather',
+'Work',
+'Wound',
+];
+GME_CHAR=[
+'Accompanied',
+'Active',
+'Aggressive',
+'Ambush',
+'Animal',
+'Anxious',
+'Armed',
+'Beautiful',
+'Bold',
+'Busy',
+'Calm',
+'Careless',
+'Casual',
+'Cautious',
+'Classy',
+'Colorful',
+'Combative',
+'Crazy',
+'Creepy',
+'Curious',
+'Dangerous',
+'Deceitful',
+'Defeated',
+'Defiant',
+'Delightful',
+'Emotional',
+'Energetic',
+'Equipped',
+'Excited',
+'Expected',
+'Familiar',
+'Fast',
+'Feeble',
+'Feminine',
+'Ferocious',
+'Foe',
+'Foolish',
+'Fortunate',
+'Fragrant',
+'Frantic',
+'Friend',
+'Frightened',
+'Frightening',
+'Generous',
+'Glad',
+'Happy',
+'Harmful',
+'Helpful',
+'Helpless',
+'Hurt',
+'Important',
+'Inactive',
+'Influential',
+'Innocent',
+'Intense',
+'Knowledgeable',
+'Large',
+'Lonely',
+'Loud',
+'Loyal',
+'Masculine',
+'Mighty',
+'Miserable',
+'Multiple',
+'Mundane',
+'Mysterious',
+'Natural',
+'Odd',
+'Official',
+'Old',
+'Passive',
+'Peaceful',
+'Playful',
+'Powerful',
+'Professional',
+'Protected',
+'Protecting',
+'Questioning',
+'Quiet',
+'Reassuring',
+'Resourceful',
+'Seeking',
+'Skilled',
+'Slow',
+'Small',
+'Stealthy',
+'Strange',
+'Strong',
+'Tall',
+'Thieving',
+'Threatening',
+'Triumphant',
+'Unexpected',
+'Unnatural',
+'Unusual',
+'Violent',
+'Vocal',
+'Weak',
+'Wild',
+'Young'
+];
+GME_CHAR_APPEARANCE = [
+'Abnormal',
+'Armed',
+'Aromatic',
+'Athletic',
+'Attractive',
+'Average',
+'Bald',
+'Beautiful',
+'Bizarre',
+'Brutish',
+'Casual',
+'Classy',
+'Clean',
+'Clothing',
+'Colorful',
+'Common',
+'Cool',
+'Creepy',
+'Cute',
+'Dainty',
+'Delicate',
+'Desperate',
+'Different',
+'Dirty',
+'Drab',
+'Elegant',
+'Equipment',
+'Exotic',
+'Expensive',
+'Extravagant',
+'Eyewear',
+'Familiar',
+'Fancy',
+'Features',
+'Feminine',
+'Festive',
+'Frail',
+'Hair',
+'Hairy',
+'Headwear',
+'Heavy',
+'Hurt',
+'Innocent',
+'Insignia',
+'Intense',
+'Interesting',
+'Intimidating',
+'Jewelry',
+'Large',
+'Lavish',
+'Lean',
+'Limbs',
+'Lithe',
+'Masculine',
+'Mature',
+'Messy',
+'Mighty',
+'Modern',
+'Mundane',
+'Muscular',
+'Mysterious',
+'Natural',
+'Neat',
+'Normal',
+'Odd',
+'Official',
+'Old',
+'Petite',
+'Piercing',
+'Powerful',
+'Professional',
+'Reassuring',
+'Regal',
+'Remarkable',
+'Rough',
+'Rustic',
+'Scar',
+'Scary',
+'Scented',
+'Scholarly',
+'Short',
+'Simple',
+'Sinister',
+'Small',
+'Smelly',
+'Stocky',
+'Strange',
+'Striking',
+'Strong',
+'Stylish',
+'Tall',
+'Tattoo',
+'Tools',
+'Trendy',
+'Unusual',
+'Very',
+'Weak',
+'Weapon',
+'Wounded',
+'Young'
+];
+GME_DESC1 = [
+'Adventurously',
+'Aggressively',
+'Anxiously',
+'Awkwardly',
+'Beautifully',
+'Bleakly',
+'Boldly',
+'Bravely',
+'Busily',
+'Calmly',
+'Carefully',
+'Carelessly',
+'Cautiously',
+'Ceaselessly',
+'Cheerfully',
+'Combatively',
+'Coolly',
+'Crazily',
+'Curiously',
+'Dangerously',
+'Defiantly',
+'Deliberately',
+'Delicately',
+'Delightfully',
+'Dimly',
+'Efficiently',
+'Emotionally',
+'Energetically',
+'Enormously',
+'Enthusiastically',
+'Excitedly',
+'Fearfully',
+'Ferociously',
+'Fiercely',
+'Foolishly',
+'Fortunately',
+'Frantically',
+'Freely',
+'Frighteningly',
+'Fully',
+'Generously',
+'Gently',
+'Gladly',
+'Gracefully',
+'Gratefully',
+'Happily',
+'Hastily',
+'Healthily',
+'Helpfully',
+'Helplessly',
+'Hopelessly',
+'Innocently',
+'Intensely',
+'Interestingly',
+'Irritatingly',
+'Joyfully',
+'Kindly',
+'Lazily',
+'Lightly',
+'Loosely',
+'Loudly',
+'Lovingly',
+'Loyally',
+'Majestically',
+'Meaningfully',
+'Mechanically',
+'Mildly',
+'Miserably',
+'Mockingly',
+'Mysteriously',
+'Naturally',
+'Neatly',
+'Nicely',
+'Oddly',
+'Offensively',
+'Officially',
+'Partially',
+'Passively',
+'Peacefully',
+'Perfectly',
+'Playfully',
+'Politely',
+'Positively',
+'Powerfully',
+'Quaintly',
+'Quarrelsomely',
+'Quietly',
+'Roughly',
+'Rudely',
+'Ruthlessly',
+'Slowly',
+'Softly',
+'Strangely',
+'Swiftly',
+'Threateningly',
+'Timidly',
+'Very',
+'Violently',
+'Wildly',
+'Yieldingly'
+];
+GME_DESC2 = [
+'Abnormal',
+'Amusing',
+'Artificial',
+'Average',
+'Beautiful',
+'Bizarre',
+'Boring',
+'Bright',
+'Broken',
+'Clean',
+'Cold',
+'Colorful',
+'Colorless',
+'Comforting',
+'Creepy',
+'Cute',
+'Damaged',
+'Dark',
+'Defeated',
+'Dirty',
+'Disagreeable',
+'Dry',
+'Dull',
+'Empty',
+'Enormous',
+'Extraordinary',
+'Extravagant',
+'Faded',
+'Familiar',
+'Fancy',
+'Feeble',
+'Festive',
+'Flawless',
+'Forlorn',
+'Fragile',
+'Fragrant',
+'Fresh',
+'Full',
+'Glorious',
+'Graceful',
+'Hard',
+'Harsh',
+'Healthy',
+'Heavy',
+'Historical',
+'Horrible',
+'Important',
+'Interesting',
+'Juvenile',
+'Lacking',
+'Large',
+'Lavish',
+'Lean',
+'Less',
+'Lethal',
+'Lively',
+'Lonely',
+'Lovely',
+'Magnificent',
+'Mature',
+'Messy',
+'Mighty',
+'Military',
+'Modern',
+'Mundane',
+'Mysterious',
+'Natural',
+'Normal',
+'Odd',
+'Old',
+'Pale',
+'Peaceful',
+'Petite',
+'Plain',
+'Poor',
+'Powerful',
+'Protective',
+'Quaint',
+'Rare',
+'Reassuring',
+'Remarkable',
+'Rotten',
+'Rough',
+'Ruined',
+'Rustic',
+'Scary',
+'Shocking',
+'Simple',
+'Small',
+'Smooth',
+'Soft',
+'Strong',
+'Stylish',
+'Unpleasant',
+'Valuable',
+'Vibrant',
+'Warm',
+'Watery',
+'Weak',
+'Young'
+];
+GME_LOCATION = [
+'Abandoned',
+'Active',
+'Artistic',
+'Atmosphere',
+'Beautiful',
+'Bleak',
+'Bright',
+'Business',
+'Calm',
+'Charming',
+'Clean',
+'Cluttered',
+'Cold',
+'Colorful',
+'Colorless',
+'Confusing',
+'Cramped',
+'Creepy',
+'Crude',
+'Cute',
+'Damaged',
+'Dangerous',
+'Dark',
+'Delightful',
+'Dirty',
+'Domestic',
+'Empty',
+'Enclosed',
+'Enormous',
+'Entrance',
+'Exclusive',
+'Exposed',
+'Extravagant',
+'Familiar',
+'Fancy',
+'Festive',
+'Foreboding',
+'Fortunate',
+'Fragrant',
+'Frantic',
+'Frightening',
+'Full',
+'Harmful',
+'Helpful',
+'Horrible',
+'Important',
+'Impressive',
+'Inactive',
+'Intense',
+'Intriguing',
+'Lively',
+'Lonely',
+'Long',
+'Loud',
+'Meaningful',
+'Messy',
+'Mobile',
+'Modern',
+'Mundane',
+'Mysterious',
+'Natural',
+'New',
+'Occupied',
+'Odd',
+'Official',
+'Old',
+'Open',
+'Peaceful',
+'Personal',
+'Plain',
+'Portal',
+'Protected',
+'Protection',
+'Purposeful',
+'Quiet',
+'Reassuring',
+'Remote',
+'Resourceful',
+'Ruined',
+'Rustic',
+'Safe',
+'Services',
+'Simple',
+'Small',
+'Spacious',
+'Storage',
+'Strange',
+'Stylish',
+'Suspicious',
+'Tall',
+'Threatening',
+'Tranquil',
+'Unexpected',
+'Unpleasant',
+'Unusual',
+'Useful',
+'Warm',
+'Warning',
+'Watery',
+'Welcoming'
+];
+GME_OBJECT = [
+'Active',
+'Artistic',
+'Average',
+'Beautiful',
+'Bizarre',
+'Bright',
+'Clothing',
+'Clue',
+'Cold',
+'Colorful',
+'Communication',
+'Complicated',
+'Confusing',
+'Consumable',
+'Container',
+'Creepy',
+'Crude',
+'Cute',
+'Damaged',
+'Dangerous',
+'Deactivated',
+'Deliberate',
+'Delightful',
+'Desired',
+'Domestic',
+'Empty',
+'Energy',
+'Enormous',
+'Equipment',
+'Expected',
+'Expended',
+'Extravagant',
+'Faded',
+'Familiar',
+'Fancy',
+'Flora',
+'Fortunate',
+'Fragile',
+'Fragrant',
+'Frightening',
+'Garbage',
+'Guidance',
+'Hard',
+'Harmful',
+'Healing',
+'Heavy',
+'Helpful',
+'Horrible',
+'Important',
+'Inactive',
+'Information',
+'Intriguing',
+'Large',
+'Lethal',
+'Light',
+'Liquid',
+'Loud',
+'Majestic',
+'Meaningful',
+'Mechanical',
+'Modern',
+'Moving',
+'Multiple',
+'Mundane',
+'Mysterious',
+'Natural',
+'New',
+'Odd',
+'Official',
+'Old',
+'Ornamental',
+'Ornate',
+'Personal',
+'Powerful',
+'Prized',
+'Protection',
+'Rare',
+'Ready',
+'Reassuring',
+'Resource',
+'Ruined',
+'Small',
+'Soft',
+'Solitary',
+'Stolen',
+'Strange',
+'Stylish',
+'Threatening',
+'Tool',
+'Travel',
+'Unexpected',
+'Unpleasant',
+'Unusual',
+'Useful',
+'Useless',
+'Valuable',
+'Warm',
+'Weapon',
+'Wet',
+'Worn'
+];
+GME_TONE=[
+'Action',
+'Activity',
+'Adventurous',
+'Adversity',
+'Aggressive',
+'Amusing',
+'Anxious',
+'Attainment',
+'Average',
+'Bizarre',
+'Bleak',
+'Bold',
+'Busy',
+'Calm',
+'Cheerful',
+'Colorful',
+'Combative',
+'Competitive',
+'Conflict',
+'Crazy',
+'Creepy',
+'Dangerous',
+'Dark',
+'Emotional',
+'Energetic',
+'Epic',
+'Evil',
+'Exterior',
+'Failure',
+'Fame',
+'Familiar',
+'Fearful',
+'Festive',
+'Fierce',
+'Fortunate',
+'Frantic',
+'Fresh',
+'Frightening',
+'Glorious',
+'Goals',
+'Hard',
+'Harsh',
+'Heavy',
+'Historical',
+'Hopeful',
+'Horrible',
+'Horror',
+'Important',
+'Inquire',
+'Inspect',
+'Intellect',
+'Intense',
+'Interesting',
+'Intrigue',
+'Lavish',
+'Legal',
+'Lethal',
+'Light',
+'Macabre',
+'Magnificent',
+'Majestic',
+'Mature',
+'Meaningful',
+'Mechanical',
+'Messy',
+'Military',
+'Misfortune',
+'Mistrust',
+'Modern',
+'Mundane',
+'Mystery',
+'Natural',
+'Normal',
+'Odd',
+'Personal',
+'Physical',
+'Power',
+'Pursuit',
+'Quaint',
+'Random',
+'Rare',
+'Reassuring',
+'Remarkable',
+'Rough',
+'Rustic',
+'Scary',
+'Simple',
+'Slow',
+'Social',
+'Strange',
+'Strong',
+'Struggle',
+'Tension',
+'Travel',
+'Trials',
+'Vengeance',
+'Very',
+'Violent',
+'Warlike',
+'Wild'
+];
+
 			const masterAudio = new Audio('data_dice/dice.mp3');
 			masterAudio.preload = 'auto';
 
@@ -448,7 +1391,7 @@
 				historyList.scrollTop = 0;
 			}
 
-			function performRoll(count, sides, description) {
+			function performRoll(count, sides, mod=0) {
 				let sum = 0;
 				let html = '';
 				let resultStr = '';
@@ -459,9 +1402,19 @@
 					resultStr += `${roll}, `;
 				}
 				display.innerHTML = html;
-				totalDisplay.innerHTML = `Total: ${sum}`;
-				const entryText = `${description} : [${resultStr.slice(0, -2)}]  (sum ${sum})`;
-				addHistoryEntry(entryText)
+				const total = sum+mod;
+				let logStr = `${count}d${sides}: ${sum} `;
+				if (mod === 0) {
+					totalDisplay.innerHTML = `Total: ${total}`;
+				} else if (mod > 0) {
+					logStr += `+${mod} = ${total}`;
+					totalDisplay.innerHTML = `Total: ${sum} +${mod} = ${total}`;
+				} else {
+					logStr += `${mod} = ${total}`;
+					totalDisplay.innerHTML = `Total: ${sum} ${mod} = ${total}`;
+				}
+				logStr += ` : [${resultStr.slice(0, -2)}]`;
+				addHistoryEntry(logStr)
 				playSound();
 			}
 
@@ -490,55 +1443,116 @@
 				const die = Math.floor(Math.random() * SEMIOTIC_STANDARD.length)
 				display.innerHTML = SEMIOTIC_STANDARD[die];
 				totalDisplay.innerHTML = SEMIOTIC_STANDARD_SUB[die];
-				const log = `${SEMIOTIC_STANDARD[die]} : ${SEMIOTIC_STANDARD_SUB[die]}`;
-				addHistoryEntry(log);
+				addHistoryEntry(`${SEMIOTIC_STANDARD[die]} : ${SEMIOTIC_STANDARD_SUB[die]}`);
+				playSound();
+			}
+			function performGME(table) {
+				const die = Math.floor(Math.random() * table.length)
+				totalDisplay.innerHTML = '';
+				display.innerHTML = table[die];
+				addHistoryEntry(table[die]);
+				playSound();
+			}
+			function performGME2(table1, table2) {
+				const die1 = Math.floor(Math.random() * table1.length)
+				const die2 = Math.floor(Math.random() * table2.length)
+				display.innerHTML = table1[die1];
+				totalDisplay.innerHTML = table2[die2];
+				addHistoryEntry(`${table1[die1]} : ${table2[die2]}`);
 				playSound();
 			}
 
 			document.getElementById('roll1d3').addEventListener('click', () => {
-				performRoll(1, 3, '1d3');
+				performRoll(1, 3);
 			});
 			document.getElementById('roll1d4').addEventListener('click', () => {
-				performRoll(1, 4, '1d4');
+				performRoll(1, 4);
 			});
 			document.getElementById('roll1d6').addEventListener('click', () => {
-				performRoll(1, 6, '1d6');
+				performRoll(1, 6);
 			});
 			document.getElementById('roll1d6e').addEventListener('click', () => {
-				performRoll(1, 6, '1d6');
+				performRoll(1, 6);
 			});
 			document.getElementById('roll2d6').addEventListener('click', () => {
-				performRoll(2, 6, '2d6');
+				performRoll(2, 6);
 			});
 			document.getElementById('roll3d6').addEventListener('click', () => {
-				performRoll(3, 6, '3d6');
+				performRoll(3, 6);
 			});
 			document.getElementById('roll4d6').addEventListener('click', () => {
-				performRoll(4, 6, '4d6');
+				performRoll(4, 6);
 			});
 			document.getElementById('roll1d8').addEventListener('click', () => {
-				performRoll(1, 8, '1d8');
+				performRoll(1, 8);
 			});
 			document.getElementById('roll1d10').addEventListener('click', () => {
-				performRoll(1, 10, '1d10');
+				performRoll(1, 10);
 			});
 			document.getElementById('roll1d12').addEventListener('click', () => {
-				performRoll(1, 12, '1d12');
+				performRoll(1, 12);
 			});
 			document.getElementById('roll1d20').addEventListener('click', () => {
-				performRoll(1, 20, '1d20');
+				performRoll(1, 20);
 			});
 			document.getElementById('roll1d100').addEventListener('click', () => {
-				performRoll(1, 100, '1d100');
+				performRoll(1, 100);
 			});
-			document.getElementById('rollOracle').addEventListener('click', () => {
-				performOracle();
+
+			document.getElementById('tabPanel').addEventListener('click', (e) => {
+				if (e.target.tagName === 'BUTTON') {
+					document.querySelectorAll('#tabPanel button, .panel').forEach(el => {
+						el.classList.remove('active');
+					});
+					e.target.classList.add('active');
+					document.getElementById(e.target.dataset.target).classList.add('active');
+				}
 			});
-			document.getElementById('rollTarot').addEventListener('click', () => {
-				performTarot();
-			});
-			document.getElementById('rollSemiotic').addEventListener('click', () => {
-				performSemiotic();
+
+			document.getElementById('oraclePanel').addEventListener('click', (e) => {
+				if (e.target.tagName !== 'BUTTON') {
+					return;
+				}
+				switch (e.target.id) {
+					case 'rollTarot':
+						performTarot();
+						break;
+					case 'rollOracle':
+						performOracle();
+						break;
+					case 'rollSemiotic':
+						performSemiotic();
+						break;
+					case 'gmeAction1':
+						performGME(GME_ACTION1);
+						break;
+					case 'gmeAction2':
+						performGME(GME_ACTION2);
+						break;
+					case 'gmeChar':
+						performGME(GME_CHAR);
+						break;
+					case 'gmeCharAppearance':
+						performGME(GME_CHAR_APPEARANCE);
+						break;
+					case 'gmeDesc1':
+						performGME(GME_DESC1);
+						break;
+					case 'gmeDesc2':
+						performGME(GME_DESC2);
+						break;
+					case 'gmeLocation':
+						performGME(GME_LOCATION);
+						break;
+					case 'gmeObject':
+						performGME(GME_OBJECT);
+						break;
+					case 'gmeTone':
+						performGME(GME_TONE);
+						break;
+					default:
+						console.log(e);
+				}
 			});
 
 			function createCustomButton(x, y) {
@@ -548,7 +1562,6 @@
 				const rollBtn = document.createElement('button');
 				rollBtn.className = 'diceBtn';
 				rollBtn.textContent = `${x}d${y}`;
-				rollBtn.setAttribute('aria-label', `roll ${x}d${y}`);
 
 				rollBtn.addEventListener('click', () => {
 					performRoll(x, y, `${x}d${y}`);
@@ -557,7 +1570,6 @@
 				const removeBtn = document.createElement('button');
 				removeBtn.className = 'custom-remove';
 				removeBtn.innerHTML = '✕';
-				removeBtn.setAttribute('aria-label', `remove ${x}d${y}`);
 
 				removeBtn.addEventListener('click', () => {
 					wrapper.remove();
