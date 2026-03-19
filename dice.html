@@ -309,7 +309,7 @@
 			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="genEmoji">🙃 Emoji</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChars">Chars</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button><button class="diceBtn" id="gmeCityDesc">CityDesc</button>
 			<details>
 				<summary>Character</summary>
-				<button class="diceBtn" id="gmeCharAction">Action</button><button class="diceBtn" id="gmeCharAppearance">Appearance</button><button class="diceBtn" id="gmeCharBackground">Background</button><button class="diceBtn" id="gmeCharConvo">Convo</button><button class="diceBtn" id="gmeCharDesc">Desc</button><button class="diceBtn" id="gmeCharID">ID</button><button class="diceBtn" id="gmeCharMotivation">Motivation</button><button class="diceBtn" id="gmeCharPersonality">Personality</button><button class="diceBtn" id="gmeCharSkill">Skill</button><button class="diceBtn" id="gmeCharTrait">Trait</button>
+				<button class="diceBtn" id="gmeCharAction">Action</button><button class="diceBtn" id="gmeCharAppearance">Appearance</button><button class="diceBtn" id="gmeCharBackground">Background</button><button class="diceBtn" id="gmeCharCombat">Combat</button><button class="diceBtn" id="gmeCharConvo">Convo</button><button class="diceBtn" id="gmeCharDesc">Desc</button><button class="diceBtn" id="gmeCharID">ID</button><button class="diceBtn" id="gmeCharMotivation">Motivation</button><button class="diceBtn" id="gmeCharPersonality">Personality</button><button class="diceBtn" id="gmeCharSkill">Skill</button><button class="diceBtn" id="gmeCharTrait">Trait</button>
 			</details>
 		</div>
 
@@ -1115,6 +1115,107 @@ GME_CHAR_BACKGROUND=[
 'Wild',
 'Youth'
 ];
+GME_CHAR_COMBAT=[
+'Abandon',
+'Abuse',
+'Aggressive',
+'Agree',
+'Ally',
+'Ambush',
+'Amuse',
+'Anger',
+'Antagonize',
+'Anxious',
+'Assist',
+'Attack',
+'Betray',
+'Block',
+'Bold',
+'Brave',
+'Break',
+'Calm',
+'Careless',
+'Carry',
+'Cautious',
+'Celebrate',
+'Change',
+'Charge',
+'Communicate',
+'Compete',
+'Control',
+'Crazy',
+'Cruel',
+'Damage',
+'Deceive',
+'Defend',
+'Defiant',
+'Delay',
+'Disrupt',
+'Divide',
+'Dominate',
+'Energetic',
+'Enthusiastic',
+'Expectation',
+'Fearful',
+'Ferocious',
+'Fierce',
+'Fight',
+'Flee',
+'Frantic',
+'Free',
+'Frightening',
+'Harm',
+'Harsh',
+'Hasty',
+'Hide',
+'Imitate',
+'Imprison',
+'Kill',
+'Lead',
+'Lethal',
+'Liberty',
+'Lie',
+'Loud',
+'Loyal',
+'Magic',
+'Mechanical',
+'Mighty',
+'Military',
+'Mock',
+'Move',
+'Mysterious',
+'Normal',
+'Odd',
+'Open',
+'Oppose',
+'Pain',
+'Path',
+'Prepare',
+'Punish',
+'Pursue',
+'Rough',
+'Rude',
+'Ruin',
+'Ruthless',
+'Simple',
+'Slow',
+'Spy',
+'Stop',
+'Strange',
+'Struggle',
+'Suppress',
+'Swift',
+'Take',
+'Technology',
+'Threaten',
+'Trick',
+'Truce',
+'Usurp',
+'Vehicle',
+'Vengeance',
+'Waste',
+'Weapon',
+'Withdraw'];
 GME_CHAR_CONVERSATION=[
 'Abuse',
 'Advice',
@@ -2603,10 +2704,10 @@ GME_TONE=[
 
 			function genEmoji() {
 				const ranges = [
-				[0x1F600, 0x1F64F], // Emoticons
-				[0x1F300, 0x1F5FF], // Misc Symbols and Pictographs
-				[0x1F680, 0x1F6FF], // Transport and Map
-				[0x1F900, 0x1F9FF] // Supplemental
+				[0x1F600, 0x1F64F],
+				[0x1F300, 0x1F5FF],
+				[0x1F680, 0x1F6FF],
+				[0x1F900, 0x1F9FF]
 				];
 				const range = ranges[Math.floor(Math.random() * ranges.length)];
 				const min = range[0];
@@ -2616,6 +2717,7 @@ GME_TONE=[
 				display.innerHTML = emoji;
 				totalDisplay.innerHTML = 'Emoji';
 				addHistoryEntry('Emoji: ' + emoji);
+				playSound();
 			}
 
 			sndToggle.addEventListener('click', (e) => {
@@ -2682,6 +2784,9 @@ GME_TONE=[
 						break;
 					case 'gmeCharBackground':
 						performGME(GME_CHAR_BACKGROUND, 'Character Background');
+						break;
+					case 'gmeCharCombat':
+						performGME(GME_CHAR_COMBAT, 'Character Combat');
 						break;
 					case 'gmeCharConvo':
 						performGME(GME_CHAR_CONVERSATION, 'Character Conversation');
