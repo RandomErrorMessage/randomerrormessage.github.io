@@ -326,6 +326,10 @@
 				<summary>Misc</summary>
 <button class="diceBtn" id="gmeCurse">Curse</button><button class="diceBtn" id="gmeDream">Dream</button><button class="diceBtn" id="gmeLegend">Legend</button><button class="diceBtn" id="gmeMagicItem">MagicItem</button><button class="diceBtn" id="gmeMutation">Mutation</button><button class="diceBtn" id="gmePower">Power</button><button class="diceBtn" id="gmeScav">Scavenge</button>
 			</details>
+			<details>
+				<summary>Mothership</summary>
+<button class="diceBtn" id="msFaction">Faction</button>
+			</details>
 		</div>
 
 		<div class="resultBox">
@@ -508,7 +512,7 @@ SEMIOTIC_STANDARD_SUB=[
 'Preparation/Intervention',
 'Growth/Cleansing',
 'Obscurity/Color'];
-GME_ACTION1=[
+const GME_ACTION1=[
 'Abandon',
 'Accompany',
 'Activate',
@@ -610,7 +614,7 @@ GME_ACTION1=[
 'Usurp',
 'Waste'
 ];
-GME_ACTION2=[
+const GME_ACTION2=[
 'Advantage',
 'Adversity',
 'Agreement',
@@ -712,7 +716,7 @@ GME_ACTION2=[
 'Work',
 'Wound',
 ];
-GME_CHARS=[
+const GME_CHARS=[
 'Accompanied',
 'Active',
 'Aggressive',
@@ -814,7 +818,7 @@ GME_CHARS=[
 'Wild',
 'Young'
 ];
-GME_CHAR_ACTION=[
+const GME_CHAR_ACTION=[
 'Abandon',
 'Aggressive',
 'Amusing',
@@ -916,7 +920,7 @@ GME_CHAR_ACTION=[
 'Work',
 'Yield'
 ];
-GME_CHAR_APPEARANCE=[
+const GME_CHAR_APPEARANCE=[
 'Abnormal',
 'Armed',
 'Aromatic',
@@ -1018,7 +1022,7 @@ GME_CHAR_APPEARANCE=[
 'Wounded',
 'Young'
 ];
-GME_CHAR_BACKGROUND=[
+const GME_CHAR_BACKGROUND=[
 'Abandoned',
 'Abuse',
 'Advice',
@@ -1124,7 +1128,7 @@ GME_CHAR_BACKGROUND=[
 'Wild',
 'Youth'
 ];
-GME_CHAR_COMBAT=[
+const GME_CHAR_COMBAT=[
 'Abandon',
 'Abuse',
 'Aggressive',
@@ -1225,7 +1229,7 @@ GME_CHAR_COMBAT=[
 'Waste',
 'Weapon',
 'Withdraw'];
-GME_CHAR_CONVERSATION=[
+const GME_CHAR_CONVERSATION=[
 'Abuse',
 'Advice',
 'Aggressive',
@@ -1327,7 +1331,7 @@ GME_CHAR_CONVERSATION=[
 'Warm',
 'Wild'
 ];
-GME_CHAR_DESC=[
+const GME_CHAR_DESC=[
 'Abnormal',
 'Foul',
 'Active',
@@ -1429,7 +1433,7 @@ GME_CHAR_DESC=[
 'Fast',
 'Young'
 ];
-GME_CHAR_ID=[
+const GME_CHAR_ID=[
 'Abandoned',
 'Administrator',
 'Adventurous',
@@ -1531,7 +1535,7 @@ GME_CHAR_ID=[
 'Wanderer',
 'Warrior'
 ];
-GME_CHAR_MOTIVATION=[
+const GME_CHAR_MOTIVATION=[
 'Adventure',
 'Adversity',
 'Ambition',
@@ -1632,7 +1636,7 @@ GME_CHAR_MOTIVATION=[
 'Take',
 'Transform',
 'Travel'];
-GME_CHAR_PERSONALITY=[
+const GME_CHAR_PERSONALITY=[
 'Active',
 'Adventurous',
 'Aggressive',
@@ -1733,7 +1737,7 @@ GME_CHAR_PERSONALITY=[
 'Weak',
 'Wild',
 'Wise'];
-GME_CHAR_SKILL=[
+const GME_CHAR_SKILL=[
 'Activity',
 'Adversity',
 'Agility',
@@ -1834,7 +1838,7 @@ GME_CHAR_SKILL=[
 'Weapon',
 'Weather',
 'Wounds'];
-GME_CHAR_TRAIT=[
+const GME_CHAR_TRAIT=[
 'Academic',
 'Adversity',
 'Animal',
@@ -1935,7 +1939,7 @@ GME_CHAR_TRAIT=[
 'Weak',
 'Weapon',
 'Young'];
-GME_CITY_DESC=[
+const GME_CITY_DESC=[
 'Activity',
 'Aggressive',
 'Aromatic',
@@ -2036,7 +2040,7 @@ GME_CITY_DESC=[
 'Weather',
 'Wild',
 'Work'];
-GME_CRYPTIC=[
+const GME_CRYPTIC=[
 'Abandoned',
 'Activity',
 'Adventure',
@@ -2137,7 +2141,7 @@ GME_CRYPTIC=[
 'Vengeance',
 'Violence',
 'Warning'];
-GME_CURSE=[
+const GME_CURSE=[
 'Abandon',
 'Age',
 'Attract',
@@ -2238,7 +2242,7 @@ GME_CURSE=[
 'Vengeance',
 'Violence',
 'Weapon'];
-GME_DOMICILE=[
+const GME_DOMICILE=[
 'Abandoned',
 'Activity',
 'Animal',
@@ -2339,7 +2343,7 @@ GME_DOMICILE=[
 'View',
 'Warm',
 'Water'];
-GME_DUNGEON=[
+const GME_DUNGEON=[
 'Abandoned',
 'Activity',
 'Adversity',
@@ -2440,7 +2444,7 @@ GME_DUNGEON=[
 'Valuable',
 'Warm',
 'Watery'];
-GME_POWER=[
+const GME_POWER=[
 'Absorb',
 'Adversity',
 'Alter',
@@ -2541,7 +2545,7 @@ GME_POWER=[
 'Travel',
 'Weapon',
 'Weather'];
-GME_SCAV=[
+const GME_SCAV=[
 'Abundance',
 'Activity',
 'Adversity',
@@ -2642,7 +2646,7 @@ GME_SCAV=[
 'Warm',
 'Waste',
 'Weapon'];
-GME_SMELL=[
+const GME_SMELL=[
 'Acrid',
 'Malodorous',
 'Animal',
@@ -2743,7 +2747,7 @@ GME_SMELL=[
 'Weather',
 'Laden',
 'Woody'];
-GME_TRAP=[
+const GME_TRAP=[
 'Aggressive',
 'Allies',
 'Ambush',
@@ -2844,7 +2848,7 @@ GME_TRAP=[
 'Water',
 'Weapon',
 'Wound'];
-GME_SOUND=[
+const GME_SOUND=[
 'Activity',
 'Alarm',
 'Animal',
@@ -2945,7 +2949,7 @@ GME_SOUND=[
 'Whistle',
 'Wild',
 'Wind'];
-GME_DESC1=[
+const GME_DESC1=[
 'Adventurously',
 'Aggressively',
 'Anxiously',
@@ -3046,7 +3050,7 @@ GME_DESC1=[
 'Violently',
 'Wildly',
 'Yieldingly'];
-GME_DESC2=[
+const GME_DESC2=[
 'Abnormal',
 'Amusing',
 'Artificial',
@@ -3147,7 +3151,7 @@ GME_DESC2=[
 'Watery',
 'Weak',
 'Young'];
-GME_LOCATION=[
+const GME_LOCATION=[
 'Abandoned',
 'Active',
 'Artistic',
@@ -3248,7 +3252,7 @@ GME_LOCATION=[
 'Warning',
 'Watery',
 'Welcoming'];
-GME_OBJECT=[
+const GME_OBJECT=[
 'Active',
 'Artistic',
 'Average',
@@ -3349,7 +3353,7 @@ GME_OBJECT=[
 'Weapon',
 'Wet',
 'Worn'];
-GME_TONE=[
+const GME_TONE=[
 'Action',
 'Activity',
 'Adventurous',
@@ -3450,7 +3454,7 @@ GME_TONE=[
 'Violent',
 'Warlike',
 'Wild'];
-GME_ALIEN=[
+const GME_ALIEN=[
 'Advanced',
 'Aggressive',
 'Agile',
@@ -3551,7 +3555,7 @@ GME_ALIEN=[
 'Weak',
 'Wings',
 'Wormish'];
-GME_ANIMAL=[
+const GME_ANIMAL=[
 'Abandon',
 'Abnormal',
 'Aggressive',
@@ -3652,7 +3656,7 @@ GME_ANIMAL=[
 'Waste',
 'Wild',
 'Yield'];
-GME_ARMY=[
+const GME_ARMY=[
 'Active',
 'Aggressive',
 'Allies',
@@ -3753,7 +3757,7 @@ GME_ARMY=[
 'Waste',
 'Weak',
 'Weapons'];
-GME_CAVERN=[
+const GME_CAVERN=[
 'Activity',
 'Ancient',
 'Animals',
@@ -3854,7 +3858,7 @@ GME_CAVERN=[
 'Waste',
 'Water',
 'Windy'];
-GME_CIV=[
+const GME_CIV=[
 'Active',
 'Advanced',
 'Adventurous',
@@ -3955,7 +3959,7 @@ GME_CIV=[
 'Welcoming',
 'Wild',
 'Young'];
-GME_CREATURE_ABILITY=[
+const GME_CREATURE_ABILITY=[
 'Ambush',
 'Animate',
 'Armor',
@@ -4056,7 +4060,7 @@ GME_CREATURE_ABILITY=[
 'Vulnerable',
 'Weak',
 'Weapon'];
-GME_CREATURE_DESC=[
+const GME_CREATURE_DESC=[
 'Aggressive',
 'Agile',
 'Air',
@@ -4157,7 +4161,7 @@ GME_CREATURE_DESC=[
 'Wings',
 'Wooden',
 'Wormish'];
-GME_FOREST=[
+const GME_FOREST=[
 'Adversity',
 'Aggressive',
 'Ambush',
@@ -4258,7 +4262,7 @@ GME_FOREST=[
 'Weather',
 'Wild',
 'Young'];
-GME_GOD=[
+const GME_GOD=[
 'Active',
 'Alien',
 'Ancient',
@@ -4359,7 +4363,7 @@ GME_GOD=[
 'Weapon',
 'Weather',
 'Worshiped'];
-GME_LEGEND=[
+const GME_LEGEND=[
 'Abandon',
 'Allies',
 'Anger',
@@ -4460,7 +4464,7 @@ GME_LEGEND=[
 'Usurp',
 'Vengeance',
 'Villain'];
-GME_MAGIC_ITEM=[
+const GME_MAGIC_ITEM=[
 'Animal',
 'Animate',
 'Area',
@@ -4561,7 +4565,7 @@ GME_MAGIC_ITEM=[
 'Wand',
 'Water',
 'Weapon'];
-GME_NOBLE=[
+const GME_NOBLE=[
 'Aggressive',
 'Allies',
 'Anger',
@@ -4662,7 +4666,7 @@ GME_NOBLE=[
 'Wealth',
 'Weapon',
 'Young'];
-GME_MUTATION=[
+const GME_MUTATION=[
 'Agility',
 'Animal',
 'Appearance',
@@ -4763,7 +4767,7 @@ GME_MUTATION=[
 'Weak',
 'Weapon',
 'Wound'];
-GME_TWIST=[
+const GME_TWIST=[
 'Action',
 'Attack',
 'Bad',
@@ -4864,7 +4868,7 @@ GME_TWIST=[
 'Unusual',
 'Urgent',
 'Useful'];
-GME_STARSHIP=[
+const GME_STARSHIP=[
 'Activity',
 'Adversity',
 'Assist',
@@ -4965,7 +4969,7 @@ GME_STARSHIP=[
 'Warm',
 'Weapon',
 'Work'];
-GME_TERRAIN=[
+const GME_TERRAIN=[
 'Abandoned',
 'Abundant',
 'Activity',
@@ -5066,7 +5070,7 @@ GME_TERRAIN=[
 'Wild',
 'Windy',
 'Wonders'];
-GME_UNDEAD=[
+const GME_UNDEAD=[
 'Active',
 'Aggressive',
 'Angry',
@@ -5167,7 +5171,7 @@ GME_UNDEAD=[
 'Weapons',
 'Wounds',
 'Young'];
-GME_DREAM=[
+const GME_DREAM=[
 'Activity',
 'Adversity',
 'Allies',
@@ -5268,6 +5272,38 @@ GME_DREAM=[
 'Violence',
 'Warning',
 'Weapon'];
+const MS_FACTIONS=[
+'The Seraphim Institute',
+'The Outer Rim Colonial Marshalls (OCRM)',
+'SEBACO Mining Ltd.',
+'The Teamsters Union',
+'The Alliance of Hyperspace Jump Couriers',
+'The Evangelical Solarian Church (AKA The Solarians)',
+'Los Niños Basura',
+'The Computer Coders Collective (AKA T-Triple-C)',
+'PROJECT RICHTER',
+'BAS-Lehman Ges.m.b.H',
+'Loss Prevention',
+'The Synthetic Liberation Front',
+'Parker-Vance Holding Company',
+'The Interstellar Postal Inspection Service',
+'The Komarov Squad',
+'The Interstellar Asteroid Miners Association',
+'The Jump-9 Club',
+'Second Samael Church',
+'The Zero-G Laborers Coalition (AKA Zed-GLC)',
+'REDKNIFE Psyops Unit',
+'The Astronavigators Guild',
+'The Organization',
+'Revolutionary Forces of Luna',
+'The Interplanetary Sex Workers Union',
+'The Space Monkey Mafia',
+'House Sivaranjan',
+'Uplifted Dolphin Pod 67',
+'Aleph Gate',
+'FRIEND',
+];
+const MS_FACTIONS_ODDS=[0,9,19,26,31,35,40,44,48,52,56,60,64,68,72,76,80,84,89,90,91,92,93,94,95,96,97,98,99];
 
 			const masterAudio = new Audio('data_dice/dice.mp3');
 			masterAudio.preload = 'auto';
@@ -5341,13 +5377,27 @@ GME_DREAM=[
 			}
 
 			function performOracle() {
-				const die = Math.floor(Math.random() * 6)
+				const die = Math.floor(Math.random() * 6);
 				const result = ORACLE_TABLE[die];
 				const result_sub = ORACLE_TABLE_SUB[die][Math.floor(Math.random() * 6)];
 				display.innerHTML = result;
 				totalDisplay.innerHTML = result_sub;
-				const log = `${result} : ${result_sub}`;
-				addHistoryEntry(log);
+				addHistoryEntry(`${result} : ${result_sub}`);
+				playSound();
+			}
+
+			function oddTable(table, odds, description) {
+				const die = Math.floor(Math.random() * 100);
+				let result = '';
+				for (const [index, odd] of odds.entries()) {
+					if (die <= odd) {
+						result = table[index];
+						break;
+					}
+				}
+				display.innerHTML = result;
+				totalDisplay.innerHTML = description;
+				addHistoryEntry(`${description}: ${result} [${die}]`);
 				playSound();
 			}
 
@@ -5636,6 +5686,9 @@ GME_DREAM=[
 						break;
 					case 'gmeDream':
 						performGME(GME_DREAM, 'Vision / Dream');
+						break;
+					case 'msFaction':
+						oddTable(MS_FACTIONS, MS_FACTIONS_ODDS, 'Faction');
 						break;
 					default:
 						console.log(e);
