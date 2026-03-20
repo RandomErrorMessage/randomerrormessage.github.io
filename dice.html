@@ -329,7 +329,14 @@
 			<details>
 				<summary>Mothership</summary>
 <button class="diceBtn" id="msPanic">Panic</button>
+<button class="diceBtn" id="msDeath">Death</button>
+<button class="diceBtn" id="msPuzzle">Puzzle</button>
 <button class="diceBtn" id="msFaction">Faction</button>
+<button class="diceBtn" id="msPort">Port</button>
+<button class="diceBtn" id="msLocation">Location</button>
+<button class="diceBtn" id="msControl">Control</button>
+<button class="diceBtn" id="msPopulation">Population</button>
+<button class="diceBtn" id="msSettlement">Settlement</button>
 			</details>
 		</div>
 
@@ -5281,7 +5288,7 @@ const MS_PANIC=[
 'Coward',
 'Frightened',
 'Nightmares',
-'Loss Of Confidence',
+'Loss of Confidence',
 'Deflated',
 'Doomed',
 'Suspicious',
@@ -5302,7 +5309,7 @@ const MS_PANIC_DESC=[
 'Gain a new Condition: You must make a Fear Save to engage in violence, otherwise you flee.',
 'Gain a new Condition: When encountering what frightened you, make a Fear Save [-] or gain 1d5 Stress.',
 'Gain a new Condition: Sleep is difficult, gain [-] on Rest Saves.',
-'Gain a new Condition: Choose one Skill and lose that Skill’s bonus.',
+'Gain a new Condition: Choose one Skill and lose that Skill\'s bonus.',
 'Gain a new Condition: Whenever a Close crewmember fails a Save, gain 1 Stress.',
 'Gain a new Condition: You feel cursed and unlucky. All Critical Successes are instead Critical Failures.',
 'For the next week, whenever someone joins the crew (even if they only left for a short period of time), make a Fear Save or gain 1 Stress.',
@@ -5315,6 +5322,88 @@ const MS_PANIC_DESC=[
 'Roll twice on this table. Increase your Minimum Stress by 1.',
 'Reduce Maximum Wounds by 1. Gain [-] on all rolls for 1d10 hours. Increase Minimum Stress by 1.',
 'Roll up a new character to play.'];
+const MS_LOCATION=[
+'Space Station',
+'Aboard Your Own Ship',
+'Military Outpost',
+'Prison Complex',
+'Derelict Spacecraft',
+'Religious Compound',
+'Mining Colony',
+'Research Facility',
+'Underwater Base',
+'Mothership'];
+const MS_DEATH=['Unconscious','Unconscious and Dying','Comatose','Dead'];
+const MS_DEATH_ODDS=[0,2,4,9];
+const MS_DEATH_SUB=[
+'Wake up in 2d10 minutes. Reduce Maximum Health by 1d5.',
+'Die in 1d5 rounds without intervention.',
+'Only extraordinary measures can return them to the waking world.',
+'Dead.'];
+const MS_POPULATION=[
+'A single person.',
+'A small handful of people.',
+'A few dozen people.',
+'Roughly a hundred people.',
+'A few hundred people.',
+'Roughly a thousand people.',
+'Overpopulated.'];
+const MS_POPULATION_ODDS=[0,2,4,6,7,8,9];
+const MS_PORT=['X-Class Port','C-Class Port','B-Class Port','A-Class Port','S-Class Port'];
+const MS_PORT_ODDS=[0,5,7,8,9];
+const MS_CONTROL=['Religious Group','Corporation','Government','Union','Criminal Organization'];
+const MS_CONTROL_ODDS=[0,5,7,8,9];
+const MS_PUZZLE_ODDS=[4,9,13,17,21,25,29,34,38,42,47,51,56,60,64,69,73,78,82,86,90,93,96,99];
+const MS_PUZZLE_TYPE=[
+'Alarm',
+'Connect the Dots',
+'Construction',
+'Dilemma',
+'Egg Carry',
+'Find the Clue',
+'Guardian',
+'Hazardous Path',
+'Illusion',
+'Labyrinth',
+'Lock & Key',
+'Missing Part',
+'Mundane Obstacle',
+'Outside-the-Box',
+'Pattern Recognition',
+'Remote Switch',
+'Riddle',
+'Rising Tide',
+'Sacrifice',
+'Sequence',
+'Teamwork',
+'Timelock',
+'Trap',
+'Trial and Error'];
+const MS_PUZZLE_DESC=[
+'If solved incorrectly sets off an alarm, alerting nearby enemies.',
+'Connect a series of "dots" using some kind of item (e.g., wires, light, water, blood, etc.).',
+'Construct an item using pieces that they are given, or must find or provide.',
+'Choose between the lesser of two evils or the greater of two goods.',
+'Safely deliver a delicate or vulnerable item or organism (e.g., the "egg") to a certain location.',
+'Search for one or more objects (which then lead to more Questions, Puzzles, or Answers).',
+'Defeat, appease, or otherwise bypass a guardian who denies access to a location or item.',
+'Route is blocked by danger which must be avoided, circumnavigated, or defeated to continue.',
+'Contains an element that appears to be one thing but is actually another.',
+'Forces players to navigate a maze or complicated path.',
+'Collect an item (the key) and use it on the lock in order to gain access to the lock\'s contents.',
+'Locate a missing item in order for the puzzle to work properly.',
+'A real-world problem (e.g. a broken elevator, a collapsed pylon, etc.).',
+'No obvious solution, so players must bring outside resources to bear in order to solve it.',
+'Requires the players to notice repeated symbols or other repeated information.',
+'Activate a switch in another location to bypass the obstacle in their current location.',
+'Requires recitation of a coded phrase or password.',
+'Danger which escalates naturally, forcing the players to solve it quickly or be harmed.',
+'Requires the players to sacrifice something of great value to them in order to solve it.',
+'Complete a certain number of steps in a specific order to solve the puzzle.',
+'Multiple players must do something at the same time in order to solve the puzzle.',
+'Solve the puzzle in a certain amount of time or fail (or otherwise re-start their attempt).',
+'The puzzle punishes players for failed attempts to solve it.',
+'Players must experiment with several ingredients (e.g., switches, chemicals, etc.) to solve the puzzle.'];
 const MS_FACTIONS=[
 'The Seraphim Institute',
 'The Outer Rim Colonial Marshalls (OCRM)',
@@ -5347,6 +5436,32 @@ const MS_FACTIONS=[
 'FRIEND',
 ];
 const MS_FACTIONS_ODDS=[0,9,19,26,31,35,40,44,48,52,56,60,64,68,72,76,80,84,89,90,91,92,93,94,95,96,97,98,99];
+const MS_SETTLEMENT_LOCALE=[
+'CATENA (crater chain)',
+'CHAOS (broken terrain)',
+'COLLIS (small hill)',
+'CRATER (impact valley)',
+'DORSUM (ridge)',
+'ERUPTIVE CENTER (volcano)',
+'FOSSA (trough)',
+'LABES (landslide)',
+'LABYRINTHUS (complex of intersecting valleys/ridges)',
+'LACUS ("lake" or small plain)',
+'LANDING SITE',
+'MARE ("sea" on a moon)',
+'MENSA (mesa)',
+'MONS (mountain)',
+'MONTES (mountain range)',
+'PATERA (irregular crater)',
+'PLANITIA (low plain)',
+'PLANUM (high plain/plateau)',
+'RUPES (cliff/scarp)',
+'RIMA (fissure)',
+'SAXUM (boulder)',
+'TERRA (extensive land mass)',
+'THOLUS (small mountain)',
+'UNDAE (field of dunes)'];
+const MS_SETTLEMENT_LOCALE_ODDS=[04,08,12,16,20,24,28,32,35,39,43,47,51,56,60,65,69,73,77,81,85,89,94,99];
 
 			const masterAudio = new Audio('data_dice/dice.mp3');
 			masterAudio.preload = 'auto';
@@ -5420,7 +5535,7 @@ const MS_FACTIONS_ODDS=[0,9,19,26,31,35,40,44,48,52,56,60,64,68,72,76,80,84,89,9
 			}
 
 			function performOracle() {
-				const die = Math.floor(Math.random() * 6);
+				const die = Math.floor(Math.random() * ORACLE_TABLE.length);
 				const result = ORACLE_TABLE[die];
 				const result_sub = ORACLE_TABLE_SUB[die][Math.floor(Math.random() * 6)];
 				display.innerHTML = result;
@@ -5429,23 +5544,29 @@ const MS_FACTIONS_ODDS=[0,9,19,26,31,35,40,44,48,52,56,60,64,68,72,76,80,84,89,9
 				playSound();
 			}
 
-			function oddTable(table, odds, description) {
-				const die = Math.floor(Math.random() * 100);
+			function performOdds(table, odds, sides, description, table2) {
+				const die = Math.floor(Math.random() * sides);
 				let result = '';
-				for (const [index, odd] of odds.entries()) {
-					if (die <= odd) {
-						result = table[index];
+				let i = 0;
+				for (;i<odds.length;i++) {
+					if (die <= odds[i]) {
+						result = table[i];
 						break;
 					}
 				}
 				display.innerHTML = result;
-				totalDisplay.innerHTML = description;
-				addHistoryEntry(`${description}: ${result} [${die}]`);
+				if (table2 !== undefined) {
+					totalDisplay.innerHTML = table2[i];
+					addHistoryEntry(`${description}: ${result}: ${table2[i]} [${die}]`);
+				} else {
+					totalDisplay.innerHTML = description;
+					addHistoryEntry(`${description}: ${result} [${die}]`);
+				}
 				playSound();
 			}
 
 			function performTarot() {
-				const die = Math.floor(Math.random() * 22)
+				const die = Math.floor(Math.random() * TAROT_TABLE.length)
 				const orientation = Math.floor(Math.random() * 2)
 				const result = TAROT_TABLE[die];
 				const result_sub = TAROT_MEANING[die][orientation];
@@ -5732,8 +5853,29 @@ const MS_FACTIONS_ODDS=[0,9,19,26,31,35,40,44,48,52,56,60,64,68,72,76,80,84,89,9
 					case 'msPanic':
 						performTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
 						break;
+					case 'msDeath':
+						performOdds(MS_DEATH, MS_DEATH_ODDS, 10, 'Death', MS_DEATH_SUB);
+						break;
+					case 'msLocation':
+						performGME(MS_LOCATION, 'Location');
+						break;
+					case 'msPopulation':
+						performOdds(MS_POPULATION, MS_POPULATION_ODDS, 10, 'Location');
+						break;
+					case 'msPort':
+						performOdds(MS_PORT, MS_PORT_ODDS, 10, 'Port Class');
+						break;
+					case 'msControl':
+						performOdds(MS_CONTROL, MS_CONTROL_ODDS, 10, 'Control Faction');
+						break;
+					case 'msSettlement':
+						performOdds(MS_SETTLEMENT_LOCALE, MS_SETTLEMENT_LOCALE_ODDS, 100, 'Settlement Locale');
+						break;
+					case 'msPuzzle':
+						performOdds(MS_PUZZLE_TYPE, MS_PUZZLE_ODDS, 100, 'Puzzle', MS_PUZZLE_DESC);
+						break;
 					case 'msFaction':
-						oddTable(MS_FACTIONS, MS_FACTIONS_ODDS, 'Faction');
+						performOdds(MS_FACTIONS, MS_FACTIONS_ODDS, 100, 'Faction');
 						break;
 					default:
 						console.log(e);
