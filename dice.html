@@ -334,6 +334,7 @@
 <button class="diceBtn" id="msFaction">Faction</button>
 <button class="diceBtn" id="msPort">Port</button>
 <button class="diceBtn" id="msLocation">Location</button>
+<button class="diceBtn" id="msPlanet">Planet</button>
 <button class="diceBtn" id="msControl">Control</button>
 <button class="diceBtn" id="msPopulation">Population</button>
 <button class="diceBtn" id="msSettlement">Settlement</button>
@@ -5462,6 +5463,28 @@ const MS_SETTLEMENT_LOCALE=[
 'THOLUS (small mountain)',
 'UNDAE (field of dunes)'];
 const MS_SETTLEMENT_LOCALE_ODDS=[04,08,12,16,20,24,28,32,35,39,43,47,51,56,60,65,69,73,77,81,85,89,94,99];
+const MS_PLANET=[
+'Liquid Giant',
+'Liquid Giant',
+'Liquid Mini-Giant',
+'Terrestrial Mini-Giant',
+'Terrestrial Mini-Giant',
+'Terrestrial Earth-Sized Planet',
+'Terrestrial Earth-Sized Planet',
+'Terrestrial Dwarf Planet',
+'Gas Dwarf Planet',
+'Gas Dwarf Planet'];
+const MS_PLANET_SUB=[
+'Crushing Gravity - Corrosive - Hellish',
+'Crushing Gravity - Corrosive - Hot',
+'Heavy Gravity - Toxic - Hot',
+'Heavy Gravity - Toxic - Balmy',
+'Heavy Gravity - Thin - Temperate',
+'Normal Gravity - Thin - Heavenly',
+'Normal Gravity - Terraformed - Rainy',
+'Light Gravity - Terraformed - Turbulent',
+'Light Gravity - Terraformed - Cold',
+'Light Gravity - Pristine - Freezing'];
 
 			const masterAudio = new Audio('data_dice/dice.mp3');
 			masterAudio.preload = 'auto';
@@ -5858,6 +5881,9 @@ const MS_SETTLEMENT_LOCALE_ODDS=[04,08,12,16,20,24,28,32,35,39,43,47,51,56,60,65
 						break;
 					case 'msLocation':
 						performGME(MS_LOCATION, 'Location');
+						break;
+					case 'msPlanet':
+						performTwo(MS_PLANET, MS_PLANET_SUB, 'Planet', 0);
 						break;
 					case 'msPopulation':
 						performOdds(MS_POPULATION, MS_POPULATION_ODDS, 10, 'Location');
