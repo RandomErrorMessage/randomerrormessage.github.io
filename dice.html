@@ -303,7 +303,7 @@
 			<span id="sndSpan">🔊<label class="switch"><input type="checkbox" id="sndToggle"><span class="slider"></span></label></span>
 		</div>
 		<div class="panel active" id="dicePanel">
-<button class="diceBtn" data-roll="1d6">⚀ 1d6</button><button class="diceBtn" data-roll="2d6">⚁ 2d6</button><button class="diceBtn" data-roll="3d6">⚂ 3d6</button><button class="diceBtn" data-roll="4d6">⚃ 4d6</button><button class="diceBtn" data-roll="1d3">🪨 1d3</button><button class="diceBtn" data-roll="1d4">🔪 1d4</button><button class="diceBtn" data-roll="1d6">🗡️ 1d6</button><button class="diceBtn" data-roll="1d8">🎱 1d8</button><button class="diceBtn" data-roll="1d10">🔟 1d10</button><button class="diceBtn" data-roll="1d12">🪓 1d12</button><button class="diceBtn" data-roll="1d20">👑 1d20</button><button class="diceBtn" data-roll="1d100">💯 1d100</button>
+<button class="diceBtn" data-roll="1d6">⚀ 1d6</button><button class="diceBtn" data-roll="2d6">⚁ 2d6</button><button class="diceBtn" data-roll="3d6">⚂ 3d6</button><button class="diceBtn" data-roll="4d6">⚃ 4d6</button><button class="diceBtn" data-roll="1d3">🪨 1d3</button><button class="diceBtn" data-roll="1d4">🔪 1d4</button><button class="diceBtn" data-roll="1d5">🔧 1d5</button><button class="diceBtn" data-roll="1d6">🗡️ 1d6</button><button class="diceBtn" data-roll="1d8">🎱 1d8</button><button class="diceBtn" data-roll="1d10">🔟 1d10</button><button class="diceBtn" data-roll="1d12">🪓 1d12</button><button class="diceBtn" data-roll="1d20">👑 1d20</button><button class="diceBtn" data-roll="1d100">💯 1d100</button>
 		</div>
 		<div class="panel" id="oraclePanel">
 			<details>
@@ -328,6 +328,7 @@
 			</details>
 			<details>
 				<summary>Mothership</summary>
+<button class="diceBtn" id="msPanic">Panic</button>
 <button class="diceBtn" id="msFaction">Faction</button>
 			</details>
 		</div>
@@ -5272,6 +5273,48 @@ const GME_DREAM=[
 'Violence',
 'Warning',
 'Weapon'];
+const MS_PANIC=[
+'Adrenaline Rush',
+'Nervous',
+'Jumpy',
+'Overwhelmed',
+'Coward',
+'Frightened',
+'Nightmares',
+'Loss Of Confidence',
+'Deflated',
+'Doomed',
+'Suspicious',
+'Haunted',
+'Death Wish',
+'Prophetic Vision',
+'Catatonic',
+'Rage',
+'Spiraling',
+'Compounding Problems',
+'Heart Attack / Short Circuit (Androids)',
+'Retire'];
+const MS_PANIC_DESC=[
+'[+] on all rolls for the next 2d10 minutes. Reduce Stress by 1d5.',
+'Gain 1 Stress.',
+'Gain 1 Stress. All Close crewmembers gain 2 Stress.',
+'[-] on all rolls for the next 1d10 minutes. Increase Minimum Stress by 1.',
+'Gain a new Condition: You must make a Fear Save to engage in violence, otherwise you flee.',
+'Gain a new Condition: When encountering what frightened you, make a Fear Save [-] or gain 1d5 Stress.',
+'Gain a new Condition: Sleep is difficult, gain [-] on Rest Saves.',
+'Gain a new Condition: Choose one Skill and lose that Skill’s bonus.',
+'Gain a new Condition: Whenever a Close crewmember fails a Save, gain 1 Stress.',
+'Gain a new Condition: You feel cursed and unlucky. All Critical Successes are instead Critical Failures.',
+'For the next week, whenever someone joins the crew (even if they only left for a short period of time), make a Fear Save or gain 1 Stress.',
+'Gain a new Condition: Something starts visiting the character at night. In their dreams. Out of the corner of their eye. And soon it will start making demands.',
+'For the next 24 hours, whenever encountering a stranger or known enemy, make a Sanity Save or immediately attack them.',
+'Character immediately experiences an intense hallucination or vision of an impending terror or horrific event. Increase Minimum Stress by 2.',
+'Become unresponsive and unmoving for 2d10 minutes. Reduce Stress by 1d10.',
+'[+] on all Damage rolls for the next 1d10 hours. All crewmembers gain 1 Stress.',
+'Gain a new Condition: Panic Checks are at [-].',
+'Roll twice on this table. Increase your Minimum Stress by 1.',
+'Reduce Maximum Wounds by 1. Gain [-] on all rolls for 1d10 hours. Increase Minimum Stress by 1.',
+'Roll up a new character to play.'];
 const MS_FACTIONS=[
 'The Seraphim Institute',
 'The Outer Rim Colonial Marshalls (OCRM)',
@@ -5425,12 +5468,11 @@ const MS_FACTIONS_ODDS=[0,9,19,26,31,35,40,44,48,52,56,60,64,68,72,76,80,84,89,9
 				addHistoryEntry(`${name}: ${table[die]}`);
 				playSound();
 			}
-			function performGME2(table1, table2) {
-				const die1 = Math.floor(Math.random() * table1.length)
-				const die2 = Math.floor(Math.random() * table2.length)
-				display.innerHTML = table1[die1];
-				totalDisplay.innerHTML = table2[die2];
-				addHistoryEntry(`${table1[die1]} : ${table2[die2]}`);
+			function performTwo(table1, table2, name, mod=1) {
+				const die = Math.floor(Math.random() * table1.length)
+				display.innerHTML = table1[die];
+				totalDisplay.innerHTML = table2[die];
+				addHistoryEntry(`${name}: ${table1[die]} : ${table2[die]} [${die+mod}]`);
 				playSound();
 			}
 			function parseDice(str) {
@@ -5686,6 +5728,9 @@ const MS_FACTIONS_ODDS=[0,9,19,26,31,35,40,44,48,52,56,60,64,68,72,76,80,84,89,9
 						break;
 					case 'gmeDream':
 						performGME(GME_DREAM, 'Vision / Dream');
+						break;
+					case 'msPanic':
+						performTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
 						break;
 					case 'msFaction':
 						oddTable(MS_FACTIONS, MS_FACTIONS_ODDS, 'Faction');
