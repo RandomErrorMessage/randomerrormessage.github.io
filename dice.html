@@ -332,12 +332,14 @@
 <button class="diceBtn" id="msDeath">Death</button>
 <button class="diceBtn" id="msPuzzle">Puzzle</button>
 <button class="diceBtn" id="msFaction">Faction</button>
+<button class="diceBtn" id="msContract">Contract</button>
 <button class="diceBtn" id="msPort">Port</button>
 <button class="diceBtn" id="msLocation">Location</button>
 <button class="diceBtn" id="msPlanet">Planet</button>
 <button class="diceBtn" id="msControl">Control</button>
 <button class="diceBtn" id="msPopulation">Population</button>
 <button class="diceBtn" id="msSettlement">Settlement</button>
+<button class="diceBtn" id="msSettlementLocale">SettlementLocale</button>
 			</details>
 		</div>
 
@@ -5485,6 +5487,124 @@ const MS_PLANET_SUB=[
 'Light Gravity - Terraformed - Turbulent',
 'Light Gravity - Terraformed - Cold',
 'Light Gravity - Pristine - Freezing'];
+const MS_SETTLEMENT_ODDS=[0,9,19,26,32,35,38,41,44,47,50,53,56,59,62,65,68,71,74,77,80,83,86,89,91,92,93,94,95,96,97,98,99];
+const MS_SETTLEMENT_TYPE=[
+'Forced Relocation Slum',
+'Terraformer Colony',
+'Mining Colony',
+'Colonial Settlement',
+'Marine Garrison',
+'Research Facility',
+'Corporate Operations Center',
+'Manufacturing Complex',
+'Deep Sea Research Base',
+'Heavy Industry Complex',
+'Shipping & Logistics Center',
+'Ore Refinery',
+'Forward Military Base',
+'Rural Backworld Installation',
+'Corporate Resupply Depot',
+'Monitoring Outpost',
+'Off-World Training Installation',
+'Polar Research Station',
+'Restricted Testing Facility',
+'Maximum Security Prison Complex',
+'Stakeholder Camp',
+'Farming Colony',
+'Prison, formerly a... (roll again)',
+'Autonomous Factory Zone',
+'Independent Frontier Settlement',
+'Covert Pirate Base',
+'Classified Corporate Installation',
+'Desolate Scrapworld',
+'Major Colonial Settlement',
+'Religious Compound',
+'Anti-corporate Rebel Base',
+'Undisclosed Black Site',
+'Private C-Suite Game Preserve'];
+const MS_SETTLEMENT_CONDITION=[
+'Under quarantine.',
+'Overworked, tired. Low morale.',
+'Business as usual.',
+'Workers on strike.',
+'Hazardous working conditions.',
+'Security forces in control.',
+'Gross managerial misconduct.',
+'Frequent storms.',
+'Productivity low.',
+'Corporate strikebreakers called in.',
+'Hostile wildlife.',
+'Military blockade.',
+'Lush overgrown wilderness.',
+'In desperate need of aid.',
+'Weather frighteningly unstable.',
+'Food shortage.',
+'Colonists talking of joining a Union.',
+'Awaiting orders from corporate.',
+'Local Union elections.',
+'Contract negotiation breakdown.',
+'Low on supplies.',
+'Massive crop failure.',
+'Communications cut-off.',
+'Company holiday celebrations.',
+'Under constant threat of terrorist attacks.',
+'Local government crumbling.',
+'Rumors of layoffs.',
+'Overpopulation issue.',
+'Settlement being shut down by corporate.',
+'Petty bickering escalating out of control.',
+'Population entirely synthetic.',
+'Co-opted by military as temporary base.',
+'Mutiny brewing.'];
+const MS_SETTLEMENT_WEIRD=[
+'Failed utopia.',
+'Unsolved string of gruesome murders.',
+'Home to powerful criminal syndicate.',
+'Local customs are strange, wary of outsiders.',
+'Deserted.',
+'Underground corporate re-education camp.',
+'Settlement has newfound religious significance.',
+'Company covertly dosing the water.',
+'Live hostage situation.',
+'Local environment is a radioactive wasteland.',
+'Rapidly growing doomsday cult.',
+'Controlled by separatist militia.',
+'Collapse of local social order.',
+'Refugee crisis.',
+'Extinction event.',
+'Settlement has descended into anarchy.',
+'Colonists report being replaced by imposters.',
+'Secret military operation recently arrived.',
+'Deadly viral outbreak.',
+'Environmental collapse imminent.',
+'Recent breakthrough discovery.',
+'Settlement houses decadent corporate nobility.',
+'Colonists slowly disappearing.',
+'Strange black monolith unearthed.',
+'A.I. meddling.',
+'Colonists believe settlement haunted.',
+'Android uprising imminent.',
+'Gigantic unidentifiable fossilized remains.',
+'Reports of interference by “Celestials.”',
+'Wreckage of spacecraft of unknown origin.',
+'Ruins of precursor star-faring civilization found.',
+'Ancient gateway recently uncovered.',
+'First Contact event.'];
+const MS_CONTRACT_ODDS=[1,3,5,7,8,9];
+const MS_CONTRACT=[
+'Production & Manufacture',
+'Shipping & Handling',
+'Research & Development',
+'Risk Management',
+'Human Resources',
+'Mergers & Acquisitions'];
+const MS_CONTRACT_DESC=[
+'Asteroid mining, derelict salvage and scrap, strikebreaking, terraformer installation, and android troubleshooting.',
+'Cargo freight, VIP escort, scrap hauling, prisoner transport, sensitive materials handling, passenger transport, and contraband smuggling.',
+'Sample & specimen collection, planetary survey, field testing, sabotage, containment breach, archaeological dig, and corporate espionage.',
+'Sweep and clear, liquidation, asset protection, quarantine enforcement, bounty hunting, distress signal response, and system patrol.',
+'Missing persons, suspicious death, communication breakdown, troubleshooting, AI negotiation, and settlement evacuation.',
+'Asset recovery, salvage retention, personnel recruitment, first contact protocol, repossession, and piracy.'];
 
 			const masterAudio = new Audio('data_dice/dice.mp3');
 			masterAudio.preload = 'auto';
@@ -5567,24 +5687,36 @@ const MS_PLANET_SUB=[
 				playSound();
 			}
 
-			function performOdds(table, odds, sides, description, table2) {
-				const die = Math.floor(Math.random() * sides);
-				let result = '';
+			function runOdds(die, odds) {
 				let i = 0;
 				for (;i<odds.length;i++) {
 					if (die <= odds[i]) {
-						result = table[i];
 						break;
 					}
 				}
-				display.innerHTML = result;
+				return i;
+			}
+
+			function performOdds(table, odds, sides, description, table2) {
+				const die = Math.floor(Math.random() * sides);
+				const i = runOdds(die, odds);
+				display.innerHTML = table[i];
 				if (table2 !== undefined) {
 					totalDisplay.innerHTML = table2[i];
-					addHistoryEntry(`${description}: ${result}: ${table2[i]} [${die}]`);
+					addHistoryEntry(`${description}: ${table[i]}: ${table2[i]} [${die}]`);
 				} else {
 					totalDisplay.innerHTML = description;
-					addHistoryEntry(`${description}: ${result} [${die}]`);
+					addHistoryEntry(`${description}: ${table[i]} [${die}]`);
 				}
+				playSound();
+			}
+
+			function performOdds3(table, odds, sides, desc1, desc2, desc3, table2, table3) {
+				const die = Math.floor(Math.random() * sides);
+				const i = runOdds(die, odds);
+				display.innerHTML = table[i];
+				totalDisplay.innerHTML = `<div>${desc2}: ${table2[i]}</div><div>${desc3}: ${table3[i]}</div>`;
+				addHistoryEntry(`${desc1}: ${table[i]} - ${desc2}: ${table2[i]} - ${desc3}: ${table3[i]} [${die}]`);
 				playSound();
 			}
 
@@ -5894,7 +6026,7 @@ const MS_PLANET_SUB=[
 					case 'msControl':
 						performOdds(MS_CONTROL, MS_CONTROL_ODDS, 10, 'Control Faction');
 						break;
-					case 'msSettlement':
+					case 'msSettlementLocale':
 						performOdds(MS_SETTLEMENT_LOCALE, MS_SETTLEMENT_LOCALE_ODDS, 100, 'Settlement Locale');
 						break;
 					case 'msPuzzle':
@@ -5902,6 +6034,12 @@ const MS_PLANET_SUB=[
 						break;
 					case 'msFaction':
 						performOdds(MS_FACTIONS, MS_FACTIONS_ODDS, 100, 'Faction');
+						break;
+					case 'msContract':
+						performOdds(MS_CONTRACT, MS_CONTRACT_ODDS, 10, 'Contract', MS_CONTRACT_DESC);
+						break;
+					case 'msSettlement':
+						performOdds3(MS_SETTLEMENT_TYPE, MS_SETTLEMENT_ODDS, 100, 'Settlement', 'Condition', 'Weird', MS_SETTLEMENT_CONDITION, MS_SETTLEMENT_WEIRD);
 						break;
 					default:
 						console.log(e);
