@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Dice Roller & Oracle">
 	<title>🎲 dice</title>
 	<style>
 		* {
@@ -28,14 +29,12 @@
 			min-width: min(calc(100vw - 1rem), 40rem);
 			min-height: 100vh;
 		}
-
 		summary {
 			color: #fbeab3;
 			font-size: 1.5rem;
 			font-weight: 550;
 			text-shadow: 0 0 0.25rem #ffcf8a, 0.1rem 0.1rem 0 #5f492e;
 		}
-
 		.diceBtn {
 			background: #fcf5e6;
 			box-shadow: 0 5px 0 #6b5a48, 0 8px 15px -8px #1d3f47;
@@ -61,14 +60,12 @@
 			box-shadow: 0 0 0 #5f4f3c, 0 12px 18px -10px #0e2a31;
 			background: #f2e2ce;
 		}
-
 		.custom-wrapper {
 			display: inline-flex;
 			align-items: center;
 			gap: 0.3rem;
 			background: transparent;
 		}
-
 		.custom-remove {
 			background: #ac3e3e;
 			border: none;
@@ -95,11 +92,6 @@
 		.custom-remove:active {
 			transform: translateY(3px);
 			box-shadow: none;
-		}
-		#tabPanel {
-			display: flex;
-			align-items: center;
-			justify-content: center;
 		}
 		#sndSpan {
 			display: flex;
@@ -192,7 +184,6 @@
 			border: 2px solid #dbb48b;
 			box-shadow: inset 0 2px 5px #0c2f2f;
 		}
-
 		.history-header {
 			display: flex;
 			justify-content: space-between;
@@ -236,19 +227,27 @@
 		.logEntry {
 			font-family: monospace;
 		}
-
 		.tarot_or {
 			font-size: 1.5rem;
 			padding: 0 0.25rem;
 		}
-
 		.panel { display: none; }
-		.panel.active { display: block; }
+		.panel.active {
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
 		button.active {
 			background-color: #333;
 			color: white;
 		}
-
+		.flex {
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
 		.switch {
 			position: relative;
 			display: inline-block;
@@ -294,40 +293,49 @@
 			transform: translateX(26px);
 		}
 	</style>
-</head>
-<body>
-	<div class="card">
-		<div id="tabPanel">
-			<button class="diceBtn active" data-target="dicePanel">Dice</button>
-			<button class="diceBtn" data-target="oraclePanel">Oracle</button>
-			<span id="sndSpan">🔊<label class="switch"><input type="checkbox" id="sndToggle"><span class="slider"></span></label></span>
-		</div>
-		<div class="panel active" id="dicePanel">
-<button class="diceBtn" data-roll="1d6">⚀ 1d6</button><button class="diceBtn" data-roll="2d6">⚁ 2d6</button><button class="diceBtn" data-roll="3d6">⚂ 3d6</button><button class="diceBtn" data-roll="4d6">⚃ 4d6</button><button class="diceBtn" data-roll="1d3">🪨 1d3</button><button class="diceBtn" data-roll="1d4">🔪 1d4</button><button class="diceBtn" data-roll="1d5">🔧 1d5</button><button class="diceBtn" data-roll="1d6">🗡️ 1d6</button><button class="diceBtn" data-roll="1d8">🎱 1d8</button><button class="diceBtn" data-roll="1d10">🔟 1d10</button><button class="diceBtn" data-roll="1d12">🪓 1d12</button><button class="diceBtn" data-roll="1d20">👑 1d20</button><button class="diceBtn" data-roll="1d100">💯 1d100</button>
-		</div>
-		<div class="panel" id="oraclePanel">
-			<details>
-				<summary>General</summary>
-<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="genEmoji">🙃 Emoji</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChars">Chars</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button><button class="diceBtn" id="gmeSmell">Smell</button><button class="diceBtn" id="gmeSound">Sound</button><button class="diceBtn" id="gmeTrap">Trap</button><button class="diceBtn" id="gmeTwist">Twist</button>
-			</details>
-			<details>
-				<summary>Character</summary>
-<button class="diceBtn" id="gmeCharAction">Action</button><button class="diceBtn" id="gmeCharAppearance">Appearance</button><button class="diceBtn" id="gmeCharBackground">Background</button><button class="diceBtn" id="gmeCharCombat">Combat</button><button class="diceBtn" id="gmeCharConvo">Convo</button><button class="diceBtn" id="gmeCharDesc">Desc</button><button class="diceBtn" id="gmeCharID">ID</button><button class="diceBtn" id="gmeCharMotivation">Motivation</button><button class="diceBtn" id="gmeCharPersonality">Personality</button><button class="diceBtn" id="gmeCharSkill">Skill</button><button class="diceBtn" id="gmeCharTrait">Trait</button>
-			</details>
-			<details>
-				<summary>Location</summary>
-<button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeCavern">Cavern</button><button class="diceBtn" id="gmeCityDesc">CityDesc</button><button class="diceBtn" id="gmeCiv">Civ</button><button class="diceBtn" id="gmeDomicile">Domicile</button><button class="diceBtn" id="gmeDungeon">Dungeon</button><button class="diceBtn" id="gmeForest">Forest</button><button class="diceBtn" id="gmeNoble">Noble</button><button class="diceBtn" id="gmeTerrain">Terrain</button>
-			</details>
-			<details>
-				<summary>Entities</summary>
-<button class="diceBtn" id="gmeAlien">Alien</button><button class="diceBtn" id="gmeAnimal">Animal</button><button class="diceBtn" id="gmeArmy">Army</button><button class="diceBtn" id="gmeCreatureAbility">CreatureAbility</button><button class="diceBtn" id="gmeCreature">CreatureDesc</button><button class="diceBtn" id="gmeGod">God</button><button class="diceBtn" id="gmeStarship">Starship</button><button class="diceBtn" id="gmeUndead">Undead</button>
-			</details>
-			<details>
-				<summary>Misc</summary>
-<button class="diceBtn" id="gmeCurse">Curse</button><button class="diceBtn" id="gmeDream">Dream</button><button class="diceBtn" id="gmeLegend">Legend</button><button class="diceBtn" id="gmeMagicItem">MagicItem</button><button class="diceBtn" id="gmeMutation">Mutation</button><button class="diceBtn" id="gmePower">Power</button><button class="diceBtn" id="gmeScav">Scavenge</button>
-			</details>
-			<details>
-				<summary>Mothership</summary>
+	</head>
+	<body>
+		<div class="card">
+			<div class="flex" id="tabPanel">
+				<button class="diceBtn active" data-target="dicePanel">Dice</button>
+				<button class="diceBtn" data-target="oracleCard">Oracle</button>
+				<span id="sndSpan">🔊<label class="switch"><input type="checkbox" id="sndToggle"><span class="slider"></span></label></span>
+			</div>
+			<div class="panel active" id="dicePanel">
+	<button class="diceBtn" data-roll="1d6">⚀ 1d6</button><button class="diceBtn" data-roll="2d6">⚁ 2d6</button><button class="diceBtn" data-roll="3d6">⚂ 3d6</button><button class="diceBtn" data-roll="4d6">⚃ 4d6</button><button class="diceBtn" data-roll="1d3">🪨 1d3</button><button class="diceBtn" data-roll="1d4">🔪 1d4</button><button class="diceBtn" data-roll="1d5">🔧 1d5</button><button class="diceBtn" data-roll="1d6">🗡️ 1d6</button><button class="diceBtn" data-roll="1d8">🎱 1d8</button><button class="diceBtn" data-roll="1d10">🔟 1d10</button><button class="diceBtn" data-roll="1d12">🪓 1d12</button><button class="diceBtn" data-roll="1d20">👑 1d20</button><button class="diceBtn" data-roll="1d100">💯 1d100</button>
+			</div>
+			<div class="panel" id="oracleCard">
+				<div class="flex" id="oracleTabs">
+					<button class="diceBtn active" data-target="oraclePanel">Oracle</button>
+					<button class="diceBtn" data-target="characterPanel">Char</button>
+					<button class="diceBtn" data-target="locationPanel">Location</button>
+					<button class="diceBtn" data-target="entitiesPanel">Entities</button>
+					<button class="diceBtn" data-target="miscPanel">Misc</button>
+					<button class="diceBtn" data-target="mothershipPanel">Mothership</button>
+				</div>
+				<div id="oracleButtons">
+					<div class="panel" id="oraclePanel">
+			<button class="diceBtn" id="rollOracle">🔮 Oracle</button><button class="diceBtn" id="rollTarot">✨ Tarot</button><button class="diceBtn" id="rollSemiotic">👁️ Semiotic</button><button class="diceBtn" id="genEmoji">🙃 Emoji</button><button class="diceBtn" id="gmeAction1">Action1</button><button class="diceBtn" id="gmeAction2">Action2</button><button class="diceBtn" id="gmeChars">Chars</button><button class="diceBtn" id="gmeDesc1">Desc1</button><button class="diceBtn" id="gmeDesc2">Desc2</button><button class="diceBtn" id="gmeObject">Object</button><button class="diceBtn" id="gmeTone">Tone</button><button class="diceBtn" id="gmeSmell">Smell</button><button class="diceBtn" id="gmeSound">Sound</button><button class="diceBtn" id="gmeTrap">Trap</button><button class="diceBtn" id="gmeTwist">Twist</button>
+					</div>
+						<div class="panel" id="characterPanel">
+	<button class="diceBtn" id="gmeCharAction">Action</button><button class="diceBtn" id="gmeCharAppearance">Appearance</button><button class="diceBtn" id="gmeCharBackground">Background</button><button class="diceBtn" id="gmeCharCombat">Combat</button><button class="diceBtn" id="gmeCharConvo">Convo</button><button class="diceBtn" id="gmeCharDesc">Desc</button><button class="diceBtn" id="gmeCharID">ID</button><button class="diceBtn" id="gmeCharMotivation">Motivation</button><button class="diceBtn" id="gmeCharPersonality">Personality</button><button class="diceBtn" id="gmeCharSkill">Skill</button><button class="diceBtn" id="gmeCharTrait">Trait</button>
+						</div>
+						<div class="panel" id="locationPanel">
+	<button class="diceBtn" id="gmeLocation">Location</button><button class="diceBtn" id="gmeCavern">Cavern</button><button class="diceBtn" id="gmeCityDesc">CityDesc</button><button class="diceBtn" id="gmeCiv">Civ</button><button class="diceBtn" id="gmeDomicile">Domicile</button><button class="diceBtn" id="gmeDungeon">Dungeon</button><button class="diceBtn" id="gmeForest">Forest</button><button class="diceBtn" id="gmeNoble">Noble</button><button class="diceBtn" id="gmeTerrain">Terrain</button>
+						</div>
+						<div class="panel" id="entitiesPanel">
+	<button class="diceBtn" id="gmeAlien">Alien</button><button class="diceBtn" id="gmeAnimal">Animal</button><button class="diceBtn" id="gmeArmy">Army</button><button class="diceBtn" id="gmeCreatureAbility">CreatureAbility</button><button class="diceBtn" id="gmeCreature">CreatureDesc</button><button class="diceBtn" id="gmeGod">God</button><button class="diceBtn" id="gmeStarship">Starship</button><button class="diceBtn" id="gmeUndead">Undead</button>
+						</div>
+						<div class="panel" id="miscPanel">
+<button class="diceBtn" id="gmeCurse">Curse</button>
+<button class="diceBtn" id="gmeDream">Dream</button>
+<button class="diceBtn" id="gmeLegend">Legend</button>
+<button class="diceBtn" id="gmeMagicItem">MagicItem</button>
+<button class="diceBtn" id="gmeMutation">Mutation</button>
+<button class="diceBtn" id="gmePower">Power</button>
+<button class="diceBtn" id="gmeScav">Scavenge</button>
+						</div>
+						<div class="panel" id="mothershipPanel">
 <button class="diceBtn" id="msPanic">Panic</button>
 <button class="diceBtn" id="msDeath">Death</button>
 <button class="diceBtn" id="msPuzzle">Puzzle</button>
@@ -341,29 +349,30 @@
 <button class="diceBtn" id="msPopulation">Population</button>
 <button class="diceBtn" id="msSettlement">Settlement</button>
 <button class="diceBtn" id="msSettlementLocale">SettlementLocale</button>
-			</details>
-		</div>
+					</div>
+				</div>
+			</div>
 
-		<div class="resultBox">
-			<div id="diceDisplay">—</div>
-			<div id="totalDisplay"></div>
-		</div>
+			<div class="resultBox">
+				<div id="diceDisplay">—</div>
+				<div id="totalDisplay"></div>
+			</div>
 
-		<div id="historyList"></div>
+			<div id="historyList"></div>
 
-		<div class="history-header">
-			<h2>📋 history</h2>
-			<button class="clear-history" id="clearHistoryBtn">clear log</button>
-		</div>
+			<div class="history-header">
+				<h2>📋 history</h2>
+				<button class="clear-history" id="clearHistoryBtn">clear log</button>
+			</div>
 
-		<div class="customPanel">
-			<input type="text" id="diceName" placeholder="Name (Optional)">
-			<input type="number" id="diceCount" min="1" value="2" step="1">
-			<input type="number" id="diceSides" min="2" value="8" step="1">
-			<input type="number" id="diceMod" value="0" step="1">
-			<button class="add-btn" id="addCustomBtn">➕ Add XdY+Z</button>
+			<div class="customPanel">
+				<input type="text" id="diceName" placeholder="Name (Optional)">
+				<input type="number" id="diceCount" min="1" value="2" step="1">
+				<input type="number" id="diceSides" min="2" value="8" step="1">
+				<input type="number" id="diceMod" value="0" step="1">
+				<button class="add-btn" id="addCustomBtn">➕ Add XdY+Z</button>
+			</div>
 		</div>
-	</div>
 
 	<script>
 		(function() {
@@ -473,7 +482,7 @@ const SEMIOTIC_STANDARD=[
 'Adverse Weather',
 'Ultraviolet',
 'Infrared'];
-SEMIOTIC_STANDARD_SUB=[
+const SEMIOTIC_STANDARD_SUB=[
 'Water/Weakness',
 'Attraction/Bond',
 'Volume/Distance',
@@ -2961,6 +2970,107 @@ const GME_SOUND=[
 'Whistle',
 'Wild',
 'Wind'];
+const GME_SPELL=[
+'Animal',
+'Animate',
+'Assist',
+'Attack',
+'Attract',
+'Bestow',
+'Bizarre',
+'Block',
+'Break',
+'Bright',
+'Burn',
+'Change',
+'Cloud',
+'Cold',
+'Communicate',
+'Conceal',
+'Conjure',
+'Control',
+'Counteract',
+'Create',
+'Creature',
+'Curse',
+'Damage',
+'Dark',
+'Death',
+'Deceive',
+'Decrease',
+'Defense',
+'Destroy',
+'Detect',
+'Diminish',
+'Disease',
+'Dominate',
+'Duplicate',
+'Earth',
+'Elements',
+'Emotion',
+'Enemies',
+'Energy',
+'Enhance',
+'Environment',
+'Expose',
+'Fire',
+'Fix',
+'Food',
+'Free',
+'Group',
+'Guide',
+'Hamper',
+'Harm',
+'Heal',
+'Helpful',
+'Ice',
+'Illusion',
+'Imbue',
+'Immunity',
+'Imprison',
+'Information',
+'Inspect',
+'Life',
+'Light',
+'Limitation',
+'Liquid',
+'Loud',
+'Manipulation',
+'Mind',
+'Nature',
+'Object',
+'Others',
+'Pain',
+'Physical',
+'Plant',
+'Poison',
+'Portal',
+'Powerful',
+'Protect',
+'Radius',
+'Ranged',
+'Resistance',
+'Restore',
+'Self',
+'Senses',
+'Shield',
+'Soul',
+'Strange',
+'Strength',
+'Stun',
+'Summon',
+'Time',
+'Transform',
+'Trap',
+'Travel',
+'Trigger',
+'Uncertain',
+'Undead',
+'Wall',
+'Water',
+'Weak',
+'Weapon',
+'Weather'];
 const GME_DESC1=[
 'Adventurously',
 'Aggressively',
@@ -5505,7 +5615,7 @@ const MS_SETTLEMENT_LOCALE=[
 'Terra (Extensive Land Mass)',
 'Tholus (Small Mountain)',
 'Undae (Field Of Dunes)'];
-const MS_SETTLEMENT_LOCALE_ODDS=[04,08,12,16,20,24,28,32,35,39,43,47,51,56,60,65,69,73,77,81,85,89,94,99];
+const MS_SETTLEMENT_LOCALE_ODDS=[4,8,12,16,20,24,28,32,35,39,43,47,51,56,60,65,69,73,77,81,85,89,94,99];
 const MS_PLANET=[
 'Liquid Giant',
 'Liquid Giant',
@@ -5658,9 +5768,9 @@ const MS_CONTRACT_DESC=[
 			const diceSidesInput = document.getElementById('diceSides');
 			const diceModInput = document.getElementById('diceMod');
 			const dicePanel = document.getElementById('dicePanel');
-			const sndTogggle = document.getElementById('sndToggle');
+			const sndToggle = document.getElementById('sndToggle');
 
-			let playSnd = sndTogggle.checked;
+			let playSnd = sndToggle.checked;
 
 			function playSound() {
 				if (!playSnd)
@@ -5873,6 +5983,23 @@ const MS_CONTRACT_DESC=[
 				});
 				btn.classList.add('active');
 				document.getElementById(btn.dataset.target).classList.add('active');
+				console.log(btn.dataset.target);
+				if (btn.dataset.target === 'oracleCard') {
+					document.getElementById('oracleCard').classList.add('active');
+				} else {
+					document.getElementById('oracleCard').classList.remove('active');
+				}
+			});
+			document.getElementById('oracleTabs').addEventListener('click', (e) => {
+				const btn = e.target.closest('button');
+				if (!btn) {
+					return;
+				}
+				document.querySelectorAll('#oracleTabs button, #oracleButtons .panel').forEach(el => {
+					el.classList.remove('active');
+				});
+				btn.classList.add('active');
+				document.getElementById(btn.dataset.target).classList.add('active');
 			});
 
 			dicePanel.addEventListener('click', (e) => {
@@ -5884,7 +6011,7 @@ const MS_CONTRACT_DESC=[
 				performRoll(roll[0], roll[1], roll[2], btn.innerText);
 			});
 
-			document.getElementById('oraclePanel').addEventListener('click', (e) => {
+			document.getElementById('oracleCard').addEventListener('click', (e) => {
 				const btn = e.target.closest('button');
 				if (!btn) {
 					return;
