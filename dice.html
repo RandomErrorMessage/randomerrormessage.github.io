@@ -60,13 +60,13 @@
 			box-shadow: 0 0 0 #5f4f3c, 0 12px 18px -10px #0e2a31;
 			background: #f2e2ce;
 		}
-		.custom-wrapper {
+		.customWrapper {
 			display: inline-flex;
 			align-items: center;
 			gap: 0.3rem;
 			background: transparent;
 		}
-		.custom-remove {
+		.customRemove {
 			background: #ac3e3e;
 			border: none;
 			color: white;
@@ -84,12 +84,12 @@
 			border: 1px solid #d18a8a;
 			transform: translateY(0);
 		}
-		.custom-remove:hover {
+		.customRemove:hover {
 			background: #bc4f4f;
 			box-shadow: 0 2px 0 #612828;
 			transform: translateY(1px);
 		}
-		.custom-remove:active {
+		.customRemove:active {
 			transform: translateY(3px);
 			box-shadow: none;
 		}
@@ -123,7 +123,7 @@
 		#diceName {
 			width: 100%;
 		}
-		.add-btn {
+		.addBtn {
 			background: #3d7078;
 			border: none;
 			color: white;
@@ -136,7 +136,7 @@
 			transition: 0.05s linear;
 			border: 1px solid #8fc5cf;
 		}
-		.add-btn:active {
+		.addBtn:active {
 			transform: translateY(4px);
 			box-shadow: none;
 		}
@@ -184,13 +184,13 @@
 			border: 2px solid #dbb48b;
 			box-shadow: inset 0 2px 5px #0c2f2f;
 		}
-		.history-header {
+		.historyHeader {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 			margin: 0.5rem 0 1rem;
 		}
-		.history-header h2 {
+		.historyHeader h2 {
 			margin: 0;
 			font-size: 1.6rem;
 			color: #d6c29b;
@@ -412,7 +412,7 @@
 
 			<div id="historyList"></div>
 
-			<div class="history-header">
+			<div class="historyHeader">
 				<h2>📋 history</h2>
 				<button class="clear-history" id="clearHistoryBtn">clear log</button>
 			</div>
@@ -422,7 +422,7 @@
 				<input type="number" id="diceCount" min="1" value="2" step="1">
 				<input type="number" id="diceSides" min="2" value="8" step="1">
 				<input type="number" id="diceMod" value="0" step="1">
-				<button class="add-btn" id="addCustomBtn">➕ Add XdY+Z</button>
+				<button class="addBtn" id="addCustomBtn">➕ Add XdY+Z</button>
 			</div>
 		</div>
 
@@ -5823,7 +5823,31 @@ const MS_CONTRACT_DESC=[
 			const sndToggle = document.getElementById('sndToggle');
 			const oracleCard = document.getElementById('oracleCard');
 
-			let playSnd = sndToggle.checked;
+
+			function setCookie(cookie) {
+				document.cookie = `data=${encodeURIComponent(JSON.stringify(cookie))}; path=/`;
+			}
+			function getCookie() {
+				const defaultCookie = { snd: false };
+				const cookies = document.cookie.split('; ');
+				const foundCookie = cookies.find(row => row.startsWith('data='));
+				if (!foundCookie) {
+					setCookie(defaultCookie);
+					return defaultCookie;
+				}
+				const rawValue = foundCookie.split('=')[1];
+				try {
+					return JSON.parse(decodeURIComponent(rawValue));
+				} catch (e) {
+					console.error("Error parsing cookie JSON", e);
+					setCookie(defaultCookie);
+					return defaultCookie;
+				}
+			}
+
+			let cookie = getCookie();
+			sndToggle.checked = cookie.snd;
+			let playSnd = cookie.snd;
 
 			function playSound() {
 				if (!playSnd)
@@ -5850,7 +5874,7 @@ const MS_CONTRACT_DESC=[
 				historyList.scrollTop = 0;
 			}
 
-			function performRoll(count, sides, mod=0, name) {
+			function runRoll(count, sides, mod=0, name) {
 				let sum = 0;
 				let html = '';
 				let resultStr = '';
@@ -5881,7 +5905,7 @@ const MS_CONTRACT_DESC=[
 				playSound();
 			}
 
-			function performOracle() {
+			function runOracle() {
 				const die = Math.floor(Math.random() * ORACLE_TABLE.length);
 				const result = ORACLE_TABLE[die];
 				const result_sub = ORACLE_TABLE_SUB[die][Math.floor(Math.random() * 6)];
@@ -5901,7 +5925,7 @@ const MS_CONTRACT_DESC=[
 				return i;
 			}
 
-			function performOdds(table, odds, sides, description, table2) {
+			function runOdds(table, odds, sides, description, table2) {
 				const die = Math.floor(Math.random() * sides);
 				const i = runOdds(die, odds);
 				display.innerHTML = table[i];
@@ -5915,7 +5939,7 @@ const MS_CONTRACT_DESC=[
 				playSound();
 			}
 
-			function performOdds3(table, odds, sides, desc1, desc2, desc3, table2, table3) {
+			function runOdds3(table, odds, sides, desc1, desc2, desc3, table2, table3) {
 				const die = Math.floor(Math.random() * sides);
 				const i = runOdds(die, odds);
 				display.innerHTML = table[i];
@@ -5924,7 +5948,7 @@ const MS_CONTRACT_DESC=[
 				playSound();
 			}
 
-			function performTarot() {
+			function runTarot() {
 				const die = Math.floor(Math.random() * TAROT_TABLE.length)
 				const orientation = Math.floor(Math.random() * 2)
 				const result = TAROT_TABLE[die];
@@ -5934,21 +5958,14 @@ const MS_CONTRACT_DESC=[
 				addHistoryEntry(`${result} (${TAROT_ORIENTATION[orientation]}) : ${result_sub}`);
 				playSound();
 			}
-			function performSemiotic() {
-				const die = Math.floor(Math.random() * SEMIOTIC_STANDARD.length)
-				display.innerHTML = SEMIOTIC_STANDARD[die];
-				totalDisplay.innerHTML = SEMIOTIC_STANDARD_SUB[die];
-				addHistoryEntry(`${SEMIOTIC_STANDARD[die]} : ${SEMIOTIC_STANDARD_SUB[die]}`);
-				playSound();
-			}
-			function performGME(table, name) {
+			function runGME(table, name) {
 				const die = Math.floor(Math.random() * table.length)
 				display.innerHTML = table[die];
 				totalDisplay.innerHTML = name;
 				addHistoryEntry(`${name}: ${table[die]}`);
 				playSound();
 			}
-			function performTwo(table1, table2, name, mod=1) {
+			function runTwo(table1, table2, name, mod=1) {
 				const die = Math.floor(Math.random() * table1.length)
 				display.innerHTML = table1[die];
 				totalDisplay.innerHTML = table2[die];
@@ -5970,7 +5987,7 @@ const MS_CONTRACT_DESC=[
 			}
 			function createCustomButton(x, y, z, name) {
 				const wrapper = document.createElement('div');
-				wrapper.className = 'custom-wrapper';
+				wrapper.className = 'customWrapper';
 
 				const rollBtn = document.createElement('button');
 				rollBtn.className = 'diceBtn';
@@ -5988,7 +6005,7 @@ const MS_CONTRACT_DESC=[
 				rollBtn.dataset.roll = dieStr;
 
 				const removeBtn = document.createElement('button');
-				removeBtn.className = 'custom-remove';
+				removeBtn.className = 'customRemove';
 				removeBtn.innerHTML = '✕';
 
 				removeBtn.addEventListener('click', () => {
@@ -6010,8 +6027,7 @@ const MS_CONTRACT_DESC=[
 				const range = ranges[Math.floor(Math.random() * ranges.length)];
 				const min = range[0];
 				const max = range[1];
-				const codePoint = Math.floor(Math.random() * (max - min + 1)) + min;
-				const emoji = String.fromCodePoint(codePoint);
+				const emoji = String.fromCodePoint(Math.floor(Math.random() * (max - min + 1)) + min);
 				display.innerHTML = emoji;
 				totalDisplay.innerHTML = 'Emoji';
 				addHistoryEntry('Emoji: ' + emoji);
@@ -6019,7 +6035,9 @@ const MS_CONTRACT_DESC=[
 			}
 
 			sndToggle.addEventListener('click', (e) => {
-				playSnd = e.target.checked;
+				cookie.snd = e.target.checked;
+				playSnd = cookie.snd;
+				setCookie(cookie);
 			});
 
 			document.getElementById('clearHistoryBtn').addEventListener('click', () => {
@@ -6060,7 +6078,7 @@ const MS_CONTRACT_DESC=[
 					return;
 				}
 				const roll = parseDice(btn.dataset.roll);
-				performRoll(roll[0], roll[1], roll[2], btn.innerText);
+				runRoll(roll[0], roll[1], roll[2], btn.innerText);
 			});
 
 			oracleCard.addEventListener('click', (e) => {
@@ -6070,199 +6088,199 @@ const MS_CONTRACT_DESC=[
 				}
 				switch (btn.id) {
 					case 'rollTarot':
-						performTarot();
+						runTarot();
 						break;
 					case 'rollOracle':
-						performOracle();
+						runOracle();
 						break;
 					case 'rollSemiotic':
-						performSemiotic();
+						runTwo(SEMIOTIC_STANDARD, SEMIOTIC_STANDARD_SUB, 'Semiotic Standard');
 						break;
 					case 'genEmoji':
 						genEmoji();
 						break;
 					case 'gmeAction1':
-						performGME(GME_ACTION1, 'Action 1');
+						runGME(GME_ACTION1, 'Action 1');
 						break;
 					case 'gmeAction2':
-						performGME(GME_ACTION2, 'Action 2');
+						runGME(GME_ACTION2, 'Action 2');
 						break;
 					case 'gmeDesc1':
-						performGME(GME_DESC1, 'Description 1');
+						runGME(GME_DESC1, 'Description 1');
 						break;
 					case 'gmeDesc2':
-						performGME(GME_DESC2, 'Description 2');
+						runGME(GME_DESC2, 'Description 2');
 						break;
 					case 'gmeTone':
-						performGME(GME_TONE, 'Adventure Tone');
+						runGME(GME_TONE, 'Adventure Tone');
 						break;
 					case 'gmeAlien':
-						performGME(GME_ALIEN, 'Alien Species Descriptor');
+						runGME(GME_ALIEN, 'Alien Species Descriptor');
 						break;
 					case 'gmeAnimal':
-						performGME(GME_ANIMAL, 'Animal Action');
+						runGME(GME_ANIMAL, 'Animal Action');
 						break;
 					case 'gmeArmy':
-						performGME(GME_ARMY, 'Army Descriptor');
+						runGME(GME_ARMY, 'Army Descriptor');
 						break;
 					case 'gmeCavern':
-						performGME(GME_CAVERN, 'Cavern Descriptor');
+						runGME(GME_CAVERN, 'Cavern Descriptor');
 						break;
 					case 'gmeChars':
-						performGME(GME_CHARS, 'Characters');
+						runGME(GME_CHARS, 'Characters');
 						break;
 					case 'gmeCharCombat':
-						performGME(GME_CHAR_COMBAT, 'Character Combat');
+						runGME(GME_CHAR_COMBAT, 'Character Combat');
 						break;
 					case 'gmeCharAction':
-						performGME(GME_CHAR_ACTION, 'Character Action');
+						runGME(GME_CHAR_ACTION, 'Character Action');
 						break;
 					case 'gmeCharAppearance':
-						performGME(GME_CHAR_APPEARANCE, 'Character Appearance');
+						runGME(GME_CHAR_APPEARANCE, 'Character Appearance');
 						break;
 					case 'gmeCharBackground':
-						performGME(GME_CHAR_BACKGROUND, 'Character Background');
+						runGME(GME_CHAR_BACKGROUND, 'Character Background');
 						break;
 					case 'gmeCharConvo':
-						performGME(GME_CHAR_CONVERSATION, 'Character Conversation');
+						runGME(GME_CHAR_CONVERSATION, 'Character Conversation');
 						break;
 					case 'gmeCharDesc':
-						performGME(GME_CHAR_DESC, 'Character Description');
+						runGME(GME_CHAR_DESC, 'Character Description');
 						break;
 					case 'gmeCharID':
-						performGME(GME_CHAR_ID, 'Character Identity');
+						runGME(GME_CHAR_ID, 'Character Identity');
 						break;
 					case 'gmeCharMotivation':
-						performGME(GME_CHAR_MOTIVATION, 'Character Motivation');
+						runGME(GME_CHAR_MOTIVATION, 'Character Motivation');
 						break;
 					case 'gmeCharPersonality':
-						performGME(GME_CHAR_PERSONALITY, 'Character Personality');
+						runGME(GME_CHAR_PERSONALITY, 'Character Personality');
 						break;
 					case 'gmeCharSkill':
-						performGME(GME_CHAR_SKILL, 'Character Skill');
+						runGME(GME_CHAR_SKILL, 'Character Skill');
 						break;
 					case 'gmeCharTrait':
-						performGME(GME_CHAR_TRAIT, 'Character Trait');
+						runGME(GME_CHAR_TRAIT, 'Character Trait');
 						break;
 					case 'gmeCityDesc':
-						performGME(GME_CITY_DESC, 'City Descriptor');
+						runGME(GME_CITY_DESC, 'City Descriptor');
 						break;
 					case 'gmeCiv':
-						performGME(GME_CIV, 'Civilization Descriptor');
+						runGME(GME_CIV, 'Civilization Descriptor');
 						break;
 					case 'gmeCreatureAbility':
-						performGME(GME_CREATURE_ABILITY, 'Creature Ability');
+						runGME(GME_CREATURE_ABILITY, 'Creature Ability');
 						break;
 					case 'gmeCreature':
-						performGME(GME_CREATURE_DESC, 'Creature Descriptor');
+						runGME(GME_CREATURE_DESC, 'Creature Descriptor');
 						break;
 					case 'gmeCryptic':
-						performGME(GME_CRYPTIC, 'Cryptic Message');
+						runGME(GME_CRYPTIC, 'Cryptic Message');
 						break;
 					case 'gmeCurse':
-						performGME(GME_CURSE, 'Curse');
+						runGME(GME_CURSE, 'Curse');
 						break;
 					case 'gmeDomicile':
-						performGME(GME_DOMICILE, 'Domicile Descriptor');
+						runGME(GME_DOMICILE, 'Domicile Descriptor');
 						break;
 					case 'gmeDungeon':
-						performGME(GME_DUNGEON, 'Dungeon Descriptor');
+						runGME(GME_DUNGEON, 'Dungeon Descriptor');
 						break;
 					case 'gmeTrap':
-						performGME(GME_TRAP, 'Trap');
+						runGME(GME_TRAP, 'Trap');
 						break;
 					case 'gmeForest':
-						performGME(GME_FOREST, 'Forest Descriptor');
+						runGME(GME_FOREST, 'Forest Descriptor');
 						break;
 					case 'gmeGod':
-						performGME(GME_GOD, 'God');
+						runGME(GME_GOD, 'God');
 						break;
 					case 'gmeLegend':
-						performGME(GME_LEGEND, 'Legend');
+						runGME(GME_LEGEND, 'Legend');
 						break;
 					case 'gmeLocation':
-						performGME(GME_LOCATION, 'Location');
+						runGME(GME_LOCATION, 'Location');
 						break;
 					case 'gmeMagicItem':
-						performGME(GME_MAGIC_ITEM, 'Magic Item Descriptor');
+						runGME(GME_MAGIC_ITEM, 'Magic Item Descriptor');
 						break;
 					case 'gmeMutation':
-						performGME(GME_MUTATION, 'Mutation Descriptor');
+						runGME(GME_MUTATION, 'Mutation Descriptor');
 						break;
 					case 'gmeNoble':
-						performGME(GME_NOBLE, 'Noble House');
+						runGME(GME_NOBLE, 'Noble House');
 						break;
 					case 'gmeObject':
-						performGME(GME_OBJECT, 'Object');
+						runGME(GME_OBJECT, 'Object');
 						break;
 					case 'gmeTwist':
-						performGME(GME_TWIST, 'Plot Twist');
+						runGME(GME_TWIST, 'Plot Twist');
 						break;
 					case 'gmePower':
-						performGME(GME_POWER, 'Power');
+						runGME(GME_POWER, 'Power');
 						break;
 					case 'gmeScav':
-						performGME(GME_SCAV, 'Scavenge');
+						runGME(GME_SCAV, 'Scavenge');
 						break;
 					case 'gmeSmell':
-						performGME(GME_SMELL, 'Smell');
+						runGME(GME_SMELL, 'Smell');
 						break;
 					case 'gmeSound':
-						performGME(GME_SOUND, 'Sound');
+						runGME(GME_SOUND, 'Sound');
 						break;
 					case 'gmeSpell':
-						performGME(GME_SPELL, 'Spell Effect');
+						runGME(GME_SPELL, 'Spell Effect');
 						break;
 					case 'gmeStarship':
-						performGME(GME_STARSHIP, 'Starship Descriptor');
+						runGME(GME_STARSHIP, 'Starship Descriptor');
 						break;
 					case 'gmeTerrain':
-						performGME(GME_TERRAIN, 'Terrain Descriptor');
+						runGME(GME_TERRAIN, 'Terrain Descriptor');
 						break;
 					case 'gmeUndead':
-						performGME(GME_UNDEAD, 'Undead Descriptor');
+						runGME(GME_UNDEAD, 'Undead Descriptor');
 						break;
 					case 'gmeDream':
-						performGME(GME_DREAM, 'Vision / Dream');
+						runGME(GME_DREAM, 'Vision / Dream');
 						break;
 					case 'msPanic':
-						performTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
+						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
 						break;
 					case 'msDeath':
-						performOdds(MS_DEATH, MS_DEATH_ODDS, 10, 'Death', MS_DEATH_SUB);
+						runOdds(MS_DEATH, MS_DEATH_ODDS, 10, 'Death', MS_DEATH_SUB);
 						break;
 					case 'msLocation':
-						performGME(MS_LOCATION, 'Location');
+						runGME(MS_LOCATION, 'Location');
 						break;
 					case 'msPlanet':
-						performTwo(MS_PLANET, MS_PLANET_SUB, 'Planet', 0);
+						runTwo(MS_PLANET, MS_PLANET_SUB, 'Planet', 0);
 						break;
 					case 'msPopulation':
-						performOdds(MS_POPULATION, MS_POPULATION_ODDS, 10, 'Location');
+						runOdds(MS_POPULATION, MS_POPULATION_ODDS, 10, 'Location');
 						break;
 					case 'msPort':
-						performOdds(MS_PORT, MS_PORT_ODDS, 10, 'Port Class');
+						runOdds(MS_PORT, MS_PORT_ODDS, 10, 'Port Class');
 						break;
 					case 'msControl':
-						performOdds(MS_CONTROL, MS_CONTROL_ODDS, 10, 'Control Faction');
+						runOdds(MS_CONTROL, MS_CONTROL_ODDS, 10, 'Control Faction');
 						break;
 					case 'msSettlementLocale':
-						performOdds(MS_SETTLEMENT_LOCALE, MS_SETTLEMENT_LOCALE_ODDS, 100, 'Settlement Locale');
+						runOdds(MS_SETTLEMENT_LOCALE, MS_SETTLEMENT_LOCALE_ODDS, 100, 'Settlement Locale');
 						break;
 					case 'msPuzzle':
-						performOdds(MS_PUZZLE_TYPE, MS_PUZZLE_ODDS, 100, 'Puzzle', MS_PUZZLE_DESC);
+						runOdds(MS_PUZZLE_TYPE, MS_PUZZLE_ODDS, 100, 'Puzzle', MS_PUZZLE_DESC);
 						break;
 					case 'msFaction':
-						performOdds(MS_FACTIONS, MS_FACTIONS_ODDS, 100, 'Faction');
+						runOdds(MS_FACTIONS, MS_FACTIONS_ODDS, 100, 'Faction');
 						break;
 					case 'msLore':
-						performOdds(MS_LORE, MS_LORE_ODDS, 100, 'Lore');
+						runOdds(MS_LORE, MS_LORE_ODDS, 100, 'Lore');
 						break;
 					case 'msContract':
-						performOdds(MS_CONTRACT, MS_CONTRACT_ODDS, 10, 'Contract', MS_CONTRACT_DESC);
+						runOdds(MS_CONTRACT, MS_CONTRACT_ODDS, 10, 'Contract', MS_CONTRACT_DESC);
 						break;
 					case 'msSettlement':
-						performOdds3(MS_SETTLEMENT_TYPE, MS_SETTLEMENT_ODDS, 100, 'Settlement', 'Condition', 'Weird', MS_SETTLEMENT_CONDITION, MS_SETTLEMENT_WEIRD);
+						runOdds3(MS_SETTLEMENT_TYPE, MS_SETTLEMENT_ODDS, 100, 'Settlement', 'Condition', 'Weird', MS_SETTLEMENT_CONDITION, MS_SETTLEMENT_WEIRD);
 						break;
 					default:
 						console.log(e);
