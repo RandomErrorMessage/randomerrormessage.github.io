@@ -332,6 +332,7 @@
 <button class="diceBtn" id="msDeath">Death</button>
 <button class="diceBtn" id="msPuzzle">Puzzle</button>
 <button class="diceBtn" id="msFaction">Faction</button>
+<button class="diceBtn" id="msLore">Lore</button>
 <button class="diceBtn" id="msContract">Contract</button>
 <button class="diceBtn" id="msPort">Port</button>
 <button class="diceBtn" id="msLocation">Location</button>
@@ -5438,32 +5439,72 @@ const MS_FACTIONS=[
 'Aleph Gate',
 'FRIEND',
 ];
+const MS_LORE_ODDS=[0,4,8,12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,72,76,80,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99];
+const MS_LORE=[
+'The Maru Banking Colonies',
+'False Europa',
+'The Egosystem',
+'The MIDAS-12 Massacre',
+'The Shadow Algorithm',
+'Universal Remote',
+'The Conway Machine',
+'The Book of Sar',
+'MOGUL: Maximum Prison Planet',
+'The Orlov Incident',
+'Fred, the Disappearing Man',
+'The Creeping Fog',
+'Mindpillers',
+'The Precursors',
+'Zygotean Mercenaries',
+'The Teaman Murders',
+'The Whispering Plague',
+'Sea of Tranquility Conspiracy',
+'UCSCV Mournbringer Flight 364',
+'The Bracewell Autonomous Zone',
+'Spasi, Otets, Syna',
+'Cosmetic Vampire Hoax',
+'IMG 2238',
+'The Magnetic Typhoon',
+'The Battle for Columbia Gate',
+'The Spitz-Okoro Theorum',
+'The Uplifted Possums',
+'The Silent Century',
+'Naktari War Syndrome',
+'The Autumnal City at Bellona',
+'Origin Point Zero',
+'The Mountebank Game',
+'The Helium Uprising',
+'The Dearborn Corpse',
+'Wombship',
+'The Hymn of Saeeda Dawn',
+'Divinity Strain',
+'Rey Burtnolds is Alive and Well and Living on Casimir'];
 const MS_FACTIONS_ODDS=[0,9,19,26,31,35,40,44,48,52,56,60,64,68,72,76,80,84,89,90,91,92,93,94,95,96,97,98,99];
 const MS_SETTLEMENT_LOCALE=[
-'CATENA (crater chain)',
-'CHAOS (broken terrain)',
-'COLLIS (small hill)',
-'CRATER (impact valley)',
-'DORSUM (ridge)',
-'ERUPTIVE CENTER (volcano)',
-'FOSSA (trough)',
-'LABES (landslide)',
-'LABYRINTHUS (complex of intersecting valleys/ridges)',
-'LACUS ("lake" or small plain)',
-'LANDING SITE',
-'MARE ("sea" on a moon)',
-'MENSA (mesa)',
-'MONS (mountain)',
-'MONTES (mountain range)',
-'PATERA (irregular crater)',
-'PLANITIA (low plain)',
-'PLANUM (high plain/plateau)',
-'RUPES (cliff/scarp)',
-'RIMA (fissure)',
-'SAXUM (boulder)',
-'TERRA (extensive land mass)',
-'THOLUS (small mountain)',
-'UNDAE (field of dunes)'];
+'Catena (Crater Chain)',
+'Chaos (Broken Terrain)',
+'Collis (Small Hill)',
+'Crater (Impact Valley)',
+'Dorsum (Ridge)',
+'Eruptive Center (Volcano)',
+'Fossa (Trough)',
+'Labes (Landslide)',
+'Labyrinthus (Complex of Intersecting Valleys/Ridges)',
+'Lacus ("Lake" or Small Plain)',
+'Landing Site',
+'Mare ("Sea" on a Moon)',
+'Mensa (Mesa)',
+'Mons (Mountain)',
+'Montes (Mountain Range)',
+'Patera (Irregular Crater)',
+'Planitia (Low Plain)',
+'Planum (High Plain/Plateau)',
+'Rupes (Cliff/Scarp)',
+'Rima (Fissure)',
+'Saxum (Boulder)',
+'Terra (Extensive Land Mass)',
+'Tholus (Small Mountain)',
+'Undae (Field Of Dunes)'];
 const MS_SETTLEMENT_LOCALE_ODDS=[04,08,12,16,20,24,28,32,35,39,43,47,51,56,60,65,69,73,77,81,85,89,94,99];
 const MS_PLANET=[
 'Liquid Giant',
@@ -6034,6 +6075,9 @@ const MS_CONTRACT_DESC=[
 						break;
 					case 'msFaction':
 						performOdds(MS_FACTIONS, MS_FACTIONS_ODDS, 100, 'Faction');
+						break;
+					case 'msLore':
+						performOdds(MS_LORE, MS_LORE_ODDS, 100, 'Lore');
 						break;
 					case 'msContract':
 						performOdds(MS_CONTRACT, MS_CONTRACT_ODDS, 10, 'Contract', MS_CONTRACT_DESC);
