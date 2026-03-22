@@ -388,6 +388,7 @@
 						<button class="diceBtn" id="gmeSpell">Spell</button>
 					</div>
 					<div class="panel" id="mothershipPanel">
+						<button class="diceBtn" id="msGenChar">GenChar</button>
 						<button class="diceBtn" id="msPanic">Panic</button>
 						<button class="diceBtn" id="msDeath">Death</button>
 						<button class="diceBtn" id="msPuzzle">Puzzle</button>
@@ -5445,6 +5446,253 @@ const GME_DREAM=[
 'Violence',
 'Warning',
 'Weapon'];
+const MS_LOADOUT_MARINE=[
+'Tank Top and Camo Pants (AP 1), Combat Knife (as Scalpel DMG [+]), Stimpak (x5)',
+'Advanced Battle Dress (AP 10), Flamethrower, Boarding Axe',
+'Standard Battle Dress (AP 7), Combat Shotgun (4 rounds), Rucksack, Camping Gear',
+'Standard Battle Dress (AP 7), Pulse Rifle (3 mags), Infrared Goggles',
+'Standard Battle Dress (AP 7), Smart Rifle (3 mags), Binoculars, Personal Locator',
+'Standard Battle Dress (AP 7), SMG (3 mags), MRE (x7)',
+'Fatigues (AP 2), Combat Shotgun (2 rounds), Dog (pet), Leash, Tennis Ball',
+'Fatigues (AP 2), Revolver (12 rounds), Frag Grenade',
+'Dress Uniform (AP 1), Revolver (1 round), Challenge Coin',
+'Advanced Battle Dress (AP 10), General-Purpose Machine Gun (1 Can of ammo), HUD'];
+const MS_LOADOUT_ANDROID=[
+'Vaccsuit (AP 3), Smart Rifle (2 mags), Infrared Goggles, Mylar Blanket',
+'Vaccsuit (AP 3), Revolver (12 rounds), Long-range Comms, Satchel',
+'Hazard Suit (AP 5), Revolver (6 rounds), Defibrillator, First Aid Kit, Flashlight',
+'Hazard Suit (AP 5), Foam Gun (2 charges), Sample Collection Kit, Screwdriver (as Assorted Tools)',
+'Standard Battle Dress (AP 7), Tranq Pistol (3 shots), Paracord (100m)',
+'Standard Crew Attire (AP 1), Stun Baton, Small Pet (organic).',
+'Standard Crew Attire (AP 1), Scalpel, Bioscanner',
+'Standard Crew Attire (AP 1), Frag Grenade, Pen Knife',
+'Manufacturer Supplied Attire (AP 1), Jump-9 Ticket (destination blank)',
+'Corporate Attire (AP 1), VIP Corporate Key Card'];
+const MS_LOADOUT_SCIENTIST=[
+'Hazard Suit (AP 5), Tranq Pistol (3 shots), Bioscanner, Sample Collection Kit',
+'Hazard Suit (AP 5), Flamethrower (1 charge), Stimpak (x1), Electronic Tool Set',
+'Vaccsuit (AP 3), Rigging Gun, Sample Collection Kit, Flashlight, Lab Rat (pet)',
+'Hazard Suit (AP 5), Vibechete, Spanner,',
+'Vaccsuit (AP 3), Foam Gun (2 charges), Foldable Stretcher, First Aid Kit, Radiation Pills',
+'Lab Coat (AP 1), Screwdriver (as Assorted Tools), Medscanner, Vaccine (1 dose)',
+'Lab Coat (AP 1), Cybernetic Diagnostic Scanner, Portable Computer Terminal',
+'Scrubs (AP 1), Scalpel, Automed (x5), Oxygen Tank with Filter Mask',
+'Scrubs (AP 1), Vial of Acid, Mylar Blanket, First Aid Kit',
+'Standard Crew Attire (AP 1), Utility Knife (as Scalpel), Cybernetic Diagnostic Scanner, Duct Tape',
+'Civilian Clothes (AP 1), Briefcase, Prescription Pad, Fountain Pen (Poison Injector)'];
+const MS_LOADOUT_TEAMSTER=[
+'Vaccsuit (AP 3), Laser Cutter (1 extra battery), Patch Kit, Toolbelt with assorted tools',
+'Vaccsuit (AP 3), Revolver (6 rounds), Crowbar, Flashlight',
+'Vaccsuit (AP 3), Rigging Gun, Shovel, Salvage Drone',
+'Hazard Suit (AP 5), Vibechete, Spanner, Camping Gear, Water Filter',
+'Heavy Duty Work Clothes (AP 2), Explosives & Detonator, Cigarettes',
+'Heavy Duty Work Clothes (AP 2), Drill (as Assorted Tools), Paracord (100m), Salvage Drone',
+'Standard Crew Attire (AP 1), Combat Shotgun (4 rounds), Extension Cord (20m), Cat',
+'Standard Crew Attire (AP 1), Nail Gun (32 rounds), Head Lamp, Toolbelt with assorted tools, Lunch Box',
+'Standard Crew Attire (AP 1), Flare Gun (2 rounds), Water Filtration Device, Personal Locator, Subsurface Scanner',
+'Lounge Wear (AP 1), Crowbar, Stimpak, Six Pack of Beer'];
+const MS_TRINKET=[
+'Manual: PANIC: Harbinger of Catastrophe',
+'Antique Company Scrip (Asteroid Mine)',
+'Manual: SURVIVAL: Eat Soup With a Knife',
+'Dessicated Husk Doll',
+'Pressed Alien Flower (common)',
+'Necklace of Shell Casings',
+'Corroded Android Logic Core',
+'Pamphlet: Signs of Parasitical Infection',
+'Manual: Treat Your Rifle Like A Lady',
+'Bone Knife',
+'Calendar: Alien Pin-Up Art',
+'Rejected Application (Colony Ship)',
+'Holographic Serpentine Dancer',
+'Snake Whiskey',
+'Medical Container, Purple Powder',
+'Pills: Male Enhancement, Shoddy',
+'Casino Playing Cards',
+'Lagomorph Foot',
+'Moonstone Ring',
+'Manual: Mining Safety and You',
+'Pamphlet: Against Human Simulacra',
+'Animal Skull, 3 Eyes, Curled Horns',
+'Bartender\'s Certification (Expired)',
+'Bunraku Puppet',
+'Prospecting Mug, Dented',
+'Eerie Mask',
+'Ultrablack Marble',
+'Ivory Dice',
+'Tarot Cards, Worn, Pyrite Gilded Edges',
+'Bag of Assorted Teeth',
+'Ashes (A Relative)',
+'DNR Beacon Necklace',
+'Cigarettes (Grinning Skull)',
+'Pills: Areca Nut',
+'Pendant: Shell Fragments Suspended in Plastic',
+'Pamphlet: Zen and the Art of Cargo Arrangement',
+'Pair of Shot Glasses (Spent Shotgun Shells)',
+'Key (Childhood Home)',
+'Dog Tags (Heirloom)',
+'Token: "Is Your Morale Improving?"',
+'Pamphlet: The Relic of Flesh',
+'Pamphlet: The Indifferent Stars',
+'Calendar: Military Battles',
+'Manual: Rich Captain, Poor Captain',
+'Campaign Poster (Home Planet)',
+'Preserved Insectile Aberration',
+'Titanium Toothpick',
+'Gloves, Leather (Xenomorph Hide)',
+'Smut (Seditious): The Captain, Ordered',
+'Towel, Slightly Frayed',
+'Brass Knuckles',
+'Fuzzy Handcuffs',
+'Journal of Grudges',
+'Stylized Cigarette Case',
+'Ball of Assorted Gauge Wire',
+'Spanner',
+'Switchblade, Ornamental',
+'Powdered Xenomorph Horn',
+'Bonsai Tree, Potted',
+'Golf Club (Putter)',
+'Trilobite Fossil',
+'Pamphlet: A Lover In Every Port',
+'Patched Overalls, Personalized',
+'Fleshy Thing Sealed in a Murky Jar',
+'Spiked Bracelet',
+'Harmonica',
+'Pictorial Pornography, Dog-eared, Well-thumbed',
+'Coffee Cup, Chipped, reads: HAPPINESS IS MANDATORY',
+'Manual: Moonshining With Gun Oil & Fuel',
+'Miniature Chess Set, Bone, Pieces Missing',
+'Gyroscope, Bent, Tin',
+'Faded Green Poker Chip',
+'Ukulele',
+'Spray Paint',
+'Wanted Poster, Weathered',
+'Locket, Hair Braid',
+'Sculpture of a Rat (Gold)',
+'Blanket, Fire Retardant',
+'Hooded Parka, Fleece-Lined',
+'BB Gun',
+'Flint Hatchet',
+'Pendant: Two Astronauts form a Skull',
+'Rubik\'s Cube',
+'Stress Ball, reads: Zero Stress in Zero G',
+'Sputnik Pin',
+'Ushanka',
+'Trucker Cap, Mesh, Grey Alien Logo',
+'Menthol Balm',
+'Pith Helmet',
+'10m x 10m Tarp',
+'I Ching, Missing Sticks',
+'Kukri',
+'Trench Shovel',
+'Shiv, Sharpened Butter Knife',
+'Taxidermied Cat',
+'Pamphlet: Interpreting Sheep Dreams',
+'Faded Photograph, A Windswept Heath',
+'Opera Glasses',
+'Pamphlet: Android Overlords',
+'Interstellar Compass, Always Points to Homeworld'];
+const MS_PATCH=[
+'"I\'m Not A Rocket Scientist / But You\'re An Idiot"',
+'Medic Patch (Skull and Crossbones over Cross)',
+'"Don\'t Run You\'ll Only Die Tired" Backpatch',
+'Red Shirt Logo',
+'Blood Type (Reference Patch)',
+'"Do I LOOK Like An Expert?"',
+'Biohazard Symbol',
+'Mr. Yuck',
+'Nuclear Symbol',
+'"Eat The Rich"',
+'"Be Sure: Doubletap"',
+'Flame Emoji',
+'Smiley Face (Glow in the Dark)',
+'"Smile: Big Brother is Watching"',
+'Jolly Roger',
+'Viking Skull',
+'"APEX PREDATOR" (Sabertooth Skull)',
+'Pin-Up Model (Ace of Spades)',
+'Queen of Hearts',
+'Security Guard',
+'"LONER"',
+'"Front Towards Enemy" (Claymore Mine)',
+'Pin-Up Model (Riding Missile)',
+'FUBAR',
+'"I\'m A (Love) Machine"',
+'Pin-Up Model (Mechanic)',
+'"HELLO MY NAME IS:"',
+'"Powered By Coffee"',
+'"Take Me To Your Leader" (UFO)',
+'"DO YOUR JOB"',
+'"Take My Life (Please)"',
+'"Upstanding Citizen"',
+'"Allergic To Bullshit" (Medical Style Patch)',
+'"Fix Me First" (Caduceus)',
+'"I Like My Tools Clean / And My Lovers Dirty"',
+'"The Louder You Scream the Faster I Come" (Nurse Pin-Up)',
+'HMFIC (Head Mother Fucker In Charge)',
+'Dove in Crosshairs',
+'Chibi Cthulhu',
+'"Welcome to the DANGER ZONE"',
+'Skull and Crossed Wrenches',
+'Pin-Up Model (Succubus)',
+'"DILLIGAF?"',
+'"DRINK / FIGHT / FUCK"',
+'"Work Hard / Party Harder"',
+'Mudflap Girl',
+'Fun Meter (reads: Bad Time)',
+'"GAME OVER" (Bride & Groom)',
+'Heart',
+'"IMPROVE / ADAPT / OVERCOME"',
+'"SUCK IT UP"',
+'"Cowboy Up" (Crossed Revolvers)',
+'"Troubleshooter"',
+'NASA Logo',
+'Crossed Hammers with Wings',
+'"Keep Well Lubricated"',
+'Soviet Hammer & Sickle',
+'"Plays Well With Others"',
+'"Live Free and Die"',
+'"IF I\'M RUNNING KEEP UP" Backpatch',
+'"Meat Bag"',
+'"I Am Not A Robot"',
+'Red Gear',
+'"I Can\'t Fix Stupid"',
+'"Space IS My Home" (Sad Astronaut)',
+'All Seeing Eye',
+'"Solve Et Coagula" (Baphomet)',
+'"All Out of Fucks To Give" (Astronaut with Turned Out Pockets)',
+'"Travel To Distant Places / Meet Unusual Things / Get Eaten"',
+'BOHICA (Bend Over Here It Comes Again)',
+'"I Am My Brother\'s Keeper"',
+'"Mama Tried"',
+'Black Widow Spider',
+'"My Other Ride Married You"',
+'"One Size Fits All" (Grenade)',
+'Grim Reaper Backpatch',
+'otъeбиcь ("Fuck Off," Russian)',
+'"Smooth Operator"',
+'Atom Symbol',
+'"For Science!"',
+'"Actually, I AM A Rocket Scientist"',
+'"Help Wanted"',
+'Princess',
+'"NOMAD"',
+'"GOOD BOY"',
+'Dice (Snake Eyes)',
+'"#1 Worker"',
+'"Good" (Brain)',
+'"Bad Bitch"',
+'"Too Pretty To Die"',
+'"Fuck Forever" (Roses)',
+'Icarus',
+'"Girl\'s Best Friend" (Diamond)',
+'Risk of Electrocution Symbol',
+'Inverted Cross',
+'"Do You Sign My Paychecks?" Backpatch',
+'"I ♥ Myself"',
+'Double Cherry',
+'"Volunteer"',
+'Poker Hand: Dead Man\'s Hand (Aces Full Of Eights)'];
 const MS_PANIC=[
 'Adrenaline Rush',
 'Nervous',
@@ -5914,7 +6162,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				playSound();
 			}
 
-			function runOdds(die, odds) {
+			function doOdds(die, odds) {
 				let i = 0;
 				for (;i<odds.length;i++) {
 					if (die <= odds[i]) {
@@ -5926,7 +6174,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 
 			function runOdds(table, odds, sides, description, table2) {
 				const die = Math.floor(Math.random() * sides);
-				const i = runOdds(die, odds);
+				const i = doOdds(die, odds);
 				display.innerHTML = table[i];
 				if (table2 !== undefined) {
 					totalDisplay.innerHTML = table2[i];
@@ -5940,7 +6188,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 
 			function runOdds3(table, odds, sides, desc1, desc2, desc3, table2, table3) {
 				const die = Math.floor(Math.random() * sides);
-				const i = runOdds(die, odds);
+				const i = doOdds(die, odds);
 				display.innerHTML = table[i];
 				totalDisplay.innerHTML = `<div>${desc2}: ${table2[i]}</div><div>${desc3}: ${table3[i]}</div>`;
 				addHistoryEntry(`${desc1}: ${table[i]} - ${desc2}: ${table2[i]} - ${desc3}: ${table3[i]} [${die}]`);
@@ -6015,7 +6263,6 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				wrapper.appendChild(removeBtn);
 				return wrapper;
 			}
-
 			function genEmoji() {
 				const ranges = [
 				[0x1F600, 0x1F64F],
@@ -6030,6 +6277,73 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				display.innerHTML = emoji;
 				totalDisplay.innerHTML = 'Emoji';
 				addHistoryEntry('Emoji: ' + emoji);
+				playSound();
+			}
+			function msGenChar(msClass) {
+				if (!msClass) {
+					const msClasses = ['marine', 'android', 'scientist', 'teamster'];
+					msClass = msClasses[Math.floor(Math.random() * msClasses.length)];
+				}
+				let str = Math.floor(Math.random()*10)+Math.floor(Math.random()*10)+27;
+				let speed = Math.floor(Math.random()*10)+Math.floor(Math.random()*10)+27;
+				let int = Math.floor(Math.random()*10)+Math.floor(Math.random()*10)+27;
+				let combat = Math.floor(Math.random()*10)+Math.floor(Math.random()*10)+27;
+				let sanity = Math.floor(Math.random()*10)+Math.floor(Math.random()*10)+12;
+				let fear = Math.floor(Math.random()*10)+Math.floor(Math.random()*10)+12;
+				let body = Math.floor(Math.random()*10)+Math.floor(Math.random()*10)+12;
+				let hp = Math.floor(Math.random()*10)+11;
+				let stress = 2;
+				let wounds = 2;
+				let credits = (Math.floor(Math.random()*10)+Math.floor(Math.random()*10)+2)*10;
+				let trinket = MS_TRINKET[Math.floor(Math.random()*MS_TRINKET.length)];
+				let patch = MS_PATCH[Math.floor(Math.random()*MS_PATCH.length)];
+				let skills;
+				let special;
+				let loadout;
+				switch (msClass) {
+					case 'marine':
+						combat += 10;
+						body += 10;
+						fear += 20;
+						wounds += 1;
+						special = 'Whenever you panic, every close friendly player must make a fear save.'
+						skills = 'Military Training, Athletics, Bonus: 1 Expert Skill OR 2 Trained Skills';
+						loadout = MS_LOADOUT_MARINE[Math.floor(Math.random()*MS_LOADOUT_MARINE.length)];
+						break;
+					case 'android':
+						int += 20;
+						fear += 60;
+						wounds += 1;
+						special = 'Fear saves made by close friendly players are at disadvantage. [NOTE: pick 1 stat for -10]'
+						skills = 'Linguistics, Computers, Mathematics Bonus: 1 Expert Skill OR 2 Trained Skills';
+						loadout = MS_LOADOUT_ANDROID[Math.floor(Math.random()*MS_LOADOUT_ANDROID.length)];
+						break;
+					case 'scientist':
+						int += 10;
+						sanity += 30;
+						special = 'Whenever you fail a sanity save, all close friendly players gain 1 stress. [NOTE: pick 1 stat for +5]'
+						skills = '1 Master Skill, and an Expert and Trained Skill prerequisite. Bonus: 1 Trained Skill';
+						loadout = MS_LOADOUT_SCIENTIST[Math.floor(Math.random()*MS_LOADOUT_SCIENTIST.length)];
+						break;
+					case 'teamster':
+						str += 5;
+						speed += 5;
+						int += 5;
+						combat += 5;
+						fear += 10;
+						sanity += 10;
+						body += 10;
+						special = 'Once per session, you may take advantage on a panic check.'
+						skills = 'Industrial Equipment, Zero-G Bonus: 1 Trained Skill and 1 Expert Skill.';
+						loadout = MS_LOADOUT_TEAMSTER[Math.floor(Math.random()*MS_LOADOUT_TEAMSTER.length)];
+						break;
+					default:
+						console.log(e);
+				}
+				const charStr = `STR: ${str} SPD: ${speed} INT: ${int} C: ${combat}\nSanity: ${sanity} Fear: ${fear} Body: ${body}\nTrinket: ${trinket}\nPatch: ${patch}\nWounds: ${wounds}\nStress: ${stress}\nSpecial: ${special}\nSkills: ${skills}\nLoadout: ${loadout}`;
+				display.innerHTML = charStr;
+				totalDisplay.innerHTML = '';
+				addHistoryEntry(charStr);
 				playSound();
 			}
 
@@ -6242,6 +6556,9 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 					case 'gmeDream':
 						runGME(GME_DREAM, 'Vision / Dream');
 						break;
+					case 'msGenChar':
+						msGenChar();
+						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
 						break;
@@ -6281,8 +6598,6 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 					case 'msSettlement':
 						runOdds3(MS_SETTLEMENT_TYPE, MS_SETTLEMENT_ODDS, 100, 'Settlement', 'Condition', 'Weird', MS_SETTLEMENT_CONDITION, MS_SETTLEMENT_WEIRD);
 						break;
-					default:
-						console.log(e);
 				}
 			});
 
