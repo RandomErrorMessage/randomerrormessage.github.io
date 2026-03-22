@@ -388,9 +388,10 @@
 						<button class="diceBtn" id="gmeSpell">Spell</button>
 					</div>
 					<div class="panel" id="mothershipPanel">
-						<button class="diceBtn" id="msGenChar">GenChar</button>
 						<button class="diceBtn" id="msPanic">Panic</button>
 						<button class="diceBtn" id="msDeath">Death</button>
+						<button class="diceBtn" id="msMaintenance">Maintenance</button>
+						<button class="diceBtn" id="msGenChar">GenChar</button>
 						<button class="diceBtn" id="msPuzzle">Puzzle</button>
 						<button class="diceBtn" id="msFaction">Faction</button>
 						<button class="diceBtn" id="msLore">Lore</button>
@@ -5714,6 +5715,107 @@ const MS_PANIC=[
 'Compounding Problems',
 'Heart Attack / Short Circuit (Androids)',
 'Retire'];
+const MS_MAINTENANCE=[
+'Rancid smell permeates cabins. (Minor)',
+'Huge mess everywhere. (Minor)',
+'Staticky comms. (Minor)',
+'Faulty electrical system. (Minor)',
+'Loose couplings. (Minor)',
+'Hidden (highly illegal) contraband. (Minor)',
+'Autopilot systems down. (Minor)',
+'Leaking hydraulic systems. (Minor)',
+'Creaking hull. (Minor)',
+'Damaged bulkheads. (Minor)',
+'Misaligned docking clamps. (Minor)',
+'Viewports blocked. (Minor)',
+'Jammed exterior airlocks. (Minor)',
+'Dysfunctional gravity plating. (Minor)',
+'Out of code compliance. (Minor)',
+'Controls sticking. (Minor)',
+'Coolant leak. (Minor)',
+'Miscalibrated Thruster Gimbal System. (Minor)',
+'Bevvy of OSHA violations. (Minor)',
+'Blocked air vents. (Minor)',
+'Emergency lighting only. (Minor)',
+'Internal networking issues. (Minor)',
+'Inaccurate data collection. (Minor)',
+'Oxygen leak. If ship is low on O2, lose 1d5 extra per day. (Major)',
+'Throttled Afterburners. -2d10 Thrusters. (Major)',
+'Lemon. Maintenance Checks at [-]. (Major)',
+'Slow acceleration. +1 Week to travel. (Major)',
+'Inaccurate navigation. (Major)',
+'Miscalibrated Targeting Sensors. -1d10 Battle. (Major)',
+'Faulty Cryopods. Nightmares. Cryosickness lasts an additional week. (Major)',
+'Malfunctioning escape pods. (Major)',
+'Unable to send distress signals. (Major)',
+'Sabotaged coolant system. (Major)',
+'Death trap. [-] on all rolls. (Major)',
+'Worn landing struts. (Minor)',
+'Out-of-date air filters. (Minor)',
+'Corroded pipes. (Minor)',
+'Innaccurate orbital transfer navigation. (Minor)',
+'Worn out fuel injection nozzles. (Minor)',
+'Inoperative exterior lighting system. (Minor)',
+'Defective intercom system. (Minor)',
+'Inadequate waste recycling. (Minor)',
+'Faulty altitude control thrusters. (Minor)',
+'Insufficient Life Support redundancy. (Minor)',
+'Delayed communication relays. (Minor)',
+'Damaged fuel lines. (Minor)',
+'Corroded exhaust manifolds. (Minor)',
+'Terminal displays non-functional. (Minor)',
+'Check engine light won\'t turn off. (Minor)',
+'Failed backup systems. (Minor)',
+'Faulty door locks. (Minor)',
+'Buggy communications. (Minor)',
+'Infected food storage facilities. (Minor)',
+'Corrupted data banks. (Minor)',
+'Jammed cargo bay doors. (Minor)',
+'Flickering interior lights. (Minor)',
+'Failed airlock seals. (Minor)',
+'Fuel Leak. Burn +1 Fuel everytime you spend fuel. (Major)',
+'Jump Bug. 10% chance Jump takes 2d10 months, not 2d10 days. (Major)',
+'Fragile. Always take +1 MDMG. (Major)',
+'Cracked heat shields. (Major)',
+'Outdated software. -1d10 Systems. (Major)',
+'Inadequate Water Filtration. Parasites in the water supply. (Major)',
+'Malfunctioning waste management system. (Major)',
+'Fusion Reactors overheating. (Major)',
+'Failed radiation filter. (Major)',
+'Radiation leak. Entire ship is at Radiation Level 2. (Major)',
+'Miscalibrated guidance system. (Minor)',
+'Overloaded power storage. (Minor)',
+'Malfunctioning sensor arrays. (Minor)',
+'Failed Water Recovery System. (Minor)',
+'Micrometoroid hull damage. (Minor)',
+'Faulty Carbon Dioxide Removal Assembly. (Minor)',
+'Solar panel degradation. (Minor)',
+'Computer failure from cosmic radiation. (Minor)',
+'Overloaded circuitry. (Minor)',
+'Malfunctioning plasma thruster. (Minor)',
+'Thermal management system failure. (Minor)',
+'Intermittent electrical outages. (Minor)',
+'Fire suppression system out of code. (Minor)',
+'Damaged floor pannelling. (Minor)',
+'Broken light fixture in remote corridor. (Minor)',
+'Damaged coolant pump. (Minor)',
+'Cracked viewports. (Minor)',
+'Systems overloaded with malware. (Minor)',
+'Leaky fuel valve. (Minor)',
+'Jammed exhaust vent. (Minor)',
+'Stuck waste disposal chute. (Minor)',
+'Lifts non-functioning. (Minor)',
+'Damaged communications antenna. (Minor)',
+'Clogged Air Filtration. Crew capacity cut in half. (Major)',
+'Malfunctioning climate control. 85º at all times. (Major)',
+'No emergency power. (Major)',
+'Weak Frame. -1 Hull, -1 Upgrade. (Major)',
+'Toxic chemical spill. (Major)',
+'Poor scanners. Ship has to be one range band closer than normal. (Major)',
+'Counterfit papers. Ship is stolen. There is a bounty on it. (Major)',
+'Corrupted A.I. (Major)',
+'Warp Cores fail 10% of the time. (Major)',
+'Rust bucket. Everything that can go wrong, does. +1 Minimum Stress to crew (Major)'];
 const MS_PANIC_DESC=[
 '[+] on all rolls for the next 2d10 minutes. Reduce Stress by 1d5.',
 'Gain 1 Stress.',
@@ -6205,11 +6307,11 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				addHistoryEntry(`${result} (${TAROT_ORIENTATION[orientation]}) : ${result_sub}`);
 				playSound();
 			}
-			function runGME(table, name) {
+			function runOne(table, name) {
 				const die = Math.floor(Math.random() * table.length)
 				display.innerHTML = table[die];
 				totalDisplay.innerHTML = name;
-				addHistoryEntry(`${name}: ${table[die]}`);
+				addHistoryEntry(`${name}: ${table[die]} [${die}]`);
 				playSound();
 			}
 			function runTwo(table1, table2, name, mod=1) {
@@ -6413,151 +6515,154 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						genEmoji();
 						break;
 					case 'gmeAction1':
-						runGME(GME_ACTION1, 'Action 1');
+						runOne(GME_ACTION1, 'Action 1');
 						break;
 					case 'gmeAction2':
-						runGME(GME_ACTION2, 'Action 2');
+						runOne(GME_ACTION2, 'Action 2');
 						break;
 					case 'gmeDesc1':
-						runGME(GME_DESC1, 'Description 1');
+						runOne(GME_DESC1, 'Description 1');
 						break;
 					case 'gmeDesc2':
-						runGME(GME_DESC2, 'Description 2');
+						runOne(GME_DESC2, 'Description 2');
 						break;
 					case 'gmeTone':
-						runGME(GME_TONE, 'Adventure Tone');
+						runOne(GME_TONE, 'Adventure Tone');
 						break;
 					case 'gmeAlien':
-						runGME(GME_ALIEN, 'Alien Species Descriptor');
+						runOne(GME_ALIEN, 'Alien Species Descriptor');
 						break;
 					case 'gmeAnimal':
-						runGME(GME_ANIMAL, 'Animal Action');
+						runOne(GME_ANIMAL, 'Animal Action');
 						break;
 					case 'gmeArmy':
-						runGME(GME_ARMY, 'Army Descriptor');
+						runOne(GME_ARMY, 'Army Descriptor');
 						break;
 					case 'gmeCavern':
-						runGME(GME_CAVERN, 'Cavern Descriptor');
+						runOne(GME_CAVERN, 'Cavern Descriptor');
 						break;
 					case 'gmeChars':
-						runGME(GME_CHARS, 'Characters');
+						runOne(GME_CHARS, 'Characters');
 						break;
 					case 'gmeCharCombat':
-						runGME(GME_CHAR_COMBAT, 'Character Combat');
+						runOne(GME_CHAR_COMBAT, 'Character Combat');
 						break;
 					case 'gmeCharAction':
-						runGME(GME_CHAR_ACTION, 'Character Action');
+						runOne(GME_CHAR_ACTION, 'Character Action');
 						break;
 					case 'gmeCharAppearance':
-						runGME(GME_CHAR_APPEARANCE, 'Character Appearance');
+						runOne(GME_CHAR_APPEARANCE, 'Character Appearance');
 						break;
 					case 'gmeCharBackground':
-						runGME(GME_CHAR_BACKGROUND, 'Character Background');
+						runOne(GME_CHAR_BACKGROUND, 'Character Background');
 						break;
 					case 'gmeCharConvo':
-						runGME(GME_CHAR_CONVERSATION, 'Character Conversation');
+						runOne(GME_CHAR_CONVERSATION, 'Character Conversation');
 						break;
 					case 'gmeCharDesc':
-						runGME(GME_CHAR_DESC, 'Character Description');
+						runOne(GME_CHAR_DESC, 'Character Description');
 						break;
 					case 'gmeCharID':
-						runGME(GME_CHAR_ID, 'Character Identity');
+						runOne(GME_CHAR_ID, 'Character Identity');
 						break;
 					case 'gmeCharMotivation':
-						runGME(GME_CHAR_MOTIVATION, 'Character Motivation');
+						runOne(GME_CHAR_MOTIVATION, 'Character Motivation');
 						break;
 					case 'gmeCharPersonality':
-						runGME(GME_CHAR_PERSONALITY, 'Character Personality');
+						runOne(GME_CHAR_PERSONALITY, 'Character Personality');
 						break;
 					case 'gmeCharSkill':
-						runGME(GME_CHAR_SKILL, 'Character Skill');
+						runOne(GME_CHAR_SKILL, 'Character Skill');
 						break;
 					case 'gmeCharTrait':
-						runGME(GME_CHAR_TRAIT, 'Character Trait');
+						runOne(GME_CHAR_TRAIT, 'Character Trait');
 						break;
 					case 'gmeCityDesc':
-						runGME(GME_CITY_DESC, 'City Descriptor');
+						runOne(GME_CITY_DESC, 'City Descriptor');
 						break;
 					case 'gmeCiv':
-						runGME(GME_CIV, 'Civilization Descriptor');
+						runOne(GME_CIV, 'Civilization Descriptor');
 						break;
 					case 'gmeCreatureAbility':
-						runGME(GME_CREATURE_ABILITY, 'Creature Ability');
+						runOne(GME_CREATURE_ABILITY, 'Creature Ability');
 						break;
 					case 'gmeCreature':
-						runGME(GME_CREATURE_DESC, 'Creature Descriptor');
+						runOne(GME_CREATURE_DESC, 'Creature Descriptor');
 						break;
 					case 'gmeCryptic':
-						runGME(GME_CRYPTIC, 'Cryptic Message');
+						runOne(GME_CRYPTIC, 'Cryptic Message');
 						break;
 					case 'gmeCurse':
-						runGME(GME_CURSE, 'Curse');
+						runOne(GME_CURSE, 'Curse');
 						break;
 					case 'gmeDomicile':
-						runGME(GME_DOMICILE, 'Domicile Descriptor');
+						runOne(GME_DOMICILE, 'Domicile Descriptor');
 						break;
 					case 'gmeDungeon':
-						runGME(GME_DUNGEON, 'Dungeon Descriptor');
+						runOne(GME_DUNGEON, 'Dungeon Descriptor');
 						break;
 					case 'gmeTrap':
-						runGME(GME_TRAP, 'Trap');
+						runOne(GME_TRAP, 'Trap');
 						break;
 					case 'gmeForest':
-						runGME(GME_FOREST, 'Forest Descriptor');
+						runOne(GME_FOREST, 'Forest Descriptor');
 						break;
 					case 'gmeGod':
-						runGME(GME_GOD, 'God');
+						runOne(GME_GOD, 'God');
 						break;
 					case 'gmeLegend':
-						runGME(GME_LEGEND, 'Legend');
+						runOne(GME_LEGEND, 'Legend');
 						break;
 					case 'gmeLocation':
-						runGME(GME_LOCATION, 'Location');
+						runOne(GME_LOCATION, 'Location');
 						break;
 					case 'gmeMagicItem':
-						runGME(GME_MAGIC_ITEM, 'Magic Item Descriptor');
+						runOne(GME_MAGIC_ITEM, 'Magic Item Descriptor');
 						break;
 					case 'gmeMutation':
-						runGME(GME_MUTATION, 'Mutation Descriptor');
+						runOne(GME_MUTATION, 'Mutation Descriptor');
 						break;
 					case 'gmeNoble':
-						runGME(GME_NOBLE, 'Noble House');
+						runOne(GME_NOBLE, 'Noble House');
 						break;
 					case 'gmeObject':
-						runGME(GME_OBJECT, 'Object');
+						runOne(GME_OBJECT, 'Object');
 						break;
 					case 'gmeTwist':
-						runGME(GME_TWIST, 'Plot Twist');
+						runOne(GME_TWIST, 'Plot Twist');
 						break;
 					case 'gmePower':
-						runGME(GME_POWER, 'Power');
+						runOne(GME_POWER, 'Power');
 						break;
 					case 'gmeScav':
-						runGME(GME_SCAV, 'Scavenge');
+						runOne(GME_SCAV, 'Scavenge');
 						break;
 					case 'gmeSmell':
-						runGME(GME_SMELL, 'Smell');
+						runOne(GME_SMELL, 'Smell');
 						break;
 					case 'gmeSound':
-						runGME(GME_SOUND, 'Sound');
+						runOne(GME_SOUND, 'Sound');
 						break;
 					case 'gmeSpell':
-						runGME(GME_SPELL, 'Spell Effect');
+						runOne(GME_SPELL, 'Spell Effect');
 						break;
 					case 'gmeStarship':
-						runGME(GME_STARSHIP, 'Starship Descriptor');
+						runOne(GME_STARSHIP, 'Starship Descriptor');
 						break;
 					case 'gmeTerrain':
-						runGME(GME_TERRAIN, 'Terrain Descriptor');
+						runOne(GME_TERRAIN, 'Terrain Descriptor');
 						break;
 					case 'gmeUndead':
-						runGME(GME_UNDEAD, 'Undead Descriptor');
+						runOne(GME_UNDEAD, 'Undead Descriptor');
 						break;
 					case 'gmeDream':
-						runGME(GME_DREAM, 'Vision / Dream');
+						runOne(GME_DREAM, 'Vision / Dream');
 						break;
 					case 'msGenChar':
 						msGenChar();
+						break;
+					case 'msMaintenance':
+						runOne(MS_MAINTENANCE, 'Maintenance Issue');
 						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
@@ -6566,7 +6671,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						runOdds(MS_DEATH, MS_DEATH_ODDS, 10, 'Death', MS_DEATH_SUB);
 						break;
 					case 'msLocation':
-						runGME(MS_LOCATION, 'Location');
+						runOne(MS_LOCATION, 'Location');
 						break;
 					case 'msPlanet':
 						runTwo(MS_PLANET, MS_PLANET_SUB, 'Planet', 0);
