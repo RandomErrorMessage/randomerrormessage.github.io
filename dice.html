@@ -6413,7 +6413,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						fear += 20;
 						wounds += 1;
 						special = 'Whenever you panic, every close friendly player must make a fear save.'
-						skills = 'Military Training, Athletics, Bonus: 1 Expert Skill OR 2 Trained Skills';
+						skills = 'Military Training (+10), Athletics (+10), [Bonus: 1 Expert Skill OR 2 Trained Skills]';
 						loadout = MS_LOADOUT_MARINE[Math.floor(Math.random()*MS_LOADOUT_MARINE.length)];
 						break;
 					case 'Android':
@@ -6421,14 +6421,14 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						fear += 60;
 						wounds += 1;
 						special = 'Fear saves made by close friendly players are at disadvantage. [NOTE: pick 1 stat for -10]'
-						skills = 'Linguistics, Computers, Mathematics Bonus: 1 Expert Skill OR 2 Trained Skills';
+						skills = 'Linguistics (+10), Computers (+10), Mathematics (+10), [Bonus: 1 Expert Skill OR 2 Trained Skills]';
 						loadout = MS_LOADOUT_ANDROID[Math.floor(Math.random()*MS_LOADOUT_ANDROID.length)];
 						break;
 					case 'Scientist':
 						int += 10;
 						sanity += 30;
 						special = 'Whenever you fail a sanity save, all close friendly players gain 1 stress. [NOTE: pick 1 stat for +5]'
-						skills = '1 Master Skill, and an Expert and Trained Skill prerequisite. Bonus: 1 Trained Skill';
+						skills = '[1 Master Skill, and an Expert and Trained Skill prerequisite. Bonus: 1 Trained Skill]';
 						loadout = MS_LOADOUT_SCIENTIST[Math.floor(Math.random()*MS_LOADOUT_SCIENTIST.length)];
 						break;
 					case 'Teamster':
@@ -6440,7 +6440,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						sanity += 10;
 						body += 10;
 						special = 'Once per session, you may take advantage on a panic check.'
-						skills = 'Industrial Equipment, Zero-G Bonus: 1 Trained Skill and 1 Expert Skill.';
+						skills = 'Industrial Equipment (+10), Zero-G (+10), [Bonus: 1 Trained Skill and 1 Expert Skill]';
 						loadout = MS_LOADOUT_TEAMSTER[Math.floor(Math.random()*MS_LOADOUT_TEAMSTER.length)];
 						break;
 					default:
