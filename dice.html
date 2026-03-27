@@ -394,8 +394,11 @@
 						<button class="diceBtn" id="gmeSpell">Spell</button>
 					</div>
 					<div class="panel" id="borgPanel">
+						<button class="diceBtn" id="cyVerb">Verb</button>
+						<button class="diceBtn" id="cyNoun">Noun</button>
 						<button class="diceBtn" id="borgStreetContent">StreetContent</button>
 						<button class="diceBtn" id="borgCityCrawlFail">CityCrawlFail</button>
+						<button class="diceBtn" id="borgRandomEventFocus">RandomEventFocus</button>
 						<button class="diceBtn" id="cyProfession">Profession</button>
 						<button class="diceBtn" id="cyDisposition">Disposition</button>
 						<button class="diceBtn" id="cyHazard">Hazard</button>
@@ -414,8 +417,6 @@
 						<button class="diceBtn" id="cyEnemyWater">EnemyWater</button>
 						<button class="diceBtn" id="cyCityEvent">CityEvent</button>
 						<button class="diceBtn" id="cyNetEvent">NetEvent</button>
-						<button class="diceBtn" id="cyVerb">Verb</button>
-						<button class="diceBtn" id="cyNoun">Noun</button>
 					</div>
 					<div class="panel" id="mothershipPanel">
 						<button class="diceBtn" id="msPanic">Panic</button>
@@ -7007,6 +7008,14 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				addHistoryEntry('Emoji: ' + emoji);
 				playSound();
 			}
+			function borgRandomEventFocus(name) {
+				const die = Math.floor(Math.random()*6)+Math.floor(Math.random()*6);
+				const table = ['Faction/Community action','New NPC','NPC positive','PC positive','Plot progress','NPC action','PC negative','Plot obstacle','NPC negative','Environment','Plot twist'];
+				display.innerHTML = table[die];
+				totalDisplay.innerHTML = name;
+				addHistoryEntry(`${name}: ${table[die]} [${die}]`);
+				playSound();
+			}
 			function msGenChar(msClass) {
 				if (!msClass) {
 					const msClasses = ['Marine', 'Android', 'Scientist', 'Teamster'];
@@ -7361,6 +7370,9 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'cyNoun':
 						runOne(CY_NOUN, 'Noun');
+						break;
+					case 'borgRandomEventFocus':
+						borgRandomEventFocus('Random Event Focus');
 						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
