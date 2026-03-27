@@ -403,6 +403,14 @@
 						<button class="diceBtn" id="cyNPCEncounter">cyNPCEncounter</button>
 						<button class="diceBtn" id="cyStreetAdj">cyStreetAdj</button>
 						<button class="diceBtn" id="cyStreetType">cyStreetType</button>
+						<button class="diceBtn" id="cyEnemyCentral">cyEnemyCentral</button>
+						<button class="diceBtn" id="cyEnemyIndustries">cyEnemyIndustries</button>
+						<button class="diceBtn" id="cyEnemyPorts">cyEnemyPorts</button>
+						<button class="diceBtn" id="cyEnemySlums">cyEnemySlums</button>
+						<button class="diceBtn" id="cyEnemyHills">cyEnemyHills</button>
+						<button class="diceBtn" id="cyEnemyInbetweens">cyEnemyInbetweens</button>
+						<button class="diceBtn" id="cyEnemyOutsideCy">cyEnemyOutsideCy</button>
+						<button class="diceBtn" id="cyEnemyWater">cyEnemyWater</button>
 					</div>
 					<div class="panel" id="mothershipPanel">
 						<button class="diceBtn" id="msPanic">Panic</button>
@@ -5481,6 +5489,69 @@ const BORG_CITY_CRAWL_FAIL=['NPC Encounter', 'Environmental Hazard', 'Unexpected
 const BORG_CITY_CRAWL_FAIL_ODDS=[2,3,4];
 const BORG_BACKTRACK=['Nothing', 'NPC', 'Unexpected Event'];
 const BORG_BACKTRACK_ODDS=[5,7,8];
+const CY_ENEMY_CENTRAL=[
+'d2 Corp-Specific SecOp',
+'d2 Finance Cvlt NanoGoon',
+'d4 Corp-Specific Security Flyer Drones',
+'Turret Drone and d4 SecOp',
+'Finance Cvlt Nanomancer',
+'d2 Grey-CERT'];
+const CY_ENEMY_INDUSTRIES=[
+'d6 Gang-Goons',
+'Lone Worg',
+'d4 Turret Drones',
+'d3 Crawler Drones',
+'Lone Corp Assassin',
+'Krok'];
+const CY_ENEMY_PORTS=[
+'d4 Gang-Goon',
+'d3 Virid Viper',
+'d4 NanoGoon Ravers',
+'d6 Flyer Drones',
+'d2 Heir of Kergoz Ravemasters',
+'Doppel'];
+const CY_ENEMY_G0=[
+'d8 Blighthusk',
+'d6 UCS Operative',
+'d4 Headhunter',
+'d3 Bloated',
+'Cy-Raging Menace',
+'Whitetail/Ghost (roll Reaction)'];
+const CY_ENEMY_SLUMS=[
+'d4 Gang-Goon Foot Soldiers',
+'d4+2 Virid Vipers',
+'d4 NanoGoons/Confused Ghost',
+'d3 Worgs',
+'d6 Virid Vipers vs d4 Heirs of Kergoz',
+'Skulker in hot pursuit of its target'];
+const CY_ENEMY_HILLS=[
+'d4+2 USC Ops + d3 Turrets',
+'d6 Crawler Drones + d3 Flyer Drones',
+'d4 Grey-CERT',
+'d3 Vindicators',
+'d10 Remote Programmed Worgs',
+'Mech'];
+const CY_ENEMY_INBETWEENS=[
+'d4 SecOp Agents',
+'d6 Flyer Drones',
+'d4 Vamp Swarms (d8 Vamps/swarm)',
+'d3 Corp Assassins',
+'Vengeful Ghost',
+'d3 Cy-Raging Menace+d2 Turret Drones'];
+const CY_ENEMY_OUTSIDE_CY=[
+'d6 Roadrunners',
+'d6 Blighthusks',
+'d6 Vamp Swarms (d8 Vamps/Swarm)',
+'d20 Headhunters',
+'d6 Heirs of Kargoz',
+'d8 Roadrunners+Armored Car'];
+const CY_ENEMY_WATER=[
+'d6 Gang-Goon',
+'d4 Vamp Swarms (d8 Vamps/Swarm)',
+'d12 Roadrunners',
+'d6 Corp Special Forces',
+'d6 Heirs of Kergoz',
+'d3 Kroks'];
 const CY_STREET_ADJ=[
 'Filthy',
 'Affluent',
@@ -6927,6 +6998,33 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'cyNPCEncounter':
 						runTwo(CY_NPC_ENCOUNTER, CY_NPC_ENCOUNTER_SUB, 'NPC Encounter');
+						break;
+					case 'cyEnemyCentral':
+						runOne(CY_ENEMY_CENTRAL, 'Enemy (Central)');
+						break;
+					case 'cyEnemyIndustries':
+						runOne(CY_ENEMY_INDUSTRIES, 'Enemy (The Industries)');
+						break;
+					case 'cyEnemyPorts':
+						runOne(CY_ENEMY_PORTS, 'Enemy (Ports)');
+						break;
+					case 'cyEnemyG0':
+						runOne(CY_ENEMY_G0, 'Enemy (G0)');
+						break;
+					case 'cyEnemySlums':
+						runOne(CY_ENEMY_SLUMS, 'Enemy (Slums)');
+						break;
+					case 'cyEnemyHills':
+						runOne(CY_ENEMY_HILLS, 'Enemy (The Hills)');
+						break;
+					case 'cyEnemyInbetweens':
+						runOne(CY_ENEMY_INBETWEENS, 'Enemy (The Inbetweens)');
+						break;
+					case 'cyEnemyOutsideCy':
+						runOne(CY_ENEMY_OUTSIDE_CY, 'Enemy (Outside Cy)');
+						break;
+					case 'cyEnemyWater':
+						runOne(CY_ENEMY_WATER, 'Enemy (On Water)');
 						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
