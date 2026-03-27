@@ -399,6 +399,9 @@
 						<button class="diceBtn" id="borgStreetContent">StreetContent</button>
 						<button class="diceBtn" id="borgCityCrawlFail">CityCrawlFail</button>
 						<button class="diceBtn" id="borgRandomEventFocus">RandomEventFocus</button>
+						<button class="diceBtn" id="cyPocket">Pocket</button>
+						<button class="diceBtn" id="cyAnimal">Pocket</button>
+						<button class="diceBtn" id="cyNeighborhoodDesc">NeighborhoodDesc</button>
 						<button class="diceBtn" id="cyProfession">Profession</button>
 						<button class="diceBtn" id="cyDisposition">Disposition</button>
 						<button class="diceBtn" id="cyHazard">Hazard</button>
@@ -5495,6 +5498,71 @@ const BORG_CITY_CRAWL_FAIL=['NPC Encounter', 'Environmental Hazard', 'Unexpected
 const BORG_CITY_CRAWL_FAIL_ODDS=[2,3,4];
 const BORG_BACKTRACK=['Nothing', 'NPC', 'Unexpected Event'];
 const BORG_BACKTRACK_ODDS=[5,7,8];
+const CY_POCKET_ODDS=[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,36];
+const CY_POCKET=[
+'Nothing.',
+'Broken shiv. You take d2 damage.',
+'Idol of a horned god dipped in blood.',
+'VIP card to an exclusive Ports club.',
+'Keycard to a nearby door.',
+'Dive-bar matchbox containing teeth from four different people.',
+'Stolen data. d6: 1-2: sells for d6×1k¤ to a data broker; 3-4: evidence of a moderately famous CEO’s highly illegal activities; 5: encrypted, roll again for contents; 6: corrupted.',
+'A mixtape. d6: 1-2: absolute shite; 3-4: oversampled retro covers; 5: hot; 6: truly hot;',
+'Snot-stained napkin. Test Toughness DR12 or get sick. +2DR on all Strength, Toughness and Presence tests for d4 days starting tomorrow morning.',
+'Promotional ad: 1 free taxi ride.',
+'Wrapped BugGrub burger.',
+'Contract to kill an associate of the PCs.',
+'Mirrorshades.',
+'Folded note with the address of an unmarked slums door. d6: 1-2: fetish club; 3-4: drug den; 5-6: temple of an anti-human death cult.',
+'Adaptable fake ID. d6: 1: very well made; 2-5: decent but won’t pass a thorough inspection; 6: a substantial reward is offered to bring in the person (mercs are already on the trail.)',
+'Viral memstick, test Knowledge DR14 or suffer: If read using an RCD, +2DR on sight-based tests until RCD is replaced or repaired. If a deck was used, one slot and any loaded App therein is burned forever.',
+'Superlube.',
+'Pocket flask of booze spiked with Sunset Chalk.',
+'Dime of pure, real tobacco.',
+'3 doses of unmarked (random) drugs.',
+'Coupon for 25% off at Citadel Ammo.',
+'Severed finger in a plastic bag.',
+'Crudely drawn map to a G0 location marked “cache”.',
+'Synthetic snuff.',
+'Cult pamphlet announcing a ritual celebration for the coming night.',
+'This many ¤ on a credstick.'];
+const CY_USEFUL_ITEMS=[
+'d10 dmg Firearm (Core pgs 58-9)',
+'d4+1 Armor (Core pg 60)',
+'Cash and Gear (Core pg 39)',
+'d6 Ammo Mod (roll on Ammo Core pg 65)',
+'d4 Noisemakers',
+'Roll on Pocket Lint (Core Inner Cover)'];
+const CY_ANIMAL=[
+'d6 Infested PiG0ns (Roll Nanopower) 3 HP, morale 10, Peck d4',
+'d2 Vamp Swarms (d12 Vamps/Swarm)',
+'Rat Lan Party (d12 infested rats, connected by tangle tail cables. 2 HP/rat, Morale 5, Roll Nanopower, Bite d4+DR12 Resist Infection)',
+'d4 G0 Roaches (2 HP, Morale 2, Roll Nanopower, DR12 Resist Infection if physical contact)',
+'d6 Worgs',
+'d8 Feral Dogs (6 HP, Morale 8, d6 bite, DR12 to avoid an RCD virus)/D6 Feral Cybercats (5 HP, Morale 5, Claws/Bite d4, DR12 to avoid a Backlash)',
+'d3 Kroks',
+'Swarm Mind (roll d6xd4 times—these animals are working together under the thrall of something digital)'];
+const CY_NEIGHBORHOOD_DESC=[
+'Shadowy/Blackened',
+'Crumbling/Historic',
+'Sinking',
+'Cursed/Pestilential',
+'Isolated',
+'Fortified',
+'Besieged',
+'Polluted/Hazardous',
+'Condemned',
+'Recovering',
+'Upzoned/Gentrified',
+'Seedy',
+'Squatting',
+'Brooding',
+'Sodden/Waterlogged',
+'Overpopulated',
+'Fogbound/Dusty/Barren',
+'Declining/Obsolete',
+'Decaying/Barren',
+'Infested'];
 const CY_VERB=[
 'Allow',
 'Escape',
@@ -6838,7 +6906,6 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 					console.debug('audio cloning failed', e);
 				}
 			}
-
 			function addHistoryEntry(text) {
 				const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 				const entryText = `[${timestamp}] ${text}`;
@@ -6849,7 +6916,27 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				historyList.prepend(entryDiv);
 				historyList.scrollTop = 0;
 			}
-
+			function decimalToD66(decimal) {
+				if (decimal < 1 || decimal > 36) {
+					throw new Error("Input must be between 1 and 36");
+				}
+				let zeroIndex = decimal - 1;
+				let tens = Math.floor(zeroIndex / 6);
+				let units = zeroIndex % 6;
+				return `${tens + 1}${units + 1}`;
+			}
+			function d66ToDecimal(d66) {
+				const str = String(d66);
+				if (str.length !== 2) {
+					throw new Error("d66 input must be exactly 2 digits");
+				}
+				const tens = parseInt(str[0], 10);
+				const units = parseInt(str[1], 10);
+				if (tens < 1 || tens > 6 || units < 1 || units > 6) {
+					throw new Error("d66 digits must be between 1 and 6");
+				}
+				return ((tens - 1) * 6) + units;
+			}
 			function runRoll(count, sides, mod=0, name) {
 				let sum = 0;
 				let html = '';
@@ -6901,17 +6988,25 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				return i;
 			}
 
-			function runOdds(table, odds, sides, description, table2, mod=0) {
-				const die = Math.floor(Math.random() * sides)+mod;
+			function runOdds(table, odds, sides, description, table2, mod=0, d66=false) {
+				let die = Math.floor(Math.random() * sides)+mod;
 				const i = doOdds(die, odds);
 				display.innerHTML = table[i];
+				let log = `${description}: ${table[i]}`;
 				if (table2 !== undefined) {
 					totalDisplay.innerHTML = table2[i];
-					addHistoryEntry(`${description}: ${table[i]}: ${table2[i]} [${die}]`);
+					log += `: ${table2[i]}`;
 				} else {
 					totalDisplay.innerHTML = description;
-					addHistoryEntry(`${description}: ${table[i]} [${die}]`);
 				}
+				if (d66) {
+					const d66n = decimalToD66(die);
+					log += ` [${d66n}]`;
+					display.innerHTML += ` [${d66n}]`;
+				} else {
+					log += ` [${die}]`;
+				}
+				addHistoryEntry(log);
 				playSound();
 			}
 
@@ -7307,6 +7402,15 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'borgBacktrack':
 						runOdds(BORG_BACKTRACK, BORG_BACKTRACK_ODDS, 8, 'Backtrack', undefined, 1);
+						break;
+					case 'cyPocket':
+						runOdds(CY_POCKET, CY_POCKET_ODDS, 36, 'Pocket Lint', undefined, 1, true);
+						break;
+					case 'cyAnimal':
+						runOne(CY_ANIMAL, 'Animal');
+						break;
+					case 'cyNeighborhoodDesc':
+						runOne(CY_NEIGHBORHOOD_DESC, 'Neighborhood Description');
 						break;
 					case 'cyStreetAdj':
 						runOne(CY_STREET_ADJ, 'Street Adjective');
