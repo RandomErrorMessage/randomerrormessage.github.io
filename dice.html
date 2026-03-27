@@ -400,6 +400,7 @@
 						<button class="diceBtn" id="cyDisposition">cyDisposition</button>
 						<button class="diceBtn" id="cyHazard">cyHazard</button>
 						<button class="diceBtn" id="cyUnexpectedEvent">cyUnexpectedEvent</button>
+						<button class="diceBtn" id="cyNPCEncounter">cyNPCEncounter</button>
 						<button class="diceBtn" id="cyStreetAdj">cyStreetAdj</button>
 						<button class="diceBtn" id="cyStreetType">cyStreetType</button>
 					</div>
@@ -5618,6 +5619,68 @@ const CY_UNEXPECTED_EVENT_SUB=[
 'd10 SecOps vs d20+30 unstable/violent crowd. DR12 Toughness to avoid tear gas. Use Yes/No to determine their grievance(s). Encounter up to d4 NPCs if you wander the crowd looking for trouble, retesting DR12 for tear gas every 2 NPCs.',
 'd6 pvnks in broad daylight, breaking the law. Do you help? Mind your own business? Use Verb/Noun and Yes/No to determine what they are doing and the response from others/authorities.',
 'Something suddenly gives way and collapses: the street or bridge beneath your feet? The tunnel that you are passing under? A tottering slum building? Consider making a DR14 Presence or Agility check vs 2d20. Additional guidance can be found on the Collapsed Road and Fallen Building entries of Hazards.'];
+const CY_NPC_ENCOUNTER=[
+'d4 Debt Collecters',
+'Musician',
+'Prophet',
+'Miserable Cy-Raging Bastard',
+'Soldier',
+'Local Hard Case',
+'Bored Trust Fund Kid',
+'Scraphead',
+'Rat Trainer',
+'d4 Drunks/Druggies',
+'AR Toymaker',
+'G0 Stalker',
+'Assassin',
+'Beggar',
+'Wounded Person',
+'Pickpocket',
+'Infested Host',
+'Lost Soul',
+'Fugitive',
+'HoloGrinder and Dancing Animal',
+'Servant',
+'Cvltist',
+'Virus Merchant',
+'Black Market Seller',
+'Merc for Hire',
+'Corpse-Robber',
+'Mugger',
+'d4+2 Gamblers',
+'d4 SpecOp',
+'NeoBeat Glitch Poet'];
+const CY_NPC_ENCOUNTER_SUB=[
+'If you owe a loan shark, pay up +20%, otherwise 25% chance they mistake you for a debtor owing d100+50¤.',
+'d4: 1: Tuneless Busker; 2; Street Folk Singer (gain news and rumors from their song); 3: Freestyler (20¤ for a song that acts as a single-use App); 4: Doomed Soloist (Infernal Instrument d6+2, DR14 Toughness or transfixes hearers for one combat round).',
+'Roll Cvlt Name and Cult Generator. d6: 1-2: Lonely Flagellan; 3-5: Upstart Heretic (2d4 followers); 6: Cult Leader (d10+10 followers), looking for followers or unbelievers to persecute.',
+'Assign a random PC class to an NPC. Allocate special abilities/items. Roll other stats as if they were a regular NPC.',
+'HP 5 Morale d8a Assault Rifle d6 Tier 3 Armor –d4. Reaction modifiers (d4): 1: Deserter +2; 2: Unemployed +4; 3: Off- duty ±0; 4: Malcontent -3.',
+'HP 6 Morale 10 Broken Bottle d4 Scarred Skin –d2. Looking for a fight: -5 to Reaction roll.',
+'A rich idler with nothing to do but drink and walk. On Reaction of 7+ will direct you to the nearest bar (add a bar to the next new street), or give you +3 to your next move.',
+'Offers up to d4 Pocket Lint items for d6¤ each.',
+'If friendly, they will sell a trained rat for 3¤. It is trained to do one task appropriate to its size.',
+'Reactions -4. Pay them off w/ 1¤ each or some booze/drugs: otherwise things might get fraught.',
+'Reactions +2. Sells two cursed toys d4: 1: Snapping Fangs (d4 bite); 2: Flaming Basilisk (d4+1 sparks); 3: Gnome Archer (d4 arrows); 4: Dancing Goblin (distraction, +2 DR for d2 combat rounds). 40¤ each. Need charge to use: character logging on misses their round, toys 1-3 attack for duration of combat.',
+'For 10¤ will take you to the end of a G0 Micro-Crawl, to the next G0 Objective, or to a place/ business... or (25% chance) try to take you down a quiet alley and cut your throat. Possess d4 Infested items.',
+'HP 6 Morale 10 Dagger d4 SmartPistol d8x2, take highest. Depending on Reaction may be looking for a contract... or for you! -2 Initiative if entering combat.',
+'Reaction +3 if you give money or food. d4: 1-2: Holds a sign; 3: d2 pet Vamps; 4: Cursed deck (DR14 Presence or Backlash if you do not give alms).',
+'d4: 1: Beaten; 2: Crushed; 3: Stabbed; 4: Burned. Who or what injured them? They have 1 HP. Reaction +3 if aided.',
+'DR14 Presence vs 2d20: Strong Hit: You catch the pickpocket in the act; Weak Hit: You realize the scam too late: lose one item, but the pvnk is still in firing range! Fail: You are an easy mark – lose one item.',
+'Infested by nanos. Cure them, or avoid them',
+'Afflicted by d2 Backlashes. They could be a useful ally, a liability, or a formidable opponent.',
+'Depending on Reaction, may either join you, fear being reported, or attack in desperation. HP 4 Morale 5 Knife d4 Tier 2 Armour -d2.',
+'Roll on Animals (on a 7 it’s a monkey, on an 8 it looks like a monkey but...isn’t) to see what is chained and doggedly interacting with the holos.',
+'Reaction +2. d2: 1: On an errand; 2: Returning from errand. Roll on Corps: they work for the CEO/CFO/Board Member.',
+'d2: 1: Votive charms (5¤, leave at holy places for +3 when Surfing the Net); 2: Holds an infested item: will not part with it.',
+'If friendly, will sell an IMP virus for 75¤. Once daily it will print itself a body and (d4): 1: Bring you d20¤; 2: Cast one random App (without fail); 3: Possess any drone for d10 minutes; 4: Appear as a worg (Core) for one combat encounter.',
+'+3 to Reactions roll. Has d2 weapons for sale at 50% list price. After buying roll d4: 1: Weapon is a useless replica; 2-3: Weapon is ok; 4: Weapon is high quality: +1 to attack and to damage.',
+'Roll d6: 1: SecOp/Gang-Goon; 2: UCS Op; 3: Virid Viper; 4: Roadrunner; 5: Cy-Raging Menace; 6: Grey-CERT Roll Reactions+3. If you promise to fulfill their demands, they will accompany you. Test their Morale daily if you cannot.',
+'Offers d4 Pocket Lint items (d4¤ each). Any results of Credstick have a 25% chance to be empty and a 25% chance for a Backlash.',
+'d2: 1: Approaches you in the street – the interaction quickly turns nasty; 2: Attempts to bludgeon you from behind: DR12 Toughness to shake off the blow, otherwise begin combat with Initiative to mugger.',
+'See gambling rules (Taverns #3/Grey Galth Inn). They are all distracted by their game, unless you join them.',
+'HP 6 Morale 7 9mm d6a Tier 2 Armor –d4. DR7 Presence vs 2d20: Strong Hit: They pass by; Weak Hit: Question you suspiciously; Fail: Attempt to arrest you: talk your way out, flee, fight, or submit! Increase DR to 14 if the law is already seeking you!',
+'d4: 1: A useless scribbler; 2: Sublime Artist (knows d2 one-time-use App); 3: Gothic Hellion (knows d2 Nano powers); 4: Rhetorician (+2 on relevant Presence checks). Poets use Nano Powers without fail once per day: when attacking PC, will use NanoPowers immediately.'];
 const MS_LOADOUT_MARINE=[
 'Tank Top and Camo Pants (AP 1), Combat Knife (as Scalpel DMG [+]), Stimpak (x5)',
 'Advanced Battle Dress (AP 10), Flamethrower, Boarding Axe',
@@ -6861,6 +6924,9 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'cyUnexpectedEvent':
 						runTwo(CY_UNEXPECTED_EVENT, CY_UNEXPECTED_EVENT_SUB, 'Unexpected Event');
+						break;
+					case 'cyNPCEncounter':
+						runTwo(CY_NPC_ENCOUNTER, CY_NPC_ENCOUNTER_SUB, 'NPC Encounter');
 						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
