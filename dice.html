@@ -398,6 +398,8 @@
 						<button class="diceBtn" id="borgCityCrawlFail">CityCrawlFail</button>
 						<button class="diceBtn" id="cyProfession">cyProfession</button>
 						<button class="diceBtn" id="cyDisposition">cyDisposition</button>
+						<button class="diceBtn" id="cyHazard">cyHazard</button>
+						<button class="diceBtn" id="cyUnexpectedEvent">cyUnexpectedEvent</button>
 						<button class="diceBtn" id="cyStreetAdj">cyStreetAdj</button>
 						<button class="diceBtn" id="cyStreetType">cyStreetType</button>
 					</div>
@@ -5478,7 +5480,7 @@ const BORG_CITY_CRAWL_FAIL=['NPC Encounter', 'Environmental Hazard', 'Unexpected
 const BORG_CITY_CRAWL_FAIL_ODDS=[2,3,4];
 const BORG_BACKTRACK=['Nothing', 'NPC', 'Unexpected Event'];
 const BORG_BACKTRACK_ODDS=[5,7,8];
-const CYBORG_STREET_ADJ=[
+const CY_STREET_ADJ=[
 'Filthy',
 'Affluent',
 'Forgotten',
@@ -5499,7 +5501,7 @@ const CYBORG_STREET_ADJ=[
 'Frantic/Glitching Ads',
 'Twisting',
 'Neon'];
-const CYBORG_STREET_TYPE=[
+const CY_STREET_TYPE=[
 'Alley',
 'Arcade',
 'Bridge',
@@ -5512,7 +5514,7 @@ const CYBORG_STREET_TYPE=[
 'Commercial Street',
 'Industrial Park',
 'Tunnel'];
-const CYBORG_DISPOSITION=[
+const CY_DISPOSITION=[
 'Paranoid/Panicked',
 'Bloodthirsty/Sadistic',
 'Drunken/Drugged',
@@ -5549,7 +5551,7 @@ const CYBORG_DISPOSITION=[
 'Guilty/Penitent',
 'Leering/Creepy',
 'Rowdy/Profane'];
-const CYBORG_PROFESSION=[
+const CY_PROFESSION=[
 'Panhandler/Vagrant/Busker',
 'Corp Enforcer',
 'SecOp/Security/UCS Op',
@@ -5586,6 +5588,36 @@ const CYBORG_PROFESSION=[
 'Private House Staff',
 'Sailor/Fisherman/Garbage Trawler',
 'Meat Miner/Farm Attendant'];
+const CY_HAZARD=[
+'Overturned Armored Car',
+'Roadblock',
+'Collapsed Road',
+'Electrified Wall/Fence',
+'Fallen Building',
+'Environmental Hazard'];
+const CY_HAZARD_SUB=[
+'Use the District tables, Verb/Noun, and Yes/No to determine why it was overturned, and whether the driver is still present. If looting, use the Searching Move, repeating a Strong or Weak Hit outcome d4 times.',
+'Manned by d20 SecOps. Set up to capture someone or something? Or to barricade someone or something in?',
+'The road has collapsed into an old sewer, mine, cave, or abyss. Work out a way across, backtrack, or Micro-Crawl underground to emerge at another street',
+'Use the District tables, Verb/Noun, and Yes/No to work out why it has been erected. Buildings and Structures may also help you determine its purpose and construction.',
+'Rubble spills across the street from a collapsed building. Possible suggestions: avoid falling masonry (DR14 Agility/d4 damage); the rubble; enter the building (d2 Micro-Crawl).',
+'Use Sounds and/or Odors & Tastes to determine a hazard. For example: noxious gas or ever-burning fire seeping from below; cursed winds blowing from the nearby dock; a slippery, blood- soaked shambles...'];
+const CY_UNEXPECTED_EVENT=[
+'Corps Hunting',
+'Party',
+'Animal Swarm',
+'Falling Object',
+'Crowd Suppression',
+'A Sudden Crime',
+'Collapse'];
+const CY_UNEXPECTED_EVENT_SUB=[
+'Chasing an escaped pvnk. The party consists of (d2): 1: d4+1 SecOps. 2: d4+1 UCS Op. Use NPC Profession/Disposition to determine their quarry. DR12 Agility vs 2d20. Strong Hit: leap out of the way. Weak Hit: Take a glancing blow (-d2 HP). Fail: -d2 HP & one SecOp stops to “teach you not to get in our way.”',
+'Roll d4 on the Animal table. DR12 Agility vs 2d20. Strong Hit: leap out of the way. Weak Hit: Take a glancing blow (-d2 HP). Fail: -d2 HP & roll Initiative.',
+'DR12 Agility to avoid (d4). 1: Masonry (d4 damage). 2: Excrement (DR8 Toughness or infected). 3: Corpse (d2 damage, can be plundered). 4: Rotten animal carcass (d4 damage, d4 rations)',
+'You could extend this encounter by seeking a source for the falling object.',
+'d10 SecOps vs d20+30 unstable/violent crowd. DR12 Toughness to avoid tear gas. Use Yes/No to determine their grievance(s). Encounter up to d4 NPCs if you wander the crowd looking for trouble, retesting DR12 for tear gas every 2 NPCs.',
+'d6 pvnks in broad daylight, breaking the law. Do you help? Mind your own business? Use Verb/Noun and Yes/No to determine what they are doing and the response from others/authorities.',
+'Something suddenly gives way and collapses: the street or bridge beneath your feet? The tunnel that you are passing under? A tottering slum building? Consider making a DR14 Presence or Agility check vs 2d20. Additional guidance can be found on the Collapsed Road and Fallen Building entries of Hazards.'];
 const MS_LOADOUT_MARINE=[
 'Tank Top and Camo Pants (AP 1), Combat Knife (as Scalpel DMG [+]), Stimpak (x5)',
 'Advanced Battle Dress (AP 10), Flamethrower, Boarding Axe',
@@ -6813,16 +6845,22 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						runOdds(BORG_BACKTRACK, BORG_BACKTRACK_ODDS, 8, 'Backtrack', undefined, 1);
 						break;
 					case 'cyStreetAdj':
-						runOne(CYBORG_STREET_ADJ, 'Street Adjective');
+						runOne(CY_STREET_ADJ, 'Street Adjective');
 						break;
 					case 'cyStreetType':
-						runOne(CYBORG_STREET_TYPE, 'Street Type');
+						runOne(CY_STREET_TYPE, 'Street Type');
 						break;
 					case 'cyProfession':
-						runOne(CYBORG_PROFESSION, 'Profession');
+						runOne(CY_PROFESSION, 'Profession');
 						break;
 					case 'cyDisposition':
-						runOne(CYBORG_DISPOSITION, 'Disposition');
+						runOne(CY_DISPOSITION, 'Disposition');
+						break;
+					case 'cyHazard':
+						runTwo(CY_HAZARD, CY_HAZARD_SUB, 'Hazard');
+						break;
+					case 'cyUnexpectedEvent':
+						runTwo(CY_UNEXPECTED_EVENT, CY_UNEXPECTED_EVENT_SUB, 'Unexpected Event');
 						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
