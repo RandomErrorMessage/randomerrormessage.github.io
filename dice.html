@@ -328,6 +328,7 @@
 					<button class="diceBtn" data-target="locationPanel">Location</button>
 					<button class="diceBtn" data-target="entitiesPanel">Entities</button>
 					<button class="diceBtn" data-target="miscPanel">Misc</button>
+					<button class="diceBtn" data-target="borgPanel">BORG</button>
 					<button class="diceBtn" data-target="mothershipPanel">Mothership</button>
 				</div>
 				<div id="oracleButtons">
@@ -391,6 +392,12 @@
 						<button class="diceBtn" id="gmePower">Power</button>
 						<button class="diceBtn" id="gmeScav">Scavenge</button>
 						<button class="diceBtn" id="gmeSpell">Spell</button>
+					</div>
+					<div class="panel" id="borgPanel">
+						<button class="diceBtn" id="borgStreetContent">StreetContent</button>
+						<button class="diceBtn" id="borgCityCrawlFail">CityCrawlFail</button>
+						<button class="diceBtn" id="cyStreetAdj">cyStreetAdj</button>
+						<button class="diceBtn" id="cyStreetType">cyStreetType</button>
 					</div>
 					<div class="panel" id="mothershipPanel">
 						<button class="diceBtn" id="msPanic">Panic</button>
@@ -5452,6 +5459,57 @@ const GME_DREAM=[
 'Violence',
 'Warning',
 'Weapon'];
+const BORG_STREET_CONTENT=[
+'Monster or dangerous creature',
+'Remains of something (a structure, object, a once-living thing?)',
+'Unexpected event',
+'Gathering',
+'Special structure',
+'Tavern',
+'Business',
+'NPC Encounter',
+'Hazard',
+'Object catches your eye',
+'Looks empty...?'];
+const BORG_STREET_CONTENT_ODDS=[1,2,3,4,5,6,7,9,10,11,12];
+const BORG_CITY_CRAWL_FAIL=['NPC Encounter', 'Environmental Hazard', 'Unexpected Event'];
+const BORG_CITY_CRAWL_FAIL_ODDS=[2,3,4];
+const BORG_BACKTRACK=['Nothing', 'NPC', 'Unexpected Event'];
+const BORG_BACKTRACK_ODDS=[5,7,8];
+const CYBORG_STREET_ADJ=[
+'Filthy',
+'Affluent',
+'Forgotten',
+'Sodden',
+'Flooded',
+'Decayed',
+'Abandoned',
+'Infested',
+'Boarded-up',
+'Desolate',
+'Dusty',
+'Bullet Hole Riddled',
+'Smoky',
+'Dark',
+'Ascending',
+'Descending',
+'Graffiti/Muraled',
+'Frantic/Glitching Ads',
+'Twisting',
+'Neon'];
+const CYBORG_STREET_TYPE=[
+'Alley',
+'Arcade',
+'Bridge',
+'Highway',
+'Lane',
+'Massive Parking Structure',
+'Overpass/Underpass',
+'Plaza/Square',
+'Street Market',
+'Commercial Street',
+'Industrial Park',
+'Tunnel'];
 const MS_LOADOUT_MARINE=[
 'Tank Top and Camo Pants (AP 1), Combat Knife (as Scalpel DMG [+]), Stimpak (x5)',
 'Advanced Battle Dress (AP 10), Flamethrower, Boarding Axe',
@@ -6279,8 +6337,8 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				return i;
 			}
 
-			function runOdds(table, odds, sides, description, table2) {
-				const die = Math.floor(Math.random() * sides);
+			function runOdds(table, odds, sides, description, table2, mod=0) {
+				const die = Math.floor(Math.random() * sides)+mod;
 				const i = doOdds(die, odds);
 				display.innerHTML = table[i];
 				if (table2 !== undefined) {
@@ -6668,6 +6726,21 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'msMaintenance':
 						runOne(MS_MAINTENANCE, 'Maintenance Issue');
+						break;
+					case 'borgStreetContent':
+						runOdds(BORG_STREET_CONTENT, BORG_STREET_CONTENT_ODDS, 12, 'Street Contents', undefined, 1);
+						break;
+					case 'borgCityCrawlFail':
+						runOdds(BORG_CITY_CRAWL_FAIL, BORG_CITY_CRAWL_FAIL_ODDS, 4, 'City Crawl Fail', undefined, 1);
+						break;
+					case 'borgBacktrack':
+						runOdds(BORG_BACKTRACK, BORG_BACKTRACK_ODDS, 8, 'Backtrack', undefined, 1);
+						break;
+					case 'cyStreetAdj':
+						runOne(CYBORG_STREET_ADJ, 'Street Adjective');
+						break;
+					case 'cyStreetType':
+						runOne(CYBORG_STREET_TYPE, 'Street Type');
 						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
