@@ -400,6 +400,7 @@
 						<button class="diceBtn" id="cyDisposition">cyDisposition</button>
 						<button class="diceBtn" id="cyHazard">cyHazard</button>
 						<button class="diceBtn" id="cyUnexpectedEvent">cyUnexpectedEvent</button>
+						<button class="diceBtn" id="cyBusiness">cyBusiness</button>
 						<button class="diceBtn" id="cyNPCEncounter">cyNPCEncounter</button>
 						<button class="diceBtn" id="cyStreetAdj">cyStreetAdj</button>
 						<button class="diceBtn" id="cyStreetType">cyStreetType</button>
@@ -5489,6 +5490,48 @@ const BORG_CITY_CRAWL_FAIL=['NPC Encounter', 'Environmental Hazard', 'Unexpected
 const BORG_CITY_CRAWL_FAIL_ODDS=[2,3,4];
 const BORG_BACKTRACK=['Nothing', 'NPC', 'Unexpected Event'];
 const BORG_BACKTRACK_ODDS=[5,7,8];
+const CY_BUSINESS=[
+'Pharmacy/Chemist',
+'Cybernetic Hardware',
+'Memorial AI Programs',
+'Digital Bookseller/App Merchant',
+'Loan Shark',
+'Fashion Designer',
+'Dental School Dropout',
+'Roboticist/Tinkerer',
+'Mechanic',
+'Jeweler/Jewel Farmer',
+'Weapon Designer/Programmer',
+'Meat Farmer',
+'Corp/Cvlt Front',
+'Food Stall Vendor',
+'Drug Dealer/Manufacturer',
+'Hacker/Hacktivist',
+'Merc/Cyberslasher/Cleaner',
+'Doctor/Medical Professional',
+'G0 Stalker',
+'Private Eye/Attorney'];
+const CY_BUSINESS_SUB=[
+'Stocks d4 drugs from Drug Dealers, can also heal < d10 HP, 20¤ per visit',
+'Sells & repairs cybernetics. Roll Merchant Response (use prices from Core)',
+'Sells personalized AI based on the deceased for (HP x damage die x armor die)¤ plus unfettered access to their socials.',
+'Has d2 Notable Books/Manuscripts, and d4 Apps using Core pg 71',
+'Lends d6 times the amount of ¤ you have, but you must pay it back next time you roll a City Crawl Move that includes the number 1',
+'Fine clothes, wearables, and disguises: 5¤ to 100¤. Kevlar-lined for an additional 50¤ (use Tier 1 armor)',
+'Tooth sharpening (10¤: d4 bite); Fang implants (100¤: d6 bite); Fang repair (15¤). For any procedure, test Toughness DR14 or take d4 bleeding dmg',
+'SmartMine (80¤: set it on the ground and it will disguise itself - anyone walking over it tests DR14 Toughness or suffers Backlash); Poppet Drone (80¤: can be made in the form of a person or creature: +2 to attack & defend against that creature).',
+'Rent vehicles using prices on Core pg 63 vs Merchant Disposition; Service any vehicle, 25¤ per repair',
+'Buy and sell jewels, as well as gold and silver trinkets.',
+'See Core for weapons, ammo, and prices.',
+'Dried meats (rations), wet meats, offal, etc 1¤. Fancy meats 3¤. Buys corpses.',
+'Either way, they\'re up to something. Use the move Scope the Place Out: DR12 vs Agility. Strong hit: Roll on Discovery for your current District. Attempts to obtain proof are done at >DR8 at the highest. Weak Hit: Roll on Discovery twice. One is true, the other isn\'t. No time to narrow it down--they know you\'re here! Fail: You set off the alarm. Better run.',
+'Dried mushrooms (1¤, provides 2 dried food, 25% chance of hallucinations); Algae flakes (2¤, +1 HP when added to meal); Caffeinated Rhubarb (10¤, DR10 to use Apps for one day).',
+'Roll d6 times on Drugs (Core) to see what they have in stock.',
+'Moves to traverse the Net or avoid its dangers are done with 3d20 instead of 2. Take the highest 2 results.',
+'100-300¤ to hire based on the job and Merchant Disposition.',
+'Heal 1 HP (3¤); Drugs (15¤); use Core pg 81 for cybernetic prices. Use DR14 Toughness vs 2d20 to see how well cybernetics go depending on reputability.',
+'Moves to traverse the G0 or avoid its dangers are done with 3d20 instead of 2. Take the highest 2 results.',
+'20¤ for a PI to roll on Discoveries for a selected District (except the Hills or Beyond Cy--those take a specialist). 20¤ upfront for an attorney. Moves utilizing their legal services are done with DR 8 max. Requires 10¤/month to retain services.'];
 const CY_ENEMY_CENTRAL=[
 'd2 Corp-Specific SecOp',
 'd2 Finance Cvlt NanoGoon',
@@ -6995,6 +7038,9 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'cyUnexpectedEvent':
 						runTwo(CY_UNEXPECTED_EVENT, CY_UNEXPECTED_EVENT_SUB, 'Unexpected Event');
+						break;
+					case 'cyBusiness':
+						runTwo(CY_BUSINESS, CY_BUSINESS_SUB, 'Business');
 						break;
 					case 'cyNPCEncounter':
 						runTwo(CY_NPC_ENCOUNTER, CY_NPC_ENCOUNTER_SUB, 'NPC Encounter');
