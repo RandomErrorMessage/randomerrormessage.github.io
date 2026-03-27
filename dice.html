@@ -401,10 +401,14 @@
 						<button class="diceBtn" id="borgRandomEventFocus">RandomEventFocus</button>
 						<button class="diceBtn" id="cyPocket">Pocket</button>
 						<button class="diceBtn" id="cyAnimal">Pocket</button>
+						<button class="diceBtn" id="cyUsefulItem">UsefulItem</button>
 						<button class="diceBtn" id="cyNeighborhoodDesc">NeighborhoodDesc</button>
 						<button class="diceBtn" id="cyProfession">Profession</button>
 						<button class="diceBtn" id="cyDisposition">Disposition</button>
 						<button class="diceBtn" id="cyHazard">Hazard</button>
+						<button class="diceBtn" id="cyTrap">Trap</button>
+						<button class="diceBtn" id="cyRoomType">RoomType</button>
+						<button class="diceBtn" id="cyRoomAdj">RoomAdj</button>
 						<button class="diceBtn" id="cyUnexpectedEvent">UnexpectedEvent</button>
 						<button class="diceBtn" id="cyBusiness">Business</button>
 						<button class="diceBtn" id="cyNPCEncounter">NPCEncounter</button>
@@ -5526,7 +5530,7 @@ const CY_POCKET=[
 'Synthetic snuff.',
 'Cult pamphlet announcing a ritual celebration for the coming night.',
 'This many ¤ on a credstick.'];
-const CY_USEFUL_ITEMS=[
+const CY_USEFUL_ITEM=[
 'd10 dmg Firearm (Core pgs 58-9)',
 'd4+1 Armor (Core pg 60)',
 'Cash and Gear (Core pg 39)',
@@ -5542,6 +5546,56 @@ const CY_ANIMAL=[
 'd8 Feral Dogs (6 HP, Morale 8, d6 bite, DR12 to avoid an RCD virus)/D6 Feral Cybercats (5 HP, Morale 5, Claws/Bite d4, DR12 to avoid a Backlash)',
 'd3 Kroks',
 'Swarm Mind (roll d6xd4 times—these animals are working together under the thrall of something digital)'];
+const CY_ROOM_TYPE=[
+'Infrastructure/Machinery',
+'Stream/Pool/Fountain',
+'Prison/Cell/Offices/Commercial',
+'Store/Kitchen/Cubicles',
+'Cavern/Pit/Tunnel/Passage',
+'Stairwell/Ladder/Elevator Shaft',
+'Chamber/Clearing/Chasm/Lecture Hall',
+'Lair/Dwelling/Home/Nest',
+'Shrine/Temple/Altar/Pain Chamber',
+'Workshop/Laboratory/Manufacturing',
+'Doorway/Entrance/Fire Escape',
+'Catacomb/Hall/Warehouse'];
+const CY_ROOM_ADJ=[
+'Dark/Black',
+'Sterile/Minimalist/Elegant',
+'Industrial/Mechanical/Manufacturing',
+'Rotten/Unclean',
+'Oppressive/Visceral',
+'Infernal/Unholy',
+'Neon-Soaked',
+'Holographic/Augmented',
+'Bleak/Blasted/Burned',
+'Infested',
+'Deserted/Neglected',
+'Ruined/Old/Haunted',
+'Extravagant/Aristocratic/Gaudy',
+'Crowded/Busy/Bedlam',
+'Carven/Excavated/Subterranean',
+'Rustic/Simple/Mundane',
+'Misty/Foggy/Smoky',
+'Ugly/Defaced/Soiled',
+'Deep/Flooded',
+'Unnatural/Uncanny'];
+const CY_TRAP=[
+'Poison Drones',
+'Trapdoor',
+'RCD Illusion Trap',
+'Electrified Floor Trap',
+'Fetid Gas',
+'Turret Trap',
+'Fire Trap'];
+const CY_TRAP_SUB=[
+'Weak Hit: Choose: D8 damage or become infected; Fail: D8 damage + become infected.',
+'Weak Hit: You’re dangling from the ledge; Fail: D8 damage.',
+'Weak Hit: Common Encounter; Fail: Common Encounter W/O Initiative.',
+'Weak Hit: D4 damage immediately, additional D4 damage every round. −2 Agility while trapped. TR Strength test to open the trap; Fail: Same as Weak Hit, and sound alerts a Common Encounter. Arrives in D4+2 rounds.',
+'Weak Hit: Gas fills the room in D4 rounds unless disarmed with a TR+3 Presence test. If unable to disarm the trap in time, Fail; Fail: Gas fills the room. D2 damage every round until trap is disarmed with TR Presence test.',
+'Weak Hit: Choose: D6 damage or random equipment/item breaks; Fail: D6 damage + random equipment/item breaks.',
+'Weak Hit: D4 damage for D4 turns unless doused; Fail: D8 damage + consequence of Weak Hit.'];
 const CY_NEIGHBORHOOD_DESC=[
 'Shadowy/Blackened',
 'Crumbling/Historic',
@@ -7409,6 +7463,9 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 					case 'cyAnimal':
 						runOne(CY_ANIMAL, 'Animal');
 						break;
+					case 'cyUsefulItem':
+						runOne(CY_USEFUL_ITEM, 'Useful Item');
+						break;
 					case 'cyNeighborhoodDesc':
 						runOne(CY_NEIGHBORHOOD_DESC, 'Neighborhood Description');
 						break;
@@ -7472,8 +7529,14 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 					case 'cyVerb':
 						runOne(CY_VERB, 'Verb');
 						break;
-					case 'cyNoun':
-						runOne(CY_NOUN, 'Noun');
+					case 'cyRoomType':
+						runOne(CY_ROOM_TYPE, 'Room Type');
+						break;
+					case 'cyRoomAdj':
+						runOne(CY_ROOM_ADJ, 'Room Adjective');
+						break;
+					case 'cyTrap':
+						runTwo(CY_TRAP, CY_TRAP_SUB, 'Trap');
 						break;
 					case 'borgRandomEventFocus':
 						borgRandomEventFocus('Random Event Focus');
