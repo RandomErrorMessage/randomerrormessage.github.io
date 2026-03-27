@@ -396,6 +396,8 @@
 					<div class="panel" id="borgPanel">
 						<button class="diceBtn" id="borgStreetContent">StreetContent</button>
 						<button class="diceBtn" id="borgCityCrawlFail">CityCrawlFail</button>
+						<button class="diceBtn" id="cyProfession">cyProfession</button>
+						<button class="diceBtn" id="cyDisposition">cyDisposition</button>
 						<button class="diceBtn" id="cyStreetAdj">cyStreetAdj</button>
 						<button class="diceBtn" id="cyStreetType">cyStreetType</button>
 					</div>
@@ -5510,6 +5512,80 @@ const CYBORG_STREET_TYPE=[
 'Commercial Street',
 'Industrial Park',
 'Tunnel'];
+const CYBORG_DISPOSITION=[
+'Paranoid/Panicked',
+'Bloodthirsty/Sadistic',
+'Drunken/Drugged',
+'Miserable/Melancholic',
+'Unstable/Sociopathic',
+'Greedy/Corrupt',
+'Reclusive/Shy',
+'Eccentric/Hysterical',
+'Awkward',
+'Treacherous/Dishonest',
+'Generous',
+'Secretive/Suspicious',
+'Destitute/Ragged',
+'Infested/Enigmatic',
+'Heretical/Confrontational',
+'Repellent/Wretched',
+'Inscrutable/Hermetic',
+'Injured/Wounded/Broken',
+'Sickly/Gaunt',
+'Burly/Imposing',
+'Slimy/Insincere',
+'Narcissistic',
+'Bitter/Spiteful',
+'Belligerent/Rude',
+'Nihilistic',
+'Street-Smart',
+'Cynical/World-Weary',
+'Pretentious/Extravagant',
+'Sinister/Possessed',
+'Hopeless/Talentless',
+'Cowardly/Scared',
+'Exiled/Tragic',
+'Fanatical',
+'Guilty/Penitent',
+'Leering/Creepy',
+'Rowdy/Profane'];
+const CYBORG_PROFESSION=[
+'Panhandler/Vagrant/Busker',
+'Corp Enforcer',
+'SecOp/Security/UCS Op',
+'Doctor/Nurse/Medical Professional',
+'Service Industry/Gig Economy Worker',
+'White Collar Drone/Corppie/Salaryfolk',
+'Mobster/Criminal/Lawyer',
+'Celebrity/Streamer/Influencer',
+'Upper/Middle Management',
+'Financial Professional/Nu-Capitalist',
+'Steelworker/Sanitation Worker',
+'Cvltist/Fleshcarver/Smogbreather',
+'Engineer/Mechanic',
+'Roadrunner',
+'Smuggler/Scraphead',
+'Factory/Plant Worker',
+'Gang-Goon',
+'Fugitive Labor Organizer',
+'Maintenance/Evac Crew',
+'Vendor/Shopkeeper/Retail Worker',
+'Hacker/Hacktivist/Digital Artist',
+'Dock Worker/Warehouse Worker',
+'Musician/DJ',
+'Scammer/Con Artist/Corp Spy',
+'Journalist/Investigative Reporter/Media Figure',
+'Scientist',
+'Stalker',
+'Nanophreak/Nanomancer/NanoGoon',
+'Militia Member',
+'Drug Dealer/Manufacturer',
+'Black Market Merchant/Arms Dealer',
+'CEO/CFO/Board Member',
+'Politician/Media Mogul',
+'Private House Staff',
+'Sailor/Fisherman/Garbage Trawler',
+'Meat Miner/Farm Attendant'];
 const MS_LOADOUT_MARINE=[
 'Tank Top and Camo Pants (AP 1), Combat Knife (as Scalpel DMG [+]), Stimpak (x5)',
 'Advanced Battle Dress (AP 10), Flamethrower, Boarding Axe',
@@ -6741,6 +6817,12 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'cyStreetType':
 						runOne(CYBORG_STREET_TYPE, 'Street Type');
+						break;
+					case 'cyProfession':
+						runOne(CYBORG_PROFESSION, 'Profession');
+						break;
+					case 'cyDisposition':
+						runOne(CYBORG_DISPOSITION, 'Disposition');
 						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
