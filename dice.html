@@ -329,6 +329,7 @@
 					<button class="diceBtn" data-target="entitiesPanel">Entities</button>
 					<button class="diceBtn" data-target="miscPanel">Misc</button>
 					<button class="diceBtn" data-target="borgPanel">CY_BORG</button>
+					<button class="diceBtn" data-target="borgStreetPanel">CY_Street</button>
 					<button class="diceBtn" data-target="mothershipPanel">Mothership</button>
 				</div>
 				<div id="oracleButtons">
@@ -414,8 +415,6 @@
 						<button class="diceBtn" id="cyUnexpectedEvent">UnexpectedEvent</button>
 						<button class="diceBtn" id="cyBusiness">Business</button>
 						<button class="diceBtn" id="cyNPCEncounter">NPCEncounter</button>
-						<button class="diceBtn" id="cyStreetAdj">StreetAdj</button>
-						<button class="diceBtn" id="cyStreetType">StreetType</button>
 						<button class="diceBtn" id="cyEnemyCentral">EnemyCentral</button>
 						<button class="diceBtn" id="cyEnemyIndustries">EnemyIndustries</button>
 						<button class="diceBtn" id="cyEnemyPorts">EnemyPorts</button>
@@ -426,6 +425,19 @@
 						<button class="diceBtn" id="cyEnemyWater">EnemyWater</button>
 						<button class="diceBtn" id="cyCityEvent">CityEvent</button>
 						<button class="diceBtn" id="cyNetEvent">NetEvent</button>
+					</div>
+					<div class="panel" id="borgStreetPanel">
+						<button class="diceBtn" id="borgStreetContent">StreetContent</button>
+						<button class="diceBtn" id="borgCityCrawlFail">CityCrawlFail</button>
+						<button class="diceBtn" id="borgBacktrack">Backtrack</button>
+						<button class="diceBtn" id="cyNeighborhoodDesc">HoodDesc</button>
+						<button class="diceBtn" id="cyStreetAdj">StreetAdj</button>
+						<button class="diceBtn" id="cyStreetType">StreetType</button>
+						<button class="diceBtn" id="cySlumTrait">SlumTrait</button>
+						<button class="diceBtn" id="cySlumFeature">SlumFeature</button>
+						<button class="diceBtn" id="cySlumDiscovery">SlumDiscovery</button>
+						<button class="diceBtn" id="cySlumNPC">SlumNPC</button>
+						<button class="diceBtn" id="cyNeighborhoodSize">HoodSize</button>
 					</div>
 					<div class="panel" id="mothershipPanel">
 						<button class="diceBtn" id="msPanic">Panic</button>
@@ -5504,6 +5516,58 @@ const BORG_CITY_CRAWL_FAIL=['NPC Encounter', 'Environmental Hazard', 'Unexpected
 const BORG_CITY_CRAWL_FAIL_ODDS=[2,3,4];
 const BORG_BACKTRACK=['Nothing', 'NPC', 'Unexpected Event'];
 const BORG_BACKTRACK_ODDS=[5,7,8];
+const CY_NEIGHBORHOOD_SIZE_ODDS=[5,10,14,17,19,20];
+const CY_NEIGHBORHOOD_SIZE=[
+'Turf: d2+1 blocks',
+'Territory: d4+4 blocks',
+'Quarter: d8+3 blocks',
+'Neighborhood: d12+3 blocks',
+'District: d20+4 blocks',
+'Borough: d20+20 blocks'];
+const CY_SLUM_TRAIT=[
+'Dilapidated',
+'Haunted',
+'Embattled',
+'Burning',
+'Traumatized',
+'Scarred',
+'Dense',
+'Desperate',
+'Infested',
+'Patrolled'];
+const CY_SLUM_FEATURE=[
+'Gang Territory',
+'Flophouse',
+'Tenement/Housing Project',
+'Heaps of Garbage/Rubble',
+'Cvlt Compound',
+'Drug Lab',
+'Illegal Business',
+'Urban Battle Zone',
+'Abandoned Subway Station',
+'Community Garden'];
+const CY_SLUM_DISCOVERY=[
+'Clue',
+'Watched/Followed',
+'Active Crime Scene',
+'G0 Incursion',
+'Ritualistic Sacrifice',
+'Outbreak of Violence',
+'Occult Symbols',
+'Makeshift Barracks',
+'Hidden Cache',
+'Erratic Behavior'];
+const CY_SLUM_NPC=[
+'Gang-Goon',
+'Cvltist',
+'Hacker',
+'Militia Member',
+'Drug Dealer/Manufacturer',
+'Black Market Merchant',
+'Arms Dealer',
+'Sanitation Worker',
+'Medical Volunteer',
+'Gig Economy Worker'];
 const CY_SEARCH_STRONG=[
 'Pocket Lint',
 'An item of worth (e.g. Useful Items)',
@@ -7555,6 +7619,21 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'cyTrap':
 						runTwo(CY_TRAP, CY_TRAP_SUB, 'Trap');
+						break;
+					case 'cySlumTrait':
+						runOne(CY_SLUM_TRAIT, 'Slum Trait');
+						break;
+					case 'cySlumFeature':
+						runOne(CY_SLUM_FEATURE, 'Slum Feature');
+						break;
+					case 'cySlumDiscovery':
+						runOne(CY_SLUM_DISCOVERY, 'Slum Discovery');
+						break;
+					case 'cySlumNPC':
+						runOne(CY_SLUM_NPC, 'Slum NPC');
+						break;
+					case 'cyNeighborhoodSize':
+						runOdds(CY_NEIGHBORHOOD_SIZE, CY_NEIGHBORHOOD_SIZE_ODDS, 20, 'Neighborhood Size', undefined, 1);
 						break;
 					case 'borgRandomEventFocus':
 						borgRandomEventFocus('Random Event Focus');
