@@ -411,7 +411,6 @@
 						<button class="diceBtn" id="cySearchStrong">SearchStrong</button>
 						<button class="diceBtn" id="cySearchWeak">SearchWeak</button>
 						<button class="diceBtn" id="cyUnexpectedEvent">UnexpectedEvent</button>
-						<button class="diceBtn" id="cyBusiness">Business</button>
 						<button class="diceBtn" id="cyNPCEncounter">NPCEncounter</button>
 						<button class="diceBtn" id="cyEnemyCentral">EnemyCentral</button>
 						<button class="diceBtn" id="cyEnemyIndustries">EnemyIndustries</button>
@@ -426,9 +425,9 @@
 					</div>
 					<div class="panel" id="borgStreetPanel">
 						<button class="diceBtn" id="borgStreetContent">StreetContent</button>
-						<button class="diceBtn" id="borgCityCrawlFail">CityCrawlFail</button>
-						<button class="diceBtn" id="borgGetDirWeak">GetDirWeak</button>
-						<button class="diceBtn" id="borgBacktrack">Backtrack</button>
+						<!-- <button class="diceBtn" id="borgCityCrawlFail">CityCrawlFail</button> -->
+						<!-- <button class="diceBtn" id="borgGetDirWeak">GetDirWeak</button> -->
+						<button class="diceBtn" id="cyBusiness">Business</button>
 						<button class="diceBtn" id="cyNeighborhoodDesc">HoodDesc</button>
 						<button class="diceBtn" id="cyStreetAdj">StreetAdj</button>
 						<button class="diceBtn" id="cyStreetType">StreetType</button>
@@ -446,6 +445,7 @@
 						<button class="diceBtn" id="cySleep">Sleep (9/12+Presence)</button>
 						<button class="diceBtn" id="cySearch">Search (12+Glitch)</button>
 						<button class="diceBtn" id="cyGAM">GAM (DR+Glitch)</button>
+						<button class="diceBtn" id="borgBacktrack">Backtrack</button>
 						<button class="diceBtn" id="cyMissionAccomplished">MissionAccomplished(DR+Glitch)</button>
 					</div>
 					<div class="panel" id="mothershipPanel">
@@ -7679,12 +7679,14 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 					case 'borgStreetContent':
 						runOdds(BORG_STREET_CONTENT, BORG_STREET_CONTENT_ODDS, 12, 'Street Contents', undefined, 1);
 						break;
+						/*
 					case 'borgCityCrawlFail':
 						runOdds(BORG_CITY_CRAWL_FAIL, BORG_CITY_CRAWL_FAIL_ODDS, 4, 'City Crawl Fail', undefined, 1);
 						break;
 					case 'borgGetDirWeak':
 						runOdds(CY_GET_DIR_WEAK, CY_GET_DIR_WEAK_ODDS, 6, 'Get Directions (Weak Hit)', undefined, 1, false, 2);
 						break;
+						*/
 					case 'borgBacktrack':
 						runOdds(BORG_BACKTRACK, BORG_BACKTRACK_ODDS, 8, 'Backtrack', undefined, 1);
 						break;
