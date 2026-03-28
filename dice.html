@@ -330,6 +330,7 @@
 					<button class="diceBtn" data-target="miscPanel">Misc</button>
 					<button class="diceBtn" data-target="borgPanel">CY_BORG</button>
 					<button class="diceBtn" data-target="borgStreetPanel">CY_Street</button>
+					<button class="diceBtn" data-target="cyCrawl">CY_Crawl</button>
 					<button class="diceBtn" data-target="mothershipPanel">Mothership</button>
 				</div>
 				<div id="oracleButtons">
@@ -437,6 +438,9 @@
 						<button class="diceBtn" id="cySlumNPC">SlumNPC</button>
 						<button class="diceBtn" id="cyNeighborhoodSize">HoodSize</button>
 					</div>
+					<div class="panel" id="cyCrawl">
+						<button class="diceBtn" id="cyCityCrawl">CityCrawl (DR)</button>
+					</div>
 					<div class="panel" id="mothershipPanel">
 						<button class="diceBtn" id="msPanic">Panic</button>
 						<button class="diceBtn" id="msDeath">Death</button>
@@ -456,7 +460,9 @@
 					</div>
 				</div>
 			</div>
-
+			<div class="panel" id="inputPanel">
+				<input id="specialInput" type="number">
+			</div>
 			<div class="resultBox">
 				<div id="diceDisplay">—</div>
 				<div id="totalDisplay"></div>
@@ -7001,6 +7007,8 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 			const dicePanel = document.getElementById('dicePanel');
 			const sndToggle = document.getElementById('sndToggle');
 			const oracleCard = document.getElementById('oracleCard');
+			const inputPanel = document.getElementById('inputPanel');
+			const specialInput = document.getElementById('specialInput');
 
 			function setCookie(cookie) {
 				document.cookie = `data=${encodeURIComponent(JSON.stringify(cookie))}; path=/`;
@@ -7248,6 +7256,30 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				addHistoryEntry(`${name}: ${table[die]} [${die}]`);
 				playSound();
 			}
+			function cyCityCrawl(dr) {
+				const die0 = Math.floor(Math.random()*20)+1;
+				const die1 = Math.floor(Math.random()*20)+1;
+				let result;
+				let log = 'City Crawl: ';
+				if (die0 >= dr && die1 >= dr) {
+					result = 'Reach the next Objective (roll new street if all Objectives met).'
+					log += result
+				} else if (die0 >= dr || die1 >= dr) {
+					result = 'Roll a new street using Street Descriptors, using Traits and Features for additional context/detail.'
+					log += result
+				} else {
+					const die = Math.floor(Math.random()*4)+1;
+					const i = doOdds(die, BORG_CITY_CRAWL_FAIL_ODDS);
+					const eventIdx = Math.floor(Math.random() * CY_CITY_EVENT.length);
+					result = `Something prevents you leaving. OR: ${BORG_CITY_CRAWL_FAIL[i]} OR: ${CY_CITY_EVENT[eventIdx]}`
+					log += result
+				}
+				log += ` [${die0}, ${die1}]`;
+				display.innerHTML = result;
+				totalDisplay.innerHTML = 'City Crawl';
+				addHistoryEntry(log);
+				playSound();
+			}
 			function msGenChar(msClass) {
 				if (!msClass) {
 					const msClasses = ['Marine', 'Android', 'Scientist', 'Teamster'];
@@ -7325,7 +7357,15 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 			document.getElementById('clearHistoryBtn').addEventListener('click', () => {
 				historyList.innerHTML = '';
 			});
-
+			function hideInput(target) {
+				switch (target) {
+					case 'cyCrawl':
+						inputPanel.classList.add('active');
+					break;
+					default:
+						inputPanel.classList.remove('active');
+				}
+			}
 			document.getElementById('tabPanel').addEventListener('click', (e) => {
 				const btn = e.target.closest('button');
 				if (!btn) {
@@ -7341,6 +7381,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				} else {
 					oracleCard.classList.remove('active');
 				}
+				inputPanel.classList.remove('active');
 			});
 			document.getElementById('oracleTabs').addEventListener('click', (e) => {
 				const btn = e.target.closest('button');
@@ -7352,6 +7393,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				});
 				btn.classList.add('active');
 				document.getElementById(btn.dataset.target).classList.add('active');
+				hideInput(btn.dataset.target);
 			});
 
 			dicePanel.addEventListener('click', (e) => {
@@ -7647,6 +7689,11 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'borgRandomEventFocus':
 						borgRandomEventFocus('Random Event Focus');
+						break;
+					case 'cyCityCrawl':
+						let x = parseInt(specialInput.value, 10);
+						if (isNaN(x) || x < 1) x = 1;
+						cyCityCrawl(x);
 						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
