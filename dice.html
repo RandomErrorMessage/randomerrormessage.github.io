@@ -397,13 +397,10 @@
 					<div class="panel" id="borgPanel">
 						<button class="diceBtn" id="cyVerb">Verb</button>
 						<button class="diceBtn" id="cyNoun">Noun</button>
-						<button class="diceBtn" id="borgStreetContent">StreetContent</button>
-						<button class="diceBtn" id="borgCityCrawlFail">CityCrawlFail</button>
 						<button class="diceBtn" id="borgRandomEventFocus">RandomEventFocus</button>
 						<button class="diceBtn" id="cyPocket">Pocket</button>
 						<button class="diceBtn" id="cyAnimal">Animal</button>
 						<button class="diceBtn" id="cyUsefulItem">UsefulItem</button>
-						<button class="diceBtn" id="cyNeighborhoodDesc">NeighborhoodDesc</button>
 						<button class="diceBtn" id="cyProfession">Profession</button>
 						<button class="diceBtn" id="cyDisposition">Disposition</button>
 						<button class="diceBtn" id="cyHazard">Hazard</button>
@@ -429,6 +426,7 @@
 					<div class="panel" id="borgStreetPanel">
 						<button class="diceBtn" id="borgStreetContent">StreetContent</button>
 						<button class="diceBtn" id="borgCityCrawlFail">CityCrawlFail</button>
+						<button class="diceBtn" id="borgGetDirWeak">GetDirWeak</button>
 						<button class="diceBtn" id="borgBacktrack">Backtrack</button>
 						<button class="diceBtn" id="cyNeighborhoodDesc">HoodDesc</button>
 						<button class="diceBtn" id="cyStreetAdj">StreetAdj</button>
@@ -5514,6 +5512,12 @@ const BORG_STREET_CONTENT=[
 const BORG_STREET_CONTENT_ODDS=[1,2,3,4,5,6,7,9,10,11,12];
 const BORG_CITY_CRAWL_FAIL=['NPC Encounter', 'Environmental Hazard', 'Unexpected Event'];
 const BORG_CITY_CRAWL_FAIL_ODDS=[2,3,4];
+const BORG_GET_DIRECTIONS_WEAK_ODDS=[3,6,8,12];
+const BORG_GET_DIRECTIONS_WEAK=[
+'Attacks',
+'Ignores',
+'Indifference: +d2 to next City Crawl, or find destination in d4 streets',
+'Helpful: +d4 to next City Crawl, or find destination in d2 streets'];
 const BORG_BACKTRACK=['Nothing', 'NPC', 'Unexpected Event'];
 const BORG_BACKTRACK_ODDS=[5,7,8];
 const CY_NEIGHBORHOOD_SIZE_ODDS=[5,10,14,17,19,20];
@@ -7118,8 +7122,11 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				return i;
 			}
 
-			function runOdds(table, odds, sides, description, table2, mod=0, d66=false) {
-				let die = Math.floor(Math.random() * sides)+mod;
+			function runOdds(table, odds, sides, description, table2, mod=0, d66=false, count=1) {
+				let die = 0;
+				for (let i = 0; i < count; i++) {
+					die += Math.floor(Math.random() * sides) + mod;
+				}
 				const i = doOdds(die, odds);
 				display.innerHTML = table[i];
 				let log = `${description}: ${table[i]}`;
@@ -7529,6 +7536,9 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'borgCityCrawlFail':
 						runOdds(BORG_CITY_CRAWL_FAIL, BORG_CITY_CRAWL_FAIL_ODDS, 4, 'City Crawl Fail', undefined, 1);
+						break;
+					case 'borgGetDirWeak':
+						runOdds(BORG_GET_DIRECTIONS_WEAK, BORG_GET_DIRECTIONS_WEAK_ODDS, 6, 'Get Directions (Weak Hit)', undefined, 1, false, 2);
 						break;
 					case 'borgBacktrack':
 						runOdds(BORG_BACKTRACK, BORG_BACKTRACK_ODDS, 8, 'Backtrack', undefined, 1);
