@@ -444,6 +444,7 @@
 						<button class="diceBtn" id="cyDungeonCrawl">Dungeon (DR)</button>
 						<button class="diceBtn" id="cyStash">Stash (10+Glitch)</button>
 						<button class="diceBtn" id="cySleep">Sleep (9/12+Presence)</button>
+						<button class="diceBtn" id="cySearch">Search (12+Glitch)</button>
 						<button class="diceBtn" id="cyGAM">GAM (DR+Glitch)</button>
 						<button class="diceBtn" id="cyMissionAccomplished">MissionAccomplished(DR+Glitch)</button>
 					</div>
@@ -5605,6 +5606,10 @@ const CY_SLUM_NPC=[
 'Sanitation Worker',
 'Medical Volunteer',
 'Gig Economy Worker'];
+const CY_SEARCH=[
+'Strong Hit: d4: 1: Pocket Lint (Core Inner Cover); 2-3: An item of worth (e.g. Useful Items); 4: Roll Discovery for your District',
+'Weak Hit: d4: 1: Nothing; 2: Pocket Lint; 3: Cash and Gear (Core pg 39, roll D3 for column); 4: Useful Items',
+'Fail: Nothing. Some sort of danger reveals itself! A trap? An ambush?'];
 const CY_SEARCH_STRONG=[
 'Pocket Lint',
 'An item of worth (e.g. Useful Items)',
@@ -7811,6 +7816,9 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'cyGAM':
 						doStrongWeak(getInput(), CY_GAM, 'Game Adventure Move');
+						break;
+					case 'cySearch':
+						doStrongWeak(getInput(), CY_SEARCH, 'Search');
 						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
