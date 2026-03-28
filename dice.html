@@ -443,8 +443,9 @@
 						<button class="diceBtn" id="cyGetDir">GetDir (12+Presence)</button>
 						<button class="diceBtn" id="cyDungeonCrawl">Dungeon (DR)</button>
 						<button class="diceBtn" id="cyStash">Stash (10+Glitch)</button>
-						<button class="diceBtn" id="cySleep">Sleep</button>
-						<button class="diceBtn" id="cyGAM">GAM</button>
+						<button class="diceBtn" id="cySleep">Sleep (9/12+Presence)</button>
+						<button class="diceBtn" id="cyGAM">GAM (DR+Glitch)</button>
+						<button class="diceBtn" id="cyMissionAccomplished">MissionAccomplished(DR+Glitch)</button>
 					</div>
 					<div class="panel" id="mothershipPanel">
 						<button class="diceBtn" id="msPanic">Panic</button>
@@ -5544,6 +5545,10 @@ const CY_SLEEP=[
 'Strong Hit: Gain d4/d6 HP depending on whether catching a breath or sleeping. If sleeping, re-roll your Glitches, restore Apps, and use 1 ration.',
 'Weak Hit: Gain d2/d4 HP. If sleeping, restore 1 Glitch and 1 App, and use 1 ration. Introduce a reason for a restless night or interruption.',
 'Fail: No sleep for you. Something terrible is about to happen. The next attempt at resting after resolving whatever encounter ensues will be a 50/50 chance of either a Strong or Weak Hit.'];
+const CY_MISSION_ACCOMPLISHED=[
+'Strong Hit: Job Finished! Now what? Time to take another one?',
+'Weak Hit: Something unexpected happens – add another objective!',
+'Fail: Something catastrophic occurs – add d2+1 milestones.'];
 const CY_GAM=[
 'Strong Hit: Things go according to plan! What am I missing?',
 'Weak Hit: You succeed, but with a complication! (Choose One, or something similar in scope: d2 damage, losing an item, losing some sort of advantage, a temporary stat adjustment, neither impressing nor angering someone you are trying to persuade, etc.)',
@@ -7089,6 +7094,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				let units = zeroIndex % 6;
 				return `${tens + 1}${units + 1}`;
 			}
+			/*
 			function d66ToDecimal(d66) {
 				const str = String(d66);
 				if (str.length !== 2) {
@@ -7101,6 +7107,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				}
 				return ((tens - 1) * 6) + units;
 			}
+			*/
 			function runRoll(count, sides, mod=0, name) {
 				let sum = 0;
 				let html = '';
@@ -7152,8 +7159,8 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				} else {
 					i = 2;
 				}
-				result = `${table[i]} [${die0}, ${die1}]`;
-				log = result;
+				const result = `${table[i]} [${die0}, ${die1}]`;
+				const log = result;
 				display.innerHTML = result;
 				totalDisplay.innerHTML = name;
 				addHistoryEntry(log);
@@ -7751,6 +7758,9 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 					case 'cyNetEvent':
 						runOne(CY_NET_EVENT, 'Net Event');
 						break;
+					case 'cyNoun':
+						runOne(CY_NOUN, 'Noun');
+						break;
 					case 'cyVerb':
 						runOne(CY_VERB, 'Verb');
 						break;
@@ -7795,6 +7805,9 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						break;
 					case 'cySleep':
 						doStrongWeak(getInput(), CY_SLEEP, 'Sleep');
+						break;
+					case 'cyMissionAccomplished':
+						doStrongWeak(getInput(), CY_MISSION_ACCOMPLISHED, 'Mission Accomplished');
 						break;
 					case 'cyGAM':
 						doStrongWeak(getInput(), CY_GAM, 'Game Adventure Move');
