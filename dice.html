@@ -440,6 +440,11 @@
 					</div>
 					<div class="panel" id="cyCrawl">
 						<button class="diceBtn" id="cyCityCrawl">CityCrawl (DR)</button>
+						<button class="diceBtn" id="cyGetDir">GetDir (12+Presence)</button>
+						<button class="diceBtn" id="cyDungeonCrawl">Dungeon (DR)</button>
+						<button class="diceBtn" id="cyStash">Stash (10+Glitch)</button>
+						<button class="diceBtn" id="cySleep">Sleep</button>
+						<button class="diceBtn" id="cyGAM">GAM</button>
 					</div>
 					<div class="panel" id="mothershipPanel">
 						<button class="diceBtn" id="msPanic">Panic</button>
@@ -460,8 +465,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="panel" id="inputPanel">
-				<input id="specialInput" type="number">
+			<div class="panel customPanel" id="inputPanel">
+				<input id="specialInput" type="number" value="10">
 			</div>
 			<div class="resultBox">
 				<div id="diceDisplay">—</div>
@@ -5518,14 +5523,31 @@ const BORG_STREET_CONTENT=[
 const BORG_STREET_CONTENT_ODDS=[1,2,3,4,5,6,7,9,10,11,12];
 const BORG_CITY_CRAWL_FAIL=['NPC Encounter', 'Environmental Hazard', 'Unexpected Event'];
 const BORG_CITY_CRAWL_FAIL_ODDS=[2,3,4];
-const BORG_GET_DIRECTIONS_WEAK_ODDS=[3,6,8,12];
-const BORG_GET_DIRECTIONS_WEAK=[
+const CY_GET_DIR_WEAK_ODDS=[3,6,8,12];
+const CY_GET_DIR_WEAK=[
 'Attacks',
 'Ignores',
 'Indifference: +d2 to next City Crawl, or find destination in d4 streets',
 'Helpful: +d4 to next City Crawl, or find destination in d2 streets'];
 const BORG_BACKTRACK=['Nothing', 'NPC', 'Unexpected Event'];
 const BORG_BACKTRACK_ODDS=[5,7,8];
+const CY_STASH_WEAK=[
+'You find several items missing (50% chance per item)',
+'Items damaged by water, damp, etc. 50% chance of reducing armor & weapons one tier, apps becoming corrupted, food spoiling, etc.',
+'You surprise an NPC trying to carry your loot away!'];
+const CY_STASH_WEAK_ODDS=[2,4,6];
+const CY_DUNGEON_CRAWL=[
+'Strong Hit: Enter next Special Room. These may have been defined in advance to suggest specific pre-planned encounters or types of room. You can also roll on Special Rooms according to your current district. Alternatively roll on the Room Descriptor and simply mark one Special Room found. The fourth Special Room marks the climax of the dungeon (e.g. final battle/objective, and/or chance to complete a milestone). Any Strong Hits rolled after Special Room 4 has been revealed are counted as Weak Hits (generic rooms).',
+'Weak Hit: Enter a generic room; use Room Descriptors to reveal the room type, contents, and exits.',
+'Fail: Encounter some enemy, trap, or calamity as you leave your current location (e.g. imminent danger becomes more imminent? The door is locked? or if you are feeling unimaginative just roll a Common Encounter). Generate a room from Room Descriptor when the encounter is resolved.'];
+const CY_SLEEP=[
+'Strong Hit: Gain d4/d6 HP depending on whether catching a breath or sleeping. If sleeping, re-roll your Glitches, restore Apps, and use 1 ration.',
+'Weak Hit: Gain d2/d4 HP. If sleeping, restore 1 Glitch and 1 App, and use 1 ration. Introduce a reason for a restless night or interruption.',
+'Fail: No sleep for you. Something terrible is about to happen. The next attempt at resting after resolving whatever encounter ensues will be a 50/50 chance of either a Strong or Weak Hit.'];
+const CY_GAM=[
+'Strong Hit: Things go according to plan! What am I missing?',
+'Weak Hit: You succeed, but with a complication! (Choose One, or something similar in scope: d2 damage, losing an item, losing some sort of advantage, a temporary stat adjustment, neither impressing nor angering someone you are trying to persuade, etc.)',
+'Fail: Things couldn’t have gone worse. Uh oh. (Something particularly bad happens, or perhaps some sort of plot twist occurs?)'];
 const CY_NEIGHBORHOOD_SIZE_ODDS=[5,10,14,17,19,20];
 const CY_NEIGHBORHOOD_SIZE=[
 'Turf: d2+1 blocks',
@@ -5629,7 +5651,7 @@ const CY_ANIMAL=[
 'Rat Lan Party (d12 infested rats, connected by tangle tail cables. 2 HP/rat, Morale 5, Roll Nanopower, Bite d4+DR12 Resist Infection)',
 'd4 G0 Roaches (2 HP, Morale 2, Roll Nanopower, DR12 Resist Infection if physical contact)',
 'd6 Worgs',
-'d8 Feral Dogs (6 HP, Morale 8, d6 bite, DR12 to avoid an RCD virus)/D6 Feral Cybercats (5 HP, Morale 5, Claws/Bite d4, DR12 to avoid a Backlash)',
+'d8 Feral Dogs (6 HP, Morale 8, d6 bite, DR12 to avoid an RCD virus)/d6 Feral Cybercats (5 HP, Morale 5, Claws/Bite d4, DR12 to avoid a Backlash)',
 'd3 Kroks',
 'Swarm Mind (roll d6xd4 times—these animals are working together under the thrall of something digital)'];
 const CY_ROOM_TYPE=[
@@ -5675,13 +5697,13 @@ const CY_TRAP=[
 'Turret Trap',
 'Fire Trap'];
 const CY_TRAP_SUB=[
-'Weak Hit: Choose: D8 damage or become infected; Fail: D8 damage + become infected.',
-'Weak Hit: You’re dangling from the ledge; Fail: D8 damage.',
+'Weak Hit: Choose: d8 damage or become infected; Fail: d8 damage + become infected.',
+'Weak Hit: You’re dangling from the ledge; Fail: d8 damage.',
 'Weak Hit: Common Encounter; Fail: Common Encounter W/O Initiative.',
-'Weak Hit: D4 damage immediately, additional D4 damage every round. −2 Agility while trapped. TR Strength test to open the trap; Fail: Same as Weak Hit, and sound alerts a Common Encounter. Arrives in D4+2 rounds.',
-'Weak Hit: Gas fills the room in D4 rounds unless disarmed with a TR+3 Presence test. If unable to disarm the trap in time, Fail; Fail: Gas fills the room. D2 damage every round until trap is disarmed with TR Presence test.',
-'Weak Hit: Choose: D6 damage or random equipment/item breaks; Fail: D6 damage + random equipment/item breaks.',
-'Weak Hit: D4 damage for D4 turns unless doused; Fail: D8 damage + consequence of Weak Hit.'];
+'Weak Hit: d4 damage immediately, additional d4 damage every round. −2 Agility while trapped. TR Strength test to open the trap; Fail: Same as Weak Hit, and sound alerts a Common Encounter. Arrives in d4+2 rounds.',
+'Weak Hit: Gas fills the room in d4 rounds unless disarmed with a TR+3 Presence test. If unable to disarm the trap in time, Fail; Fail: Gas fills the room. d2 damage every round until trap is disarmed with TR Presence test.',
+'Weak Hit: Choose: d6 damage or random equipment/item breaks; Fail: d6 damage + random equipment/item breaks.',
+'Weak Hit: d4 damage for d4 turns unless doused; Fail: d8 damage + consequence of Weak Hit.'];
 const CY_NEIGHBORHOOD_DESC=[
 'Shadowy/Blackened',
 'Crumbling/Historic',
@@ -7119,7 +7141,24 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				addHistoryEntry(`${result} : ${result_sub}`);
 				playSound();
 			}
-
+			function doStrongWeak(dr, table, name) {
+				const die0 = Math.floor(Math.random()*20)+1;
+				const die1 = Math.floor(Math.random()*20)+1;
+				let i;
+				if (die0 >= dr && die1 >= dr) {
+					i = 0;
+				} else if (die0 >= dr || die1 >= dr) {
+					i = 1;
+				} else {
+					i = 2;
+				}
+				result = `${table[i]} [${die0}, ${die1}]`;
+				log = result;
+				display.innerHTML = result;
+				totalDisplay.innerHTML = name;
+				addHistoryEntry(log);
+				playSound();
+			}
 			function doOdds(die, odds) {
 				let i = 0;
 				for (;i<odds.length;i++) {
@@ -7254,6 +7293,52 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				display.innerHTML = table[die];
 				totalDisplay.innerHTML = name;
 				addHistoryEntry(`${name}: ${table[die]} [${die}]`);
+				playSound();
+			}
+			function cyStash(dr) {
+				const die0 = Math.floor(Math.random()*20)+1;
+				const die1 = Math.floor(Math.random()*20)+1;
+				let result;
+				let log = 'Stash Item: ';
+				if (die0 >= dr && die1 >= dr) {
+					result = 'Strong Hit: A great hiding place! The items are still there when you return';
+					log += result;
+				} else if (die0 >= dr || die1 >= dr) {
+					const die = Math.floor(Math.random()*6)+1;
+					const i = doOdds(die, CY_STASH_WEAK_ODDS);
+					result = `Something prevents you leaving. ${CY_STASH_WEAK[i]} [${die}]`;
+					log += result;
+				} else {
+					result = 'Your items are missing – or scattered around and broken.';
+					log += result;
+				}
+				log += ` [${die0}, ${die1}]`;
+				display.innerHTML = result;
+				totalDisplay.innerHTML = 'Stash Item';
+				addHistoryEntry(log);
+				playSound();
+			}
+			function cyGetDir(dr) {
+				const die0 = Math.floor(Math.random()*20)+1;
+				const die1 = Math.floor(Math.random()*20)+1;
+				let result;
+				let log = 'Get Directions: ';
+				if (die0 >= dr && die1 >= dr) {
+					result = 'Something (a sound? smell? graffiti?) indicates a likely way forward. Add +4 to your next City Crawl move if you are seeking an Objective. Alternatively, add the particular destination you seek to the contents on the next street generated.';
+					log += result;
+				} else if (die0 >= dr || die1 >= dr) {
+					const die = Math.floor(Math.random()*6)+Math.floor(Math.random()*6)+2;
+					const i = doOdds(die, CY_GET_DIR_WEAK_ODDS);
+					result = `You ask a nearby NPC. ${CY_GET_DIR_WEAK[i]} [${die}]`;
+					log += result;
+				} else {
+					result = 'You’ve got no idea, and no one else is any help.';
+					log += result;
+				}
+				log += ` [${die0}, ${die1}]`;
+				display.innerHTML = result;
+				totalDisplay.innerHTML = 'Get Directions';
+				addHistoryEntry(log);
 				playSound();
 			}
 			function cyCityCrawl(dr) {
@@ -7404,6 +7489,12 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 				const roll = parseDice(btn.dataset.roll);
 				runRoll(roll[0], roll[1], roll[2], btn.innerText);
 			});
+
+			function getInput() {
+				let x = parseInt(specialInput.value, 10);
+				if (isNaN(x) || x < 1) x = 1;
+				return x;
+			}
 
 			oracleCard.addEventListener('click', (e) => {
 				const btn = e.target.closest('button');
@@ -7580,7 +7671,7 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						runOdds(BORG_CITY_CRAWL_FAIL, BORG_CITY_CRAWL_FAIL_ODDS, 4, 'City Crawl Fail', undefined, 1);
 						break;
 					case 'borgGetDirWeak':
-						runOdds(BORG_GET_DIRECTIONS_WEAK, BORG_GET_DIRECTIONS_WEAK_ODDS, 6, 'Get Directions (Weak Hit)', undefined, 1, false, 2);
+						runOdds(CY_GET_DIR_WEAK, CY_GET_DIR_WEAK_ODDS, 6, 'Get Directions (Weak Hit)', undefined, 1, false, 2);
 						break;
 					case 'borgBacktrack':
 						runOdds(BORG_BACKTRACK, BORG_BACKTRACK_ODDS, 8, 'Backtrack', undefined, 1);
@@ -7691,9 +7782,22 @@ const mp3b64 = 'data:audio/mp3;base64,SUQzBAAAAAAATlRQRTEAAAAQAAADU291bmRCaWJsZS
 						borgRandomEventFocus('Random Event Focus');
 						break;
 					case 'cyCityCrawl':
-						let x = parseInt(specialInput.value, 10);
-						if (isNaN(x) || x < 1) x = 1;
-						cyCityCrawl(x);
+						cyCityCrawl(getInput());
+						break;
+					case 'cyGetDir':
+						cyGetDir(getInput());
+						break;
+					case 'cyStash':
+						cyStash(getInput());
+						break;
+					case 'cyDungeonCrawl':
+						doStrongWeak(getInput(), CY_DUNGEON_CRAWL, 'Dungeon Crawl');
+						break;
+					case 'cySleep':
+						doStrongWeak(getInput(), CY_SLEEP, 'Sleep');
+						break;
+					case 'cyGAM':
+						doStrongWeak(getInput(), CY_GAM, 'Game Adventure Move');
 						break;
 					case 'msPanic':
 						runTwo(MS_PANIC, MS_PANIC_DESC, 'Panic');
